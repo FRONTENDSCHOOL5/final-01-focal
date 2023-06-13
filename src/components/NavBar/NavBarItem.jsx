@@ -19,9 +19,9 @@ const NavDescription = styled.span`
   font-size: 10px;
 `;
 
-export default function NavBarItem({ children, description }) {
+export default function NavBarItem({ to, children, description }) {
   return (
-    <StyledLink>
+    <StyledLink to={to}>
       <IconButton>{children}</IconButton>
       <NavDescription>{description}</NavDescription>
     </StyledLink>

@@ -5,6 +5,7 @@ import { ReactComponent as HomeLink } from '../../assets/icons/icon-home.svg';
 import { ReactComponent as ChatLink } from '../../assets/icons/icon-message.svg';
 import { ReactComponent as PostLink } from '../../assets/icons/icon-edit.svg';
 import { ReactComponent as ProfileLink } from '../../assets/icons/icon-user.svg';
+import { useLocation } from 'react-router-dom';
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -20,28 +21,60 @@ const StyledNav = styled.nav`
   }
 `;
 
+const StyledHomeLink = styled(HomeLink)`
+  stroke: ${(props) =>
+    props.pathname === '/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
+  fill: ${(props) =>
+    props.pathname === '/' ? 'var(--main-color)' : 'transparent'};
+
+  path:nth-child(2) {
+    stroke-width: ${(props) => (props.pathname === '/' ? '0.5' : '2')};
+  }
+`;
+
+const StyledChatLink = styled(ChatLink)`
+  stroke: ${(props) =>
+    props.pathname === '/chat/'
+      ? 'var(--main-color)'
+      : 'var(--sub-text-color)'};
+  fill: ${(props) =>
+    props.pathname === '/chat/' ? 'var(--main-color)' : 'transparent'};
+`;
+
+const StyledProfileLink = styled(ProfileLink)`
+  stroke: ${(props) =>
+    props.pathname === '/profile/'
+      ? 'var(--main-color)'
+      : 'var(--sub-text-color)'};
+  fill: ${(props) =>
+    props.pathname === '/profile/' ? 'var(--main-color)' : 'transparent'};
+`;
+
 export default function NavBar() {
+  const pathname = useLocation().pathname;
+  console.log(pathname);
+
   return (
     <StyledNav>
       <ul>
         <li>
-          <NavBarItem description="홈">
-            <HomeLink stroke="#767676" />
+          <NavBarItem to="/" description="홈">
+            <StyledHomeLink pathname={pathname} />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem description="채팅">
-            <ChatLink />
+          <NavBarItem to="/chat/" description="채팅">
+            <StyledChatLink pathname={pathname} />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem description="게시물 작성">
-            <PostLink />
+          <NavBarItem to="/post/upload" description="게시물 작성">
+            <PostLink pathname={pathname} />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem description="프로필">
-            <ProfileLink />
+          <NavBarItem to="/profile/" description="프로필">
+            <StyledProfileLink pathname={pathname} />
           </NavBarItem>
         </li>
       </ul>
