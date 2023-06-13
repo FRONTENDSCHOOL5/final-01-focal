@@ -39,7 +39,7 @@ export default function Router() {
         </Route>
         <Route path="/product" element={<ProductUploadPage />} />
         <Route path="/chat/" element={<Outlet />}>
-          <Route path="list" element={<ChatListPage />} />
+          <Route path="" element={<ChatListPage />} />
           <Route path=":_id" element={<ChatRoomPage />} />
         </Route>
         <Route path="/*" element={<NotFoundPage />} />
