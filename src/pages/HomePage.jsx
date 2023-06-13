@@ -7,18 +7,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
   align-items: center;
-  padding: 20px 16px 0;
+  width: 100%;
   height: 100vh;
+  padding: 20px 16px 0;
   overflow-y: scroll;
 `;
 
 const MainContainer = styled.main`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100%;
   gap: 20px;
 `;
