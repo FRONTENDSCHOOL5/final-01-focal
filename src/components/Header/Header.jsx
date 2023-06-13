@@ -8,6 +8,8 @@ import IconButton from '../Button/IconButton';
 import Button from '../Button/Button';
 
 const StyledHeader = styled.header`
+  position: fixed;
+  top: 0;
   width: 100%;
   height: 48px;
   display: flex;
