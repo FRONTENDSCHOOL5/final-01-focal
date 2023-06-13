@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ChatItem from './ChatItem';
-import imageSrc from '../../assets/images/Ellipse-1.png';
+import imageSrc from '../../assets/images/basic-profile-s.png';
 
 const ListMainStyle = styled.main`
   position: fixed;
@@ -26,8 +26,18 @@ function ChatList() {
       <MessagesListStyle>
         <ChatItem
           imageSrc={imageSrc}
-          username="민식이"
+          username="김민교"
           chatdate="2023년 6월 6일"
+        />
+        <ChatItem
+          imageSrc={imageSrc}
+          username="정유송"
+          chatdate="2023년 6월 8일"
+        />
+        <ChatItem
+          imageSrc={imageSrc}
+          username="신은수"
+          chatdate="2023년 6월 8일"
         />
       </MessagesListStyle>
     </ListMainStyle>
