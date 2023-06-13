@@ -1,5 +1,10 @@
 import React from 'react';
+import TitleHeader from '../components/Header/TitleHeader';
 
 export default function LoginPage() {
-  return <div>LoginPage</div>;
+  return (
+    <>
+      <TitleHeader>로그인</TitleHeader>
+    </>
+  );
 }
