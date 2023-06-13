@@ -40,6 +40,12 @@ export const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
+  input {
+    border: none;
+    background: none;
+    font: inherit;
+  }
+
   .a11y-hidden {
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
