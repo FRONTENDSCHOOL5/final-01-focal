@@ -16,7 +16,7 @@ const Form = styled.form`
     margin: 0 auto;
   }
 `;
-export default function SignUpForm() {
+export default function SignUpForm({ handleClick }) {
   return (
     <Form>
       <TextInput
@@ -35,7 +35,7 @@ export default function SignUpForm() {
       >
         비밀번호
       </TextInput>
-      <button>다음</button>
+      <button onClick={handleClick}>다음</button>
     </Form>
   );
 }
