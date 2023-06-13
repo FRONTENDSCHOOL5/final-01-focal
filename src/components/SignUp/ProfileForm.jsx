@@ -18,7 +18,7 @@ export default function ProfileForm() {
   return (
     <Form>
       <ProfileInputContainer />
-      <Button className="lg">포칼 시작하기</Button>
+      <Button className="lg">Focal 시작하기</Button>
     </Form>
   );
 }
