@@ -4,6 +4,12 @@ import reset from 'styled-reset';
 export const GlobalStyle = createGlobalStyle`
   ${reset}
 
+  @font-face {
+    font-family: 'SpoqaHanSansNeo-Regular';
+    font-weight: normal;
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+  }
+
   :root {
     --main-color: #fca91b;
     --main-text-color: #464343;
@@ -17,6 +23,10 @@ export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
     color: var(--main-text-color);
+  }
+  
+  body {
+    font-family: 'SpoqaHanSansNeo-Regular';
   }
 
   button {
