@@ -1,5 +1,24 @@
-import React from 'react';
+import styled from 'styled-components';
+import UserProfileHeader from '../components/Profile/UserProfileHeader';
+import ProductsContainer from '../components/Profile/ProductsContainer';
+import PostContainer from '../components/Profile/PostContainer';
 
-export default function UserProfilePage() {
-  return <div>UserProfilePage</div>;
-}
+const Container = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 390px;
+  background-color: #f2f2f2;
+  gap: 6px;
+`;
+
+const UserProfilePage = () => {
+  return (
+    <Container>
+      <UserProfileHeader />
+      <ProductsContainer />
+      <PostContainer />
+    </Container>
+  );
+};
+export default UserProfilePage;
