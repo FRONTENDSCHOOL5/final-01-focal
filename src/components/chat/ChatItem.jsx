@@ -25,7 +25,7 @@ const ChatDateStyle = styled.strong`
   color: var(--sub-text-color);
 `;
 
-const UesrImageStyle = styled.img`
+const UserImageStyle = styled.img`
   width: 42px;
   height: 42px;
   margin-right: 10px;
@@ -34,7 +34,7 @@ const UesrImageStyle = styled.img`
 export default function ChatItem({ imageSrc, username, chatdate }) {
   return (
     <ChatItemStyle>
-      <UesrImageStyle src={imageSrc} alt="이미지" />
+      <UserImageStyle src={imageSrc} alt="이미지" />
       <UserNameStyle>{username}</UserNameStyle>
       <ChatDateStyle>{chatdate}</ChatDateStyle>
     </ChatItemStyle>
