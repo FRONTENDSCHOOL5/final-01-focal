@@ -13,7 +13,7 @@ const UserBlock = styled.section`
   padding: 30px 0;
   width: 100%;
   background-color: var(--white);
-  border-bottom: 0.5px solid #dbdbdb;
+  border-bottom: 0.5px solid var(--border-color);
 `;
 
 const UserInfoRow = styled.div`

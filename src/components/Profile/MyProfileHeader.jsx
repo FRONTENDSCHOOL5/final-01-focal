@@ -6,7 +6,6 @@ const UserCol = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 48px;
   padding: 30px 0;
   width: 100%;
   background-color: var(--white);

@@ -9,6 +9,7 @@ const Container = styled.main`
   flex-direction: column;
   align-items: center;
   min-width: 390px;
+  margin-top: 48px;
   background-color: #f2f2f2;
   gap: 6px;
 `;

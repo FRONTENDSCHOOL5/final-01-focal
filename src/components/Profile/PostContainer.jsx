@@ -9,16 +9,16 @@ const PostsContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff;
   width: 100%;
+  background-color: var(--white);
 `;
 
 const PostAlignWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  border-top: 0.5px solid #dbdbdb;
-  border-bottom: 0.5px solid #dbdbdb;
+  border-top: var(--border-color);
+  border-bottom: 0.5px solid var(--border-color);
 `;
 
 const PostsAlignRow = styled.div`
@@ -42,10 +42,10 @@ const AlignImg = styled.img`
 
 const PostGalleryView = styled.ul`
   display: grid;
-  max-width: 390px;
   grid-template-columns: 1fr 1fr 1fr;
-  margin: 16px;
+  max-width: 390px;
   width: 100%;
+  padding: 16px 16px 70px;
   gap: 8px;
 `;
 
@@ -60,9 +60,9 @@ const PostGalleryItem = styled.li`
 const PostListView = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 16px;
   max-width: 390px;
   width: 100%;
+  padding: 16px 16px 70px;
   gap: 20px;
 `;
 
