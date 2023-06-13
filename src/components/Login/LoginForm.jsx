@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TextInput from '../Input/TextInput';
+import Button from '../Button/Button';
 
 const Form = styled.form`
   margin-bottom: 20px;
@@ -31,7 +32,7 @@ export default function LoginForm() {
       >
         비밀번호
       </TextInput>
-      <button>로그인</button>
+      <Button className="lg">로그인</Button>
     </Form>
   );
 }
