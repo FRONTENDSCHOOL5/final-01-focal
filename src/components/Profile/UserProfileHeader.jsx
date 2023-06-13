@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import basicUserImg from '../../assets/images/profile-upload.png';
+import basicUserImg from '../../assets/images/basic-profile.png';
 import chatIcon from '../../assets/icons/icon-message.svg';
 import shareIcon from '../../assets/icons/icon-share.svg';
 import { useState } from 'react';
@@ -52,13 +52,13 @@ const UserImage = styled.img`
   border-radius: 50%;
 `;
 
-const UserName = styled.h1`
+const UserName = styled.h2`
   margin: 16px 0 6px;
   font-size: 16px;
   font-weight: 700;
 `;
 
-const P = styled.p`
+const UserAccount = styled.p`
   font-size: 12px;
   color: var(--sub-text-color);
 `;
@@ -109,7 +109,7 @@ const UserProfileHeader = () => {
         </FollowCol>
       </UserInfoRow>
       <UserName>애월읍 위니브 감귤농장</UserName>
-      <P>@ weniv_Mandarin</P>
+      <UserAccount>@ weniv_Mandarin</UserAccount>
       <UserTitle>애월읍 감귤 전국 배송, 귤따기 체험, 감귤 농장</UserTitle>
       <BtnRow>
         <ProfileButton>

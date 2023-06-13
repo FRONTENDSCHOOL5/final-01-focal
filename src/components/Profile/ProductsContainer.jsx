@@ -63,17 +63,17 @@ const ProductsContainer = () => {
         <Title>판매 중인 상품</Title>
         <ProductList>
           <ProductItem>
-            <ProductImg src={basicSaleImg} />
+            <ProductImg src={basicSaleImg} alt="판매 상품 이미지" />
             <ProductName>앗</ProductName>
             <ProductPrice>99,999,999</ProductPrice>
           </ProductItem>
           <ProductItem>
-            <ProductImg src={basicSaleImg} />
+            <ProductImg src={basicSaleImg} alt="판매 상품 이미지" />
             <ProductName>앗</ProductName>
             <ProductPrice>99,999,999</ProductPrice>
           </ProductItem>
           <ProductItem>
-            <ProductImg src={basicSaleImg} />
+            <ProductImg src={basicSaleImg} alt="판매 상품 이미지" />
             <ProductName>앗</ProductName>
             <ProductPrice>99,999,999</ProductPrice>
           </ProductItem>

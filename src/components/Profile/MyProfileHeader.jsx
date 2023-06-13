@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import basicUserImg from '../../assets/images/basic-profile.png';
 
-const UserBlock = styled.section`
+const UserCol = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,13 +49,13 @@ const UserImage = styled.img`
   border-radius: 50%;
 `;
 
-const UserName = styled.h1`
+const UserName = styled.h2`
   margin: 16px 0 6px;
   font-size: 16px;
   font-weight: 700;
 `;
 
-const P = styled.p`
+const UserAccount = styled.p`
   font-size: 12px;
   color: var(--sub-text-color);
 `;
@@ -84,7 +84,7 @@ const Button = styled.button.attrs({ type: 'button' })`
 
 const MyProfileHeader = () => {
   return (
-    <UserBlock>
+    <UserCol>
       <UserInfoRow>
         <FollowCol>
           <FollowerNumber>2950</FollowerNumber>
@@ -97,13 +97,13 @@ const MyProfileHeader = () => {
         </FollowCol>
       </UserInfoRow>
       <UserName>애월읍 위니브 감귤농장</UserName>
-      <P>@ weniv_Mandarin</P>
+      <UserAccount>@ weniv_Mandarin</UserAccount>
       <UserTitle>애월읍 감귤 전국 배송, 귤따기 체험, 감귤 농장</UserTitle>
       <BtnRow>
         <Button>프로필 수정</Button>
         <Button>상품 등록</Button>
       </BtnRow>
-    </UserBlock>
+    </UserCol>
   );
 };
 

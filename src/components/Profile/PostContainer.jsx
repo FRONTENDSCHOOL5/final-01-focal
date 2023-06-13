@@ -84,14 +84,18 @@ const PostContainer = () => {
 
   return (
     <PostsContainer>
+      <h2 className="a11y-hidden">포스트</h2>
       <PostAlignWrapper>
         <PostsAlignRow>
           <Button onClick={handleListAlign}>
-            <AlignImg src={isListView ? postListImgOn : postListImgOff} />
-          </Button>
-          <Button>
             <AlignImg
-              onClick={handleGalleryAlign}
+              alt="리스트로 보기 버튼"
+              src={isListView ? postListImgOn : postListImgOff}
+            />
+          </Button>
+          <Button onClick={handleGalleryAlign}>
+            <AlignImg
+              alt="갤러리로 보기 버튼"
               src={isListView ? postGalleryImgOff : postGalleryImgOn}
             />
           </Button>

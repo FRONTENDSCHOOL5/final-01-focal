@@ -17,6 +17,7 @@ export default function MyProfilePage() {
   return (
     <Container>
       <Header type="basic" />
+      <h1 className="a11y-hidden">나의 프로필 페이지</h1>
       <MyProfileHeader />
       <ProductsContainer />
       <PostContainer />
