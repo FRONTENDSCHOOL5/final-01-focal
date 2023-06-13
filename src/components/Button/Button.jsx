@@ -57,10 +57,16 @@ export default function Button({
   className,
   active = true,
   disabled = false,
+  onClick,
   children,
 }) {
   return (
-    <StyledButton className={className} active={active} disabled={disabled}>
+    <StyledButton
+      className={className}
+      active={active}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {children}
     </StyledButton>
   );
