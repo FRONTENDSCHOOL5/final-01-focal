@@ -20,7 +20,7 @@ const Main = styled.main`
 
 export default function SignupPage() {
   const [showSecondPage, setShowSecondPage] = useState(false);
-  const handleClick = () => {
+  const handleClickButton = () => {
     setShowSecondPage(true);
   };
 
@@ -32,7 +32,7 @@ export default function SignupPage() {
           <Main>
             <section>
               <h2 className="a11y-hidden">이메일, 비밀번호 입력</h2>
-              <SignUpForm handleClick={handleClick} />
+              <SignUpForm handleClickButton={handleClickButton} />
             </section>
           </Main>
         </>

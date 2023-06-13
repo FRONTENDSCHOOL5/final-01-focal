@@ -1,6 +1,7 @@
 import React from 'react';
-import TextInput from '../Input/TextInput';
 import styled from 'styled-components';
+import TextInput from '../Input/TextInput';
+import Button from '../Button/Button';
 
 const Form = styled.form`
   & > div:first-child {
@@ -16,7 +17,7 @@ const Form = styled.form`
     margin: 0 auto;
   }
 `;
-export default function SignUpForm({ handleClick }) {
+export default function SignUpForm({ handleClickButton }) {
   return (
     <Form>
       <TextInput
@@ -35,7 +36,9 @@ export default function SignUpForm({ handleClick }) {
       >
         비밀번호
       </TextInput>
-      <button onClick={handleClick}>다음</button>
+      <Button className="lg" onClick={handleClickButton}>
+        다음
+      </Button>
     </Form>
   );
 }
