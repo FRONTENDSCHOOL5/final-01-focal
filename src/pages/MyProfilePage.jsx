@@ -1,5 +1,27 @@
-import React from 'react';
+import styled from 'styled-components';
+import MyProfileHeader from '../components/Profile/MyProfileHeader';
+import ProductsContainer from '../components/Profile/ProductsContainer';
+import PostContainer from '../components/Profile/PostContainer';
+import Header from '../components/Header/Header';
 
-export default function ProfilePage() {
-  return <div>ProfilePage</div>;
+const Container = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 390px;
+  margin-top: 48px;
+  background-color: #f2f2f2;
+  gap: 6px;
+`;
+
+export default function MyProfilePage() {
+  return (
+    <Container>
+      <Header type="basic" />
+      <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+      <MyProfileHeader />
+      <ProductsContainer />
+      <PostContainer />
+    </Container>
+  );
 }

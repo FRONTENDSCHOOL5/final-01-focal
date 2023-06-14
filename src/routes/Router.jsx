@@ -15,6 +15,7 @@ import FollowingsPage from '../pages/FollowingsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import PostUploadPage from '../pages/PostUploadPage';
 import ProductUploadPage from '../pages/ProductUploadPage';
+import ProfileEditPage from '../pages/ProfileEditPage';
 
 export default function Router() {
   return (
@@ -32,6 +33,7 @@ export default function Router() {
         <Route path="/profile/" element={<Outlet />}>
           <Route path="" element={<MyProfilePage />} />
           <Route path=":_id" element={<UserProfilePage />} />
+          <Route path="edit" element={<ProfileEditPage />} />
         </Route>
         <Route path="/follow/:_id/" element={<Outlet />}>
           <Route path="follower" element={<FollowersPage />} />
@@ -39,7 +41,7 @@ export default function Router() {
         </Route>
         <Route path="/product" element={<ProductUploadPage />} />
         <Route path="/chat/" element={<Outlet />}>
-          <Route path="list" element={<ChatListPage />} />
+          <Route path="" element={<ChatListPage />} />
           <Route path=":_id" element={<ChatRoomPage />} />
         </Route>
         <Route path="/*" element={<NotFoundPage />} />
