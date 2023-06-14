@@ -14,19 +14,20 @@ const InputBox = styled.form`
   padding: 0 16px;
   border-top: 1px solid var(--border-color);
 
-  label {
-    width: 36px;
-    height: 36px;
+  input {
+    width: calc(100% - 100px);
   }
+`;
 
-  label > img {
+const StyledLabel = styled.label`
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+
+  > img {
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
-  }
-
-  input {
-    width: calc(100% - 100px);
   }
 `;
 
@@ -66,9 +67,9 @@ export default function TextInputBox({ type }) {
     case 'chat':
       inputContent = (
         <>
-          <label htmlFor="image">
+          <StyledLabel htmlFor="image">
             <img src={imageUpload} alt="" />
-          </label>
+          </StyledLabel>
           <input
             type="file"
             id="image"
