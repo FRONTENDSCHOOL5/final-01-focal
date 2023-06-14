@@ -15,10 +15,16 @@ const TextInputBox = styled.div`
     display: block;
     width: 100%;
     height: 32px;
-  }
 
-  input:focus {
-    border-color: var(--main-color);
+    &::placeholder {
+      color: var(--border-color);
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    &:focus {
+      border-color: var(--main-color);
+    }
   }
 
   p {
