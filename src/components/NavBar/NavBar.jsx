@@ -22,37 +22,32 @@ const StyledNav = styled.nav`
 `;
 
 const StyledHomeLink = styled(HomeLink)`
-  stroke: ${(props) =>
-    props.pathname === '/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
-  fill: ${(props) =>
-    props.pathname === '/' ? 'var(--main-color)' : 'transparent'};
+  stroke: ${({ pathname }) =>
+    pathname === '/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
+  fill: ${({ pathname }) =>
+    pathname === '/' ? 'var(--main-color)' : 'transparent'};
 
   path:nth-child(2) {
-    stroke-width: ${(props) => (props.pathname === '/' ? '0.5' : '2')};
+    stroke-width: ${({ pathname }) => (pathname === '/' ? '0.5' : '2')};
   }
 `;
 
 const StyledChatLink = styled(ChatLink)`
-  stroke: ${(props) =>
-    props.pathname === '/chat/'
-      ? 'var(--main-color)'
-      : 'var(--sub-text-color)'};
-  fill: ${(props) =>
-    props.pathname === '/chat/' ? 'var(--main-color)' : 'transparent'};
+  stroke: ${({ pathname }) =>
+    pathname === '/chat/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
+  fill: ${({ pathname }) =>
+    pathname === '/chat/' ? 'var(--main-color)' : 'transparent'};
 `;
 
 const StyledProfileLink = styled(ProfileLink)`
-  stroke: ${(props) =>
-    props.pathname === '/profile/'
-      ? 'var(--main-color)'
-      : 'var(--sub-text-color)'};
-  fill: ${(props) =>
-    props.pathname === '/profile/' ? 'var(--main-color)' : 'transparent'};
+  stroke: ${({ pathname }) =>
+    pathname === '/profile/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
+  fill: ${({ pathname }) =>
+    pathname === '/profile/' ? 'var(--main-color)' : 'transparent'};
 `;
 
 export default function NavBar() {
   const pathname = useLocation().pathname;
-  console.log(pathname);
 
   return (
     <StyledNav>
