@@ -5,7 +5,7 @@ import FollowHeader from '../components/Follow/FollowHeader';
 
 const Main = styled.main`
   width: 100%;
-  height: calc(100vh - 108px);
+  height: calc(100vh - 48px);
   overflow-y: auto;
   margin-top: 48px;
 
