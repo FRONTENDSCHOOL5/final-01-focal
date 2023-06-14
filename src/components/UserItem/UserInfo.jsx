@@ -21,13 +21,13 @@ const StyledUserInfo = styled(Link)`
       color: black;
       font-weight: 500;
       font-size: 14px;
-      margin-bottom: 6px;
     }
 
     & > p {
       font-weight: 400;
       font-size: 12px;
       color: var(--sub-text-color);
+      margin-top: 6px;
     }
   }
 `;

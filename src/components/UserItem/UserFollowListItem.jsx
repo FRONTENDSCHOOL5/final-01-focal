@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import UserInfo from './UserInfo';
+import Button from '../Button/Button';
 
 const StyledLi = styled.li`
   display: flex;
@@ -11,7 +12,7 @@ export default function UserFollowListItem({ user }) {
   return (
     <StyledLi>
       <UserInfo user={user} />
-      <button>팔로우</button>
+      <Button className="xs">팔로우</Button>
     </StyledLi>
   );
 }
