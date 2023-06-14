@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import InputField from './InputField';
-import ImageUpload from './ImageUploda';
+import ImageUpload from './ImageUpload';
 
 const ProductMainStyle = styled.main`
   display: flex;
