@@ -95,9 +95,9 @@ const MyProfileHeader = () => {
           <FollowText>followings</FollowText>
         </FollowCol>
       </UserInfoRow>
-      <UserName>애월읍 위니브 감귤농장</UserName>
-      <UserAccount>@ weniv_Mandarin</UserAccount>
-      <UserTitle>애월읍 감귤 전국 배송, 귤따기 체험, 감귤 농장</UserTitle>
+      <UserName>Focal</UserName>
+      <UserAccount>@ focal_official</UserAccount>
+      <UserTitle>당신의 필카를 공유하세요!</UserTitle>
       <BtnRow>
         <Button>프로필 수정</Button>
         <Button>상품 등록</Button>
