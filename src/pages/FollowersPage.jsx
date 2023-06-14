@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import UserFollowListItem from '../components/UserItem/UserFollowListItem';
-import FollowHeader from '../components/Follow/FollowHeader';
+import FollowHeader from '../components/Header/FollowHeader';
 
 const Main = styled.main`
   width: 100%;
