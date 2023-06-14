@@ -1,6 +1,6 @@
 // ImageUpload.js
 import styled from 'styled-components';
-import ImageSrc from '../../assets/images/img-button.png';
+import ImageSrc from '../../assets/images/image-upload.png';
 
 const ImageContainerStyle = styled.div`
   margin-bottom: 48px;
@@ -24,7 +24,7 @@ const ImageLabelStyle = styled.label`
     content: '';
     width: 36px;
     height: 36px;
-    background: #c4c4c4 url(${ImageSrc}) no-repeat center / 38px 38px;
+    background: var(--main-color) url(${ImageSrc}) no-repeat center / 39px 39px;
     border-radius: 50%;
   }
 `;
@@ -37,11 +37,17 @@ const ImageTitleStyle = styled.h3`
   margin-bottom: 18px;
 `;
 
-function ImageUpload({ label }) {
+const ImageInputStyle = styled.input`
+  display: none;
+`;
+
+function ImageUpload({ title }) {
   return (
     <ImageContainerStyle>
-      <ImageTitleStyle>{label}</ImageTitleStyle>
-      <ImageLabelStyle htmlFor="productImg"></ImageLabelStyle>
+      <ImageTitleStyle>{title}</ImageTitleStyle>
+      <ImageLabelStyle htmlFor="productImg">
+        <ImageInputStyle type="file" id="productImg" />
+      </ImageLabelStyle>
     </ImageContainerStyle>
   );
 }

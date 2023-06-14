@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import InputField from './InputField';
 import ImageUpload from './ImageUpload';
+import TextInput from '../Input/TextInput';
 
 const ProductMainStyle = styled.main`
   display: flex;
@@ -24,32 +24,46 @@ const ProductFormStyle = styled.form`
   width: 100%;
 `;
 
+const InputContainerStyle = styled.div`
+  width: 100%;
+  margin-bottom: 16px;
+`;
+
 function AddProdcut() {
   return (
     <ProductMainStyle>
       <ProductSectionStyle>
         <ProductFormStyle>
-          <ImageUpload label="이미지 등록" />
-          <InputField
-            labelText="상품명"
-            inputId="productNameInput"
-            inputType="text"
-            inputPlaceholder="2~10자 이내여야 합니다."
-          />
+          <ImageUpload title="이미지 등록" />
+          <InputContainerStyle>
+            <TextInput
+              id="priceInput"
+              type="text"
+              placeholder="2~10자 이내여야 합니다."
+            >
+              상품명
+            </TextInput>
+          </InputContainerStyle>
 
-          <InputField
-            labelText="가격"
-            inputId="priceInput"
-            inputType="number"
-            inputPlaceholder="숫자만 입력 가능합니다."
-          />
+          <InputContainerStyle>
+            <TextInput
+              id="productNameInput"
+              type="number"
+              placeholder="숫자만 입력 가능합니다."
+            >
+              가격
+            </TextInput>
+          </InputContainerStyle>
 
-          <InputField
-            labelText="판매 링크"
-            inputId="storeLinkInput"
-            inputType="url"
-            inputPlaceholder="URL을 입력해 주세요."
-          />
+          <InputContainerStyle>
+            <TextInput
+              id="storeLinkInput"
+              type="url"
+              placeholder="URL을 입력해 주세요."
+            >
+              판매링크
+            </TextInput>
+          </InputContainerStyle>
         </ProductFormStyle>
       </ProductSectionStyle>
     </ProductMainStyle>
