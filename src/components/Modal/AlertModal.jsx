@@ -38,8 +38,8 @@ const CancelButton = styled.button`
   height: 46px;
   font-weight: 400;
   font-size: 14px;
-  line-height: 18px;
   width: 50%;
+  line-height: 18px;
 `;
 
 const ConfirmButton = styled.button`
