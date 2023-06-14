@@ -30,6 +30,10 @@ export const GlobalStyle = createGlobalStyle`
     border: none;
     background: transparent;
     cursor: pointer;
+
+    :disabled {
+      cursor: default;
+    }
   }
 
   a {
