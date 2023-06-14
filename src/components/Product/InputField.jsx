@@ -28,13 +28,7 @@ const InputStyle = styled.input`
   }
 `;
 
-function InputField({
-  labelText,
-  inputId,
-  inputType,
-  inputPlaceholder,
-  dataState,
-}) {
+function InputField({ labelText, inputId, inputType, inputPlaceholder }) {
   return (
     <InputContainerStyle>
       <LabelStyle htmlFor={inputId}>{labelText}</LabelStyle>
@@ -42,7 +36,6 @@ function InputField({
         type={inputType}
         id={inputId}
         placeholder={inputPlaceholder}
-        data-state={dataState}
       />
     </InputContainerStyle>
   );

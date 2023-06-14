@@ -35,7 +35,6 @@ function AddProdcut() {
             inputId="productNameInput"
             inputType="text"
             inputPlaceholder="2~10자 이내여야 합니다."
-            dataState="0"
           />
 
           <InputField
@@ -43,7 +42,6 @@ function AddProdcut() {
             inputId="priceInput"
             inputType="number"
             inputPlaceholder="숫자만 입력 가능합니다."
-            dataState="0"
           />
 
           <InputField
@@ -51,7 +49,6 @@ function AddProdcut() {
             inputId="storeLinkInput"
             inputType="url"
             inputPlaceholder="URL을 입력해 주세요."
-            dataState="0"
           />
         </ProductFormStyle>
       </ProductSectionStyle>
