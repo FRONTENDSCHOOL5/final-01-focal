@@ -22,11 +22,8 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
-    color: var(--main-text-color);
-  }
-  
-  body {
     font-family: 'SpoqaHanSansNeo-Regular';
+    color: var(--main-text-color);
   }
 
   button {
@@ -43,7 +40,7 @@ export const GlobalStyle = createGlobalStyle`
   input {
     border: none;
     background: none;
-    font: inherit;
+    outline: none;
   }
 
   .a11y-hidden {
