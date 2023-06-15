@@ -51,7 +51,7 @@ const PostFormStyle = styled.form`
     font-size: inherit;
     margin: 0;
   }
-  .upload-btn {
+  .upload-photo-btn {
     position: fixed;
     bottom: 16px;
     right: 16px;
@@ -79,7 +79,9 @@ function PostUpload() {
             data-value="0"
             data-dl-input-translation="true"
           ></textarea>
-          <label className="upload-btn"></label>
+          <label className="upload-photo-btn">
+            <input type="file" accept="image/*" style={{ display: 'none' }} />
+          </label>
         </PostFormStyle>
       </PostWriteStyle>
     </PostMainStyle>
