@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ImageSrc from '../../assets/images/basic-profile-s.png';
 import Btn from '../../assets/icons/icon-more.svg';
@@ -19,7 +20,7 @@ const CommentInfo = styled.div`
   margin-bottom: 4px;
 `;
 
-const ProfileLink = styled.a`
+const ProfileLink = styled(Link)`
   margin-right: 12px;
 `;
 
@@ -30,7 +31,7 @@ const ProfileImage = styled.img`
   border: 0.5px solid var(--border-color);
 `;
 
-const NameLink = styled.a`
+const NameLink = styled(Link)`
   margin: 6px 6px 0 0;
 `;
 
@@ -89,10 +90,10 @@ function PostReply() {
         {comments.map((comment, index) => (
           <CommentItem key={index}>
             <CommentInfo>
-              <ProfileLink href="#">
+              <ProfileLink to="/">
                 <ProfileImage src={comment.userProfile} alt="사용자이미지" />
               </ProfileLink>
-              <NameLink href="#">
+              <NameLink to="/">
                 <UserName>{comment.userName}</UserName>
               </NameLink>
               <CommentDate>{comment.date}</CommentDate>
