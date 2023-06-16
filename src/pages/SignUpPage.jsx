@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import TitleHeader from '../components/Header/TitleHeader';
 import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/SignUp/ProfileForm';
@@ -20,6 +21,7 @@ const Main = styled.main`
 `;
 
 export default function SignupPage() {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: '',
     password: '',
@@ -62,6 +64,28 @@ export default function SignupPage() {
     }
   };
 
+  const handleSignUpSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await baseInstance.post('/user', { user: inputValue });
+      const { status } = res;
+      if (status !== 200) throw new Error('네트워크 에러');
+      else {
+        const {
+          data: { message },
+        } = res;
+        if (message !== '회원가입 성공') throw new Error(message);
+        else {
+          alert('Welcome to Focal!');
+          navigate('/login');
+        }
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   return (
     <>
       {!showSecondPage ? (
@@ -91,8 +115,10 @@ export default function SignupPage() {
                 사용자이름, 계정ID, 소개 작성 컨테이너
               </h2>
               <ProfileForm
+                type="signup"
                 inputValue={inputValue}
                 handleChange={handleInputChange}
+                handleSubmit={handleSignUpSubmit}
               />
             </section>
           </Main>
