@@ -10,7 +10,7 @@ const Content = styled.div`
   height: 500px;
 `;
 
-export default function ProductUploadPage() {
+export default function PostPage() {
   return (
     <>
       <Content />
