@@ -16,6 +16,7 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
+  background-color: var(--white);
   border-bottom: 1px solid var(--border-color);
 
   h1 {
