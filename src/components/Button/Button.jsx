@@ -54,6 +54,7 @@ const StyledButton = styled.button`
 `;
 
 export default function Button({
+  type,
   className,
   active = true,
   disabled = false,
@@ -62,6 +63,7 @@ export default function Button({
 }) {
   return (
     <StyledButton
+      type={type}
       className={className}
       active={active}
       disabled={disabled}
