@@ -13,6 +13,7 @@ const StyledLabel = styled.label`
 
   & > img {
     width: 100%;
+    border-radius: 50%;
     aspect-ratio: 1/1;
     object-fit: cover;
   }
@@ -29,18 +30,18 @@ const StyledLabel = styled.label`
   }
 `;
 
-export default function ProfileImageUploader() {
+export default function ProfileImageUploader({ value, handleChange }) {
   return (
     <>
       <StyledLabel htmlFor="image">
-        <img src={defaultImg} alt="선택한 이미지 미리보기" />
+        <img src={value || defaultImg} alt="선택한 이미지 미리보기" />
       </StyledLabel>
       <input
         type="file"
         id="image"
-        name="image"
         accept="image/*"
         className="a11y-hidden"
+        onChange={handleChange}
       />
     </>
   );
