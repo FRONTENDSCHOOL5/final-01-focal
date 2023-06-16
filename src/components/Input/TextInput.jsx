@@ -41,12 +41,22 @@ export default function TextInput({
   children,
   placeholder = '',
   error = '',
+  validate,
+  value,
+  onChange,
 }) {
   return (
     <TextInputBox>
       <label htmlFor={id}>{children}</label>
-      <input type={type} id={id} placeholder={placeholder} />
-      {error && <p>{error}</p>}
+      <input
+        type={type}
+        id={id}
+        placeholder={placeholder}
+        onBlur={validate}
+        value={value}
+        onChange={onChange}
+      />
+      {error && <p>*{error}</p>}
     </TextInputBox>
   );
 }

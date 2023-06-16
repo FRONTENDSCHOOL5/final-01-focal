@@ -54,18 +54,22 @@ const StyledButton = styled.button`
 `;
 
 export default function Button({
+  type,
   className,
   active = true,
   disabled = false,
   onClick,
   children,
+  formId,
 }) {
   return (
     <StyledButton
+      type={type}
       className={className}
       active={active}
       disabled={disabled}
       onClick={onClick}
+      form={formId}
     >
       {children}
     </StyledButton>

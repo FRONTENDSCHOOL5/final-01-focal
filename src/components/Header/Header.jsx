@@ -27,7 +27,7 @@ const StyledHeader = styled.header`
   }
 `;
 
-export default function Header({ type }) {
+export default function Header({ type, buttonId }) {
   let headerContent;
 
   switch (type) {
@@ -70,7 +70,9 @@ export default function Header({ type }) {
           <IconButton>
             <BackButton />
           </IconButton>
-          <Button className="sm">저장</Button>
+          <Button className="sm" formId={buttonId}>
+            저장
+          </Button>
         </>
       );
       break;
