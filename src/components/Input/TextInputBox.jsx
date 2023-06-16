@@ -4,14 +4,15 @@ import profile from '../../assets/images/basic-profile-s.png';
 import imageUpload from '../../assets/images/image-upload.png';
 
 const InputBox = styled.form`
-  /* position: fixed;
-  bottom: 0; */
+  position: fixed;
+  bottom: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 60px;
   padding: 0 16px;
+  background-color: var(--white);
   border-top: 1px solid var(--border-color);
 
   input {
