@@ -3,7 +3,7 @@ import ChatItem from './ChatItem';
 import imageSrc from '../../assets/images/basic-profile-s.png';
 
 const ListMainStyle = styled.main`
-  position: fixed;
+  margin-top: 48px;
   display: flex;
   justify-content: center;
   padding: 24px 16px;
@@ -12,7 +12,6 @@ const ListMainStyle = styled.main`
   width: 100%;
   height: 100%;
   background-color: var(--white);
-  margin-top: 48px;
 `;
 
 const MessagesListStyle = styled.ul`

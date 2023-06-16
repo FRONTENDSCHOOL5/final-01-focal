@@ -10,14 +10,14 @@ import ImageSrc2 from '../../assets/images/chat-exapmle.png';
 import ImageSrc3 from '../../assets/images/post-img-example.png';
 
 const MainStyle = styled.main`
-  position: fixed;
-  min-width: 100%;
-  height: 100%;
+  background-color: #f2f2f2;
+  margin: 48px 0 60px 0;
+  width: 100%;
+  height: calc(100vh - 108px);
   overflow-y: scroll;
 `;
 
 const ChatWrapperStyle = styled.div`
-  background-color: #f2f2f2;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
