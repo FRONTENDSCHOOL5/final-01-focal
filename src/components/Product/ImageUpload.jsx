@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ImageSrc from '../../assets/images/image-upload.png';
 
 const ImageContainerStyle = styled.div`
-  margin-bottom: 48px;
+  margin-bottom: 30px;
 `;
 
 const ImageLabelStyle = styled.label`
