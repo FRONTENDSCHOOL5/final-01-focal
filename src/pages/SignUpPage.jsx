@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TitleHeader from '../components/Header/TitleHeader';
 import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/SignUp/ProfileForm';
+import { baseInstance } from '../api/baseInstance';
 
 const Main = styled.main`
   width: 100%;
@@ -19,9 +20,46 @@ const Main = styled.main`
 `;
 
 export default function SignupPage() {
+  const [inputValue, setInputValue] = useState({
+    email: '',
+    password: '',
+    username: '',
+    accountname: '',
+    intro: '',
+    image: '',
+  });
   const [showSecondPage, setShowSecondPage] = useState(false);
-  const handleClickButton = () => {
-    setShowSecondPage(true);
+
+  const getImageSrc = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const res = await baseInstance.post('/image/uploadfile', formData);
+      const { status } = res;
+      if (status !== 200) throw new Error('에러');
+      if (status === 200) {
+        const {
+          data: { filename },
+        } = res;
+        setInputValue({
+          ...inputValue,
+          image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
+        });
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    if (id === 'image') {
+      const { files } = e.target;
+      getImageSrc(files[0]);
+    } else {
+      setInputValue({ ...inputValue, [id]: value });
+    }
   };
 
   return (
@@ -32,7 +70,13 @@ export default function SignupPage() {
           <Main>
             <section>
               <h2 className="a11y-hidden">이메일, 비밀번호 입력</h2>
-              <SignUpForm handleClickButton={handleClickButton} />
+              <SignUpForm
+                handleClickButton={() => {
+                  setShowSecondPage(true);
+                }}
+                inputValue={inputValue}
+                handleChange={handleInputChange}
+              />
             </section>
           </Main>
         </>
@@ -46,7 +90,10 @@ export default function SignupPage() {
               <h2 className="a11y-hidden">
                 사용자이름, 계정ID, 소개 작성 컨테이너
               </h2>
-              <ProfileForm />
+              <ProfileForm
+                inputValue={inputValue}
+                handleChange={handleInputChange}
+              />
             </section>
           </Main>
         </>
