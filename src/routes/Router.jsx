@@ -1,5 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { loginState } from '../states/LoginState';
 import SplashPage from '../pages/SplashPage';
 import HomePage from '../pages/HomePage';
 import SignUpPage from '../pages/SignUpPage';
@@ -18,13 +26,24 @@ import ProductUploadPage from '../pages/ProductUploadPage';
 import ProfileEditPage from '../pages/ProfileEditPage';
 
 export default function Router() {
+  const isLogined = useRecoilValue(loginState);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={
+            isLogined ? <HomePage /> : <Navigate replace={true} to="/login" />
+          }
+        />
         <Route path="/splash" element={<SplashPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={
+            !isLogined ? <LoginPage /> : <Navigate replace={true} to="/" />
+          }
+        />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/post/" element={<Outlet />}>
           <Route path=":post_id" element={<PostPage />} />
