@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import ProfileForm from '../components/SignUp/ProfileForm';
-import { baseInstance } from '../api/baseInstance';
+import baseInstance from '../api/instance/baseInstance';
+import authInstance from '../api/instance/authInstance';
 
 const Main = styled.main`
   width: 100%;
@@ -60,9 +61,10 @@ export default function ProfileEditPage() {
     }
   };
 
-  const handleProfileFormSubmit = (e) => {
+  const handleProfileFormSubmit = async (e) => {
     e.preventDefault();
-    console.log('hi');
+    const res = await authInstance.put('/user', { user: inputValue });
+    console.log(res);
   };
 
   return (

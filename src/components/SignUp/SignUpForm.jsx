@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { baseInstance } from '../../api/baseInstance';
+import baseInstance from '../../api/instance/baseInstance';
 import TextInput from '../Input/TextInput';
 import Button from '../Button/Button';
 

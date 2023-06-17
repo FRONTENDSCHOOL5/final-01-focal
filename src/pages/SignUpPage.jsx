@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import TitleHeader from '../components/Header/TitleHeader';
 import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/SignUp/ProfileForm';
-import { baseInstance } from '../api/baseInstance';
+import baseInstance from '../api/instance/baseInstance';
 
 const Main = styled.main`
   width: 100%;
