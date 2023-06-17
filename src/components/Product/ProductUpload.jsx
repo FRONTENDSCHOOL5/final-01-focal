@@ -9,7 +9,7 @@ const ProductMainStyle = styled.main`
   min-width: 390px;
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: var(--white);
 `;
 
 const ProductSectionStyle = styled.section`
@@ -23,11 +23,9 @@ const ProductSectionStyle = styled.section`
 
 const ProductFormStyle = styled.form`
   width: 100%;
-`;
-
-const InputContainerStyle = styled.div`
-  width: 100%;
-  margin-bottom: 16px;
+  & > div:not(:first-child) {
+    margin-bottom: 16px;
+  }
 `;
 
 function ProductUpload() {
@@ -36,35 +34,27 @@ function ProductUpload() {
       <ProductSectionStyle>
         <ProductFormStyle>
           <ImageUpload title="이미지 등록" />
-          <InputContainerStyle>
-            <TextInput
-              id="priceInput"
-              type="text"
-              placeholder="2~10자 이내여야 합니다."
-            >
-              상품명
-            </TextInput>
-          </InputContainerStyle>
-
-          <InputContainerStyle>
-            <TextInput
-              id="productNameInput"
-              type="number"
-              placeholder="숫자만 입력 가능합니다."
-            >
-              가격
-            </TextInput>
-          </InputContainerStyle>
-
-          <InputContainerStyle>
-            <TextInput
-              id="storeLinkInput"
-              type="url"
-              placeholder="URL을 입력해 주세요."
-            >
-              판매링크
-            </TextInput>
-          </InputContainerStyle>
+          <TextInput
+            id="priceInput"
+            type="text"
+            placeholder="2~10자 이내여야 합니다."
+          >
+            상품명
+          </TextInput>
+          <TextInput
+            id="productNameInput"
+            type="number"
+            placeholder="숫자만 입력 가능합니다."
+          >
+            가격
+          </TextInput>
+          <TextInput
+            id="storeLinkInput"
+            type="url"
+            placeholder="URL을 입력해 주세요."
+          >
+            판매링크
+          </TextInput>
         </ProductFormStyle>
       </ProductSectionStyle>
     </ProductMainStyle>
