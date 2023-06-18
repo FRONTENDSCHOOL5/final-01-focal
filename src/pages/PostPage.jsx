@@ -1,5 +1,22 @@
+import styled from 'styled-components';
 import React from 'react';
+import Header from '../components/Header/Header';
+import PostComment from '../components/Post/PostComment';
+import TextInputBox from '../components/Input/TextInputBox';
+
+const Content = styled.div`
+  background-color: orange;
+  width: 100%;
+  height: 500px;
+`;
 
 export default function PostPage() {
-  return <div>PostPage</div>;
+  return (
+    <>
+      <Content />
+      <Header type="basic" />
+      <PostComment />
+      <TextInputBox type="comment" />
+    </>
+  );
 }

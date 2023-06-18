@@ -3,13 +3,13 @@ import ImageSrc from '../../assets/images/basic-profile-s.png';
 import ImageSrc2 from '../../assets/images/profile-upload.png';
 
 const PostMainStyle = styled.main`
+  margin-top: 48px;
   display: flex;
   padding: 20px 0 20px 16px;
   min-width: 390px;
   width: 100%;
   height: 100vh;
   background-color: #fff;
-  margin-top: 48px;
 `;
 
 const UploadImageStyle = styled.img`
@@ -21,7 +21,6 @@ const UploadImageStyle = styled.img`
 `;
 
 const PostWriteStyle = styled.article`
-  position: relative;
   min-width: 300px;
   width: 100%;
   padding-right: 16px;
@@ -35,7 +34,6 @@ const PostFormStyle = styled.form`
 
   textarea {
     width: 100%;
-    height: 100%;
     margin-bottom: 16px;
     font-weight: 400;
     font-size: 14px;

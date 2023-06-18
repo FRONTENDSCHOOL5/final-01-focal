@@ -1,5 +1,12 @@
 import React from 'react';
+import Header from '../components/Header/Header';
+import PostUpload from '../components/Post/PostUpload';
 
 export default function PostUploadPage() {
-  return <div>PostUploadPage</div>;
+  return (
+    <>
+      <Header type="upload" />
+      <PostUpload />
+    </>
+  );
 }

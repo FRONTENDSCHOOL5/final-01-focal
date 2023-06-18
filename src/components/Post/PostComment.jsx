@@ -75,6 +75,7 @@ const MoreBtn = styled.button`
 `;
 const comments = [
   {
+    id: 1,
     userName: '재윤',
     userProfile: ImageSrc,
     date: '2주',
@@ -82,13 +83,13 @@ const comments = [
   },
 ];
 
-function PostReply() {
+function PostComment() {
   return (
     <CommentSection>
       <h2 className="a11y-hidden">댓글목록</h2>
       <ul>
-        {comments.map((comment, index) => (
-          <CommentItem key={index}>
+        {comments.map((comment) => (
+          <CommentItem key={comment.id}>
             <CommentInfo>
               <ProfileLink to="/">
                 <ProfileImage src={comment.userProfile} alt="사용자이미지" />
@@ -107,4 +108,4 @@ function PostReply() {
   );
 }
 
-export default PostReply;
+export default PostComment;

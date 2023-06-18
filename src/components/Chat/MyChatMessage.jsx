@@ -11,7 +11,7 @@ const ChatDateStyle = styled.strong`
   font-size: 10px;
   line-height: 13px;
   align-self: flex-end;
-  color: var(--border-color);
+  color: var(--sub-text-color);
   padding-right: 7px;
 `;
 
