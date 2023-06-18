@@ -83,7 +83,7 @@ export default function ProfileInfo({ user }) {
       <UserName>Focal</UserName>
       <UserAccount>@ focal_official</UserAccount>
       <UserTitle>당신의 필카를 공유하세요!</UserTitle>
-      {user ? <MyInfoBtns /> : <UserInfoBtns />}
+      {user ? <UserInfoBtns /> : <MyInfoBtns />}
     </UserCol>
   );
 }
