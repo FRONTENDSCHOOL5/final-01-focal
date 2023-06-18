@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import MyProfileHeader from '../components/Profile/MyProfileHeader';
-import ProductsContainer from '../components/Profile/ProductsContainer';
-import PostContainer from '../components/Profile/PostContainer';
 import Header from '../components/Header/Header';
+import ProfileInfo from '../components/Profile/ProfileInfo';
+import ProfileProducts from '../components/Profile/ProfileProducts';
+import ProfilePosts from '../components/Profile/ProfilePosts';
 
 const Container = styled.main`
   display: flex;
@@ -19,9 +19,9 @@ export default function MyProfilePage() {
     <Container>
       <Header type="basic" />
       <h1 className="a11y-hidden">나의 프로필 페이지</h1>
-      <MyProfileHeader />
-      <ProductsContainer />
-      <PostContainer />
+      <ProfileInfo />
+      <ProfileProducts />
+      <ProfilePosts />
     </Container>
   );
 }

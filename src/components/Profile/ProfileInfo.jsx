@@ -1,6 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 import basicUserImg from '../../assets/images/basic-profile.png';
+import UserInfoBtns from './UserInfoBtns';
+import MyInfoBtns from './MyInfoBtns';
 
 const UserCol = styled.section`
   display: flex;
@@ -65,23 +66,7 @@ const UserTitle = styled.h3`
   margin: 16px 0 24px;
 `;
 
-const BtnRow = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const Button = styled.button.attrs({ type: 'button' })`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 34px;
-  border-radius: 30px;
-  padding: 8px 26px;
-  border: 1px solid var(--border-color);
-  background-color: transparent;
-`;
-
-const MyProfileHeader = () => {
+export default function ProfileInfo({ user }) {
   return (
     <UserCol>
       <UserInfoRow>
@@ -98,12 +83,7 @@ const MyProfileHeader = () => {
       <UserName>Focal</UserName>
       <UserAccount>@ focal_official</UserAccount>
       <UserTitle>당신의 필카를 공유하세요!</UserTitle>
-      <BtnRow>
-        <Button>프로필 수정</Button>
-        <Button>상품 등록</Button>
-      </BtnRow>
+      {user ? <UserInfoBtns /> : <MyInfoBtns />}
     </UserCol>
   );
-};
-
-export default MyProfileHeader;
+}

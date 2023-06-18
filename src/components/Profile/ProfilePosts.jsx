@@ -1,9 +1,7 @@
-import styled from 'styled-components';
-import postListImgOn from '../../assets/icons/icon-post-list-on.svg';
-import postListImgOff from '../../assets/icons/icon-post-list-off.svg';
-import postGalleryImgOn from '../../assets/icons/icon-post-album-on.svg';
-import postGalleryImgOff from '../../assets/icons/icon-post-album-off.svg';
 import { useState } from 'react';
+import styled from 'styled-components';
+import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
+import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-album.svg';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -33,11 +31,6 @@ const PostsAlignRow = styled.div`
 const Button = styled.button.attrs({ type: 'button' })`
   background: transparent;
   border: none;
-`;
-
-const AlignImg = styled.img`
-  width: 30px;
-  height: 30px;
 `;
 
 const PostGalleryView = styled.ul`
@@ -71,7 +64,7 @@ const PostListItem = styled.div`
   background-color: orange;
 `;
 
-const PostContainer = () => {
+export default function ProfilePosts() {
   const [isListView, setIsListView] = useState(true);
 
   const handleListAlign = () => {
@@ -88,16 +81,30 @@ const PostContainer = () => {
       <PostAlignWrapper>
         <PostsAlignRow>
           <Button onClick={handleListAlign}>
-            <AlignImg
-              alt="리스트로 보기 버튼"
-              src={isListView ? postListImgOn : postListImgOff}
-            />
+            {isListView ? (
+              <PostListIcon
+                fill="var(--main-color)"
+                strock="var(--main-color)"
+              />
+            ) : (
+              <PostListIcon
+                fill="var(--light-gray)"
+                stroke="var(--light-gray)"
+              />
+            )}
           </Button>
           <Button onClick={handleGalleryAlign}>
-            <AlignImg
-              alt="갤러리로 보기 버튼"
-              src={isListView ? postGalleryImgOff : postGalleryImgOn}
-            />
+            {isListView ? (
+              <PostGalleryIcon
+                fill="var(--light-gray)"
+                stroke="var(--light-gray)"
+              />
+            ) : (
+              <PostGalleryIcon
+                fill="var(--main-color)"
+                strock="var(--main-color)"
+              />
+            )}
           </Button>
         </PostsAlignRow>
       </PostAlignWrapper>
@@ -117,6 +124,4 @@ const PostContainer = () => {
       )}
     </PostsContainer>
   );
-};
-
-export default PostContainer;
+}

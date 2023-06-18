@@ -56,7 +56,8 @@ const ProductPrice = styled.strong`
   font-size: 12px;
   color: #f26e22;
 `;
-const ProductsContainer = () => {
+
+export default function ProfileProducts() {
   return (
     <ProductsCol>
       <ProductsWrapper>
@@ -81,6 +82,4 @@ const ProductsContainer = () => {
       </ProductsWrapper>
     </ProductsCol>
   );
-};
-
-export default ProductsContainer;
+}
