@@ -7,6 +7,7 @@ import SearchInput from '../Input/SearchInput';
 import IconButton from '../Button/IconButton';
 import Button from '../Button/Button';
 import logo from '../../assets/images/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const StyledHeader = styled.header`
   position: fixed;
@@ -35,6 +36,7 @@ const StyledHeader = styled.header`
 
 const Logo = styled.h1`
   height: 36px;
+  cursor: pointer;
 
   img {
     height: 100%;
@@ -42,24 +44,39 @@ const Logo = styled.h1`
   }
 `;
 
-export default function Header({ type, buttonId, buttonText, followText }) {
+export default function Header({
+  type,
+  onClick,
+  buttonId,
+  buttonText,
+  followText,
+}) {
+  const navigate = useNavigate();
+  let headerContent;
   const scrollToTop = () => {
     window.scroll({
       top: 0,
       behavior: 'smooth',
     });
   };
-  let headerContent;
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
+  const goSearchPage = () => {
+    navigate('/search');
+  };
 
   switch (type) {
     case 'basic':
       headerContent = (
         <>
           <IconButton>
-            <BackButton />
+            <BackButton onClick={goBack} />
           </IconButton>
           <IconButton>
-            <MoreButton />
+            <MoreButton onClick={onClick} />
           </IconButton>
         </>
       );
@@ -71,7 +88,7 @@ export default function Header({ type, buttonId, buttonText, followText }) {
             <img src={logo} alt="Focal 로고" />
           </Logo>
           <IconButton>
-            <SearchButton />
+            <SearchButton onClick={goSearchPage} />
           </IconButton>
         </>
       );
@@ -80,7 +97,7 @@ export default function Header({ type, buttonId, buttonText, followText }) {
       headerContent = (
         <>
           <IconButton>
-            <BackButton />
+            <BackButton onClick={goBack} />
           </IconButton>
           <SearchInput />
         </>
@@ -91,9 +108,9 @@ export default function Header({ type, buttonId, buttonText, followText }) {
       headerContent = (
         <>
           <IconButton>
-            <BackButton />
+            <BackButton onClick={goBack} />
           </IconButton>
-          <Button className="sm" formId={buttonId}>
+          <Button className="sm" formId={buttonId} onClick={onClick}>
             {buttonText}
           </Button>
         </>
@@ -104,7 +121,7 @@ export default function Header({ type, buttonId, buttonText, followText }) {
         <>
           <div>
             <IconButton>
-              <BackButton />
+              <BackButton onClick={goBack} />
             </IconButton>
             <h1>{followText}</h1>
           </div>
@@ -115,11 +132,11 @@ export default function Header({ type, buttonId, buttonText, followText }) {
       headerContent = (
         <>
           <IconButton>
-            <BackButton />
+            <BackButton onClick={goBack} />
           </IconButton>
           <h2>애월읍 위니브 감귤 농장</h2>
           <IconButton>
-            <MoreButton />
+            <MoreButton onClick={onClick} />
           </IconButton>
         </>
       );
