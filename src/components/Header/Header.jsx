@@ -6,6 +6,7 @@ import { ReactComponent as SearchButton } from '../../assets/icons/icon-search.s
 import SearchInput from '../Input/SearchInput';
 import IconButton from '../Button/IconButton';
 import Button from '../Button/Button';
+import logo from '../../assets/images/logo.png';
 
 const StyledHeader = styled.header`
   position: fixed;
@@ -32,7 +33,22 @@ const StyledHeader = styled.header`
   }
 `;
 
+const Logo = styled.h1`
+  height: 36px;
+
+  img {
+    height: 100%;
+    aspect-ratio: 2 / 1;
+  }
+`;
+
 export default function Header({ type, buttonId, buttonText, followText }) {
+  const scrollToTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   let headerContent;
 
   switch (type) {
@@ -51,7 +67,9 @@ export default function Header({ type, buttonId, buttonText, followText }) {
     case 'main':
       headerContent = (
         <>
-          <h1>피드</h1>
+          <Logo onClick={scrollToTop}>
+            <img src={logo} alt="Focal 로고" />
+          </Logo>
           <IconButton>
             <SearchButton />
           </IconButton>
