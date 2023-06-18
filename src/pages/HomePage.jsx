@@ -31,7 +31,7 @@ const Info = styled.h3`
   color: var(--sub-text-color);
 `;
 
-const HomePage = () => {
+export default function HomePage() {
   return (
     <>
       <Header type="main" />
@@ -47,6 +47,4 @@ const HomePage = () => {
       </Container>
     </>
   );
-};
-
-export default HomePage;
+}
