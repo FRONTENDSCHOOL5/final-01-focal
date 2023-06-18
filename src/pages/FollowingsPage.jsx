@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import UserFollowListItem from '../components/UserItem/UserFollowListItem';
-import FollowHeader from '../components/Header/FollowHeader';
+import Header from '../components/Header/Header';
 
 const Main = styled.main`
   width: 100%;
@@ -25,8 +25,7 @@ export default function FollowingsPage() {
 
   return (
     <>
-      <FollowHeader>Followings</FollowHeader>
-
+      <Header type="follow" followText="Followings" />
       <Main>
         <section>
           <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>

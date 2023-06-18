@@ -10,24 +10,29 @@ import Button from '../Button/Button';
 const StyledHeader = styled.header`
   position: fixed;
   top: 0;
-  width: 100%;
-  height: 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  height: 48px;
   padding: 0 16px;
+  background-color: var(--white);
   border-bottom: 1px solid var(--border-color);
 
-  h1 {
-    font-size: 18px;
+  div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
+  h1,
   h2 {
     font-size: 14px;
+    font-weight: 500;
   }
 `;
 
-export default function Header({ type, buttonId }) {
+export default function Header({ type, buttonId, followText }) {
   let headerContent;
 
   switch (type) {
@@ -70,9 +75,19 @@ export default function Header({ type, buttonId }) {
           <IconButton>
             <BackButton />
           </IconButton>
-          <Button className="sm" formId={buttonId}>
-            저장
-          </Button>
+          <Button className="sm" formId={buttonId}></Button>
+        </>
+      );
+      break;
+    case 'follow':
+      headerContent = (
+        <>
+          <div>
+            <IconButton>
+              <BackButton />
+            </IconButton>
+            <h1>{followText}</h1>
+          </div>
         </>
       );
       break;
