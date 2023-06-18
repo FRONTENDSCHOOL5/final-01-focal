@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '../Button/Button';
 import TextInput from '../Input/TextInput';
 import ProfileImageUploader from '../Input/ProfileImageUploader';
-import { baseInstance } from '../../api/baseInstance';
+import baseInstance from '../../api/instance/baseInstance';
 
 const Form = styled.form`
   & > div:not(:last-child) {
