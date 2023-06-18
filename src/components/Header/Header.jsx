@@ -32,7 +32,7 @@ const StyledHeader = styled.header`
   }
 `;
 
-export default function Header({ type, buttonId, followText }) {
+export default function Header({ type, buttonId, buttonText, followText }) {
   let headerContent;
 
   switch (type) {
@@ -75,7 +75,9 @@ export default function Header({ type, buttonId, followText }) {
           <IconButton>
             <BackButton />
           </IconButton>
-          <Button className="sm" formId={buttonId}></Button>
+          <Button className="sm" formId={buttonId}>
+            {buttonText}
+          </Button>
         </>
       );
       break;
