@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/Logo.png';
+import Logo from '../assets/images/main-logo.png';
 import emailIcon from '../assets/icons/email.svg';
 import signupIcon from '../assets/icons/icon-user-yellow.svg';
 import kakao from '../assets/icons/kakao.svg';
