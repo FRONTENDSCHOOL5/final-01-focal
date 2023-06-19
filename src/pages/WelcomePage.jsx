@@ -26,7 +26,7 @@ const Main = styled.main`
   bottom: 0;
   width: 100%;
   padding: 50px 0 82px;
-  background-color: #fca91b;
+  background-color: var(--main-color);
   border-radius: 20px 20px 0px 0px;
 
   & > section {
@@ -50,11 +50,11 @@ const StyledLink = styled(Link)`
 
   &:first-of-type {
     margin-bottom: 7px;
-    background: white url(${emailIcon}) no-repeat 18px center / 24px;
+    background: var(--white) url(${emailIcon}) no-repeat 18px center / 24px;
   }
   &:last-of-type {
     margin-bottom: 45px;
-    background: white url(${signupIcon}) no-repeat 18px center / 24px;
+    background: var(--white) url(${signupIcon}) no-repeat 18px center / 24px;
   }
 `;
 
@@ -66,7 +66,7 @@ const SnsBtnContainer = styled.div`
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background-color: white;
+    background-color: var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
