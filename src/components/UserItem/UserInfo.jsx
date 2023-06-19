@@ -12,6 +12,7 @@ const StyledUserInfo = styled(Link)`
     width: 50px;
     aspect-ratio: 1/1;
     object-fit: cover;
+    border-radius: 50%;
   }
 
   .userinfo-txt {
@@ -21,6 +22,10 @@ const StyledUserInfo = styled(Link)`
       color: black;
       font-weight: 500;
       font-size: 14px;
+
+      & > .keyword {
+        color: var(--main-color);
+      }
     }
 
     & > p {
@@ -32,12 +37,26 @@ const StyledUserInfo = styled(Link)`
   }
 `;
 
-export default function UserInfo({ user }) {
+export default function UserInfo({ user, searchQuery }) {
+  console.log(user);
+  const username = user.username.replaceAll(
+    searchQuery,
+    `<span class="keyword">${searchQuery}</span>`,
+  );
+
   return (
     <StyledUserInfo to={`/profile/${user.accountname}`}>
-      <img className="userinfo-img" src={defaultImg} alt="" />
+      <img
+        className="userinfo-img"
+        src={
+          user.image === 'http://146.56.183.55:5050/Ellipse.png'
+            ? defaultImg
+            : user.image.replaceAll('mandarin.api', 'api.mandarin')
+        }
+        alt="유저이미지"
+      />
       <div className="userinfo-txt">
-        <strong>{user.username}</strong>
+        <strong dangerouslySetInnerHTML={{ __html: username }}></strong>
         <p>@ {user.accountname}</p>
       </div>
     </StyledUserInfo>
