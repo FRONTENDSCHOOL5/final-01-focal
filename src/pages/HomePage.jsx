@@ -39,23 +39,18 @@ const Info = styled.h3`
 
 export default function HomePage() {
   const [postDatas, setPostDatas] = useState();
-  const [status, setStatus] = useState(false);
 
   useEffect(() => {
     const getPost = async () => {
       try {
         const res = await authInstance.get('/post/feed');
         setPostDatas(res.data.posts);
-        console.log(postDatas);
-        if (res.status === 200) {
-          setStatus(true);
-        }
       } catch (err) {
         console.log(err);
       }
     };
     getPost();
-  }, [status]);
+  }, []);
 
   return (
     <PageWrapper>
@@ -64,7 +59,7 @@ export default function HomePage() {
         <Container>
           <h2 className="a11y-hidden">Focal 홈 피드</h2>
 
-          {postDatas ? (
+          {postDatas && postDatas.length > 0 ? (
             postDatas.map((data) => <PostCard key={data.id} data={data} />)
           ) : (
             <>
