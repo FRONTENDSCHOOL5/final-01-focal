@@ -24,6 +24,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import PostUploadPage from '../pages/PostUploadPage';
 import ProductUploadPage from '../pages/ProductUploadPage';
 import ProfileEditPage from '../pages/ProfileEditPage';
+import WelcomePage from '../pages/WelcomePage';
 
 export default function Router() {
   const isLogined = useRecoilValue(loginState);
@@ -33,7 +34,13 @@ export default function Router() {
         <Route
           path="/"
           element={
-            isLogined ? <HomePage /> : <Navigate replace={true} to="/login" />
+            isLogined ? <HomePage /> : <Navigate replace={true} to="/welcome" />
+          }
+        />
+        <Route
+          path="/welcome"
+          element={
+            !isLogined ? <WelcomePage /> : <Navigate replace={true} to="/" />
           }
         />
         <Route path="/splash" element={<SplashPage />} />
