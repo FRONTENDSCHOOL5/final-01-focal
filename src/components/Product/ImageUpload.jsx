@@ -1,4 +1,3 @@
-// ImageUpload.js
 import styled from 'styled-components';
 import ImageSrc from '../../assets/images/image-upload.png';
 
@@ -12,10 +11,14 @@ const ImageLabelStyle = styled.label`
   width: 100%;
   height: 204px;
   background-color: #f2f2f2;
-  border: 0.5 solid var(--border-color);
+  border: 0.5px solid var(--border-color);
   border-radius: 10px;
   cursor: pointer;
   overflow: hidden;
+  background-image: ${(props) => `url(${props.imagePreview})`};
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   &::after {
     position: absolute;
@@ -41,12 +44,12 @@ const ImageInputStyle = styled.input`
   display: none;
 `;
 
-function ImageUpload({ title }) {
+function ImageUpload({ title, onImageChange, imagePreview }) {
   return (
     <ImageContainerStyle>
       <ImageTitleStyle>{title}</ImageTitleStyle>
-      <ImageLabelStyle htmlFor="productImg">
-        <ImageInputStyle type="file" id="productImg" />
+      <ImageLabelStyle htmlFor="productImg" imagePreview={imagePreview}>
+        <ImageInputStyle type="file" id="productImg" onChange={onImageChange} />
       </ImageLabelStyle>
     </ImageContainerStyle>
   );
