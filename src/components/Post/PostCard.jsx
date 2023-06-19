@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import IconButton from '../Button/IconButton';
-import profileImage from '../../assets/images/basic-profile-s.png';
-import postImage from '../../assets/images/post-img-example.png';
 import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
+import profileImage from '../../assets/images/basic-profile-s.png';
 
 const PostArticle = styled.article`
   position: relative;
   width: 390px;
-  padding: 5px 0;
+  padding: 5px 20px;
 `;
 
 const UserInfo = styled.section`
@@ -41,8 +40,7 @@ const PostContent = styled.section`
   }
 
   li {
-    min-width: 390px;
-    height: 293px;
+    width: 100%;
   }
 
   img {
@@ -86,27 +84,23 @@ const StyledIconButton = styled.button`
   padding: 0;
 `;
 
-export default function PostCard() {
+export default function PostCard({ data }) {
   const [like, setLike] = useState(false);
-
+  const { username, accountname, content, image, createdAt } = data;
   return (
     <PostArticle>
       <UserInfo>
         <img src={profileImage} alt="" />
         <div>
-          <strong>애월읍 위니브 감귤농장</strong>
-          <span>@weniv_Mandarin</span>
+          <strong>{username}</strong>
+          <span>{accountname}</span>
         </div>
       </UserInfo>
       <PostContent>
-        <p>
-          옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다.
-          이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할 넣는 풍부하게
-          뛰노는 인생의 힘있다.
-        </p>
+        <p>{content}</p>
         <ul>
           <li>
-            <img src={postImage} alt="" />
+            <img src={image} alt="" />
           </li>
         </ul>
       </PostContent>
@@ -121,7 +115,7 @@ export default function PostCard() {
           </IconButton>
           <IconText>0</IconText>
         </InfoIcons>
-        <time dateTime="2023-06-15">2023년 6월 15일</time>
+        <time dateTime={createdAt}>{createdAt.slice(0, 10)}</time>
       </ContentInfo>
       <StyledIconButton>
         <MoreIcon />
