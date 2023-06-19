@@ -1,6 +1,10 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ImageUpload from './ImageUpload';
 import TextInput from '../Input/TextInput';
+import authInstance from '../../api/instance/authInstance';
+import baseInstance from '../../api/instance/baseInstance';
 
 const ProductMainStyle = styled.main`
   margin-top: 48px;
@@ -29,22 +33,87 @@ const ProductFormStyle = styled.form`
 `;
 
 function ProductUpload() {
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [url, setUrl] = useState('');
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const navigate = useNavigate();
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setImagePreview(null);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const imageFormData = new FormData();
+      imageFormData.append('image', image);
+
+      const imageResponse = await baseInstance.post(
+        '/image/uploadfile',
+        imageFormData,
+      );
+
+      if (imageResponse.status !== 200) {
+        throw new Error('이미지 파일 업로드 에러');
+      }
+
+      const filename = imageResponse.data.filename;
+
+      const productData = {
+        product: {
+          itemName: name,
+          price: Number(price),
+          link: url,
+          itemImage: filename,
+        },
+      };
+
+      const productResponse = await authInstance.post('/product', productData);
+
+      if (productResponse.status !== 200) {
+        throw new Error('파일 업로드 에러');
+      }
+
+      navigate('/profile');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <ProductMainStyle>
       <ProductSectionStyle>
-        <ProductFormStyle>
-          <ImageUpload title="이미지 등록" />
+        <ProductFormStyle id="product" onSubmit={handleSubmit}>
+          <ImageUpload
+            title="이미지 등록"
+            onImageChange={handleImageChange}
+            imagePreview={imagePreview}
+          />
           <TextInput
-            id="priceInput"
+            id="productNameInput"
             type="text"
-            placeholder="2~10자 이내여야 합니다."
+            placeholder="2~15자 이내여야 합니다."
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           >
             상품명
           </TextInput>
           <TextInput
-            id="productNameInput"
+            id="priceInput"
             type="number"
             placeholder="숫자만 입력 가능합니다."
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           >
             가격
           </TextInput>
@@ -52,6 +121,8 @@ function ProductUpload() {
             id="storeLinkInput"
             type="url"
             placeholder="URL을 입력해 주세요."
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
           >
             판매링크
           </TextInput>
