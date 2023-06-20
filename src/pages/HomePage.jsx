@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button/Button';
 import Header from '../components/Header/Header';
-import logo from '../assets/images/basic-profile.png';
+import logo from '../assets/images/logo.png';
 import PostCard from '../components/Post/PostCard';
 import authInstance from '../api/instance/authInstance';
 import NavBar from '../components/NavBar/NavBar';
+import { useNavigate } from 'react-router-dom';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -30,6 +31,7 @@ const Container = styled.div`
 
 const Img = styled.img`
   width: 100px;
+  filter: grayscale(90%);
 `;
 
 const Info = styled.h3`
@@ -39,6 +41,7 @@ const Info = styled.h3`
 
 export default function HomePage() {
   const [postDatas, setPostDatas] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPost = async () => {
@@ -63,9 +66,15 @@ export default function HomePage() {
             postDatas.map((data) => <PostCard key={data.id} data={data} />)
           ) : (
             <>
-              <Img src={logo} alt="감귤 마켓 로고" />
+              <Img src={logo} alt="Focal 로고" />
               <Info>유저를 검색해 팔로우 해보세요!</Info>
-              <Button type="button" className="md">
+              <Button
+                type="button"
+                className="md"
+                onClick={() => {
+                  navigate('/search');
+                }}
+              >
                 검색하기
               </Button>
             </>
