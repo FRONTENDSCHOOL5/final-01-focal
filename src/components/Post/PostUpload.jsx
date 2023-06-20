@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import baseInstance from '../../api/instance/baseInstance';
-import authInstance from '../../api/instance/authInstance';
 import defaultImg from '../../assets/images/basic-profile-m.png';
 import delteBtn from '../../assets/icons/delete.svg';
 import postImgUploadBtn from '../../assets/images/image-upload.png';
@@ -73,9 +72,13 @@ const userImgSrc = () => {
   return localStorage.getItem('image');
 };
 
-function PostUpload({ setDisabled }) {
+function PostUpload({
+  inputValue,
+  setInputValue,
+  setDisabled,
+  handleFormSubmit,
+}) {
   const [userprofile] = useState(userImgSrc);
-  const [inputValue, setInputValue] = useState({ content: '', image: [] });
   const textarea = useRef();
   const handleResizeHeight = () => {
     textarea.current.style.height = 'auto';
@@ -124,23 +127,6 @@ function PostUpload({ setDisabled }) {
     const { src: clickedSrc } = e.currentTarget.dataset;
     const newImageList = inputValue.image.filter((item) => item !== clickedSrc);
     setInputValue({ ...inputValue, image: newImageList });
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    const { content, image } = inputValue;
-    console.log(inputValue.image.join());
-
-    try {
-      await authInstance.post('/post', {
-        post: {
-          content,
-          image: image.join(),
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
