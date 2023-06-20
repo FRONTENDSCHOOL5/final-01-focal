@@ -9,7 +9,6 @@ const authInstance = authAPI(process.env.REACT_APP_BASE_URL);
 authInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-    console.log(token);
     config.headers['Content-Type'] = 'application/json';
     config.headers['Authorization'] = `Bearer ${token}`;
 

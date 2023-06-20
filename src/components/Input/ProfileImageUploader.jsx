@@ -34,7 +34,14 @@ export default function ProfileImageUploader({ value, handleChange }) {
   return (
     <>
       <StyledLabel htmlFor="image">
-        <img src={value || defaultImg} alt="선택한 이미지 미리보기" />
+        <img
+          src={
+            !value || value === 'http://146.56.183.55:5050/Ellipse.png'
+              ? defaultImg
+              : value
+          }
+          alt="선택한 이미지 미리보기"
+        />
       </StyledLabel>
       <input
         type="file"

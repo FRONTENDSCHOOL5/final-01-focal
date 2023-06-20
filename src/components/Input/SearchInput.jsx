@@ -15,13 +15,19 @@ const SearchInputBox = styled.form`
   }
 `;
 
-export default function SearchInput() {
+export default function SearchInput({ onChange }) {
   return (
     <SearchInputBox>
       <label htmlFor="search" className="a11y-hidden">
         계정 검색
       </label>
-      <input id="search" type="text" placeholder="계정 검색" />
+      <input
+        autoComplete={'off'}
+        id="search"
+        type="text"
+        placeholder="계정 검색"
+        onChange={onChange}
+      />
     </SearchInputBox>
   );
 }

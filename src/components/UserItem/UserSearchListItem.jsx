@@ -10,10 +10,10 @@ const StyledLi = styled.li`
   }
 `;
 
-export default function UserSearchListItem({ user }) {
+export default function UserSearchListItem({ user, searchQuery }) {
   return (
     <StyledLi>
-      <UserInfo user={user} />
+      <UserInfo user={user} searchQuery={searchQuery} />
     </StyledLi>
   );
 }
