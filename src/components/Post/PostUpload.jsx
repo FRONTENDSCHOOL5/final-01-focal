@@ -1,18 +1,12 @@
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import ImageSrc from '../../assets/images/basic-profile-s.png';
-import ImageSrc2 from '../../assets/images/profile-upload.png';
+import baseInstance from '../../api/instance/baseInstance';
+import authInstance from '../../api/instance/authInstance';
+import defaultImg from '../../assets/images/basic-profile-m.png';
+import delteBtn from '../../assets/icons/delete.svg';
+import postImgUploadBtn from '../../assets/images/image-upload.png';
 
-const PostMainStyle = styled.main`
-  margin-top: 48px;
-  display: flex;
-  padding: 20px 0 20px 16px;
-  min-width: 390px;
-  width: 100%;
-  height: 100vh;
-  background-color: #fff;
-`;
-
-const UploadImageStyle = styled.img`
+const UserImageStyle = styled.img`
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -20,34 +14,23 @@ const UploadImageStyle = styled.img`
   border: 0.5px solid var(--border-color);
 `;
 
-const PostWriteStyle = styled.article`
+const PostWriteArticle = styled.article`
   min-width: 300px;
   width: 100%;
-  padding-right: 16px;
-  overflow-y: scroll;
 `;
 
-const PostFormStyle = styled.form`
+const PostForm = styled.form`
   width: 100%;
   height: 100%;
   padding-top: 12px;
 
-  textarea {
+  .post-input {
+    display: block;
     width: 100%;
     margin-bottom: 16px;
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
-    //textarea 속성 초기화
-    border: none;
-    outline: none;
-    padding: 0;
-    background: transparent;
-    resize: none;
-    box-shadow: none;
-    font-family: inherit;
-    font-size: inherit;
-    margin: 0;
   }
   .upload-photo-btn {
     position: fixed;
@@ -55,7 +38,7 @@ const PostFormStyle = styled.form`
     right: 16px;
     width: 50px;
     height: 50px;
-    background-image: url(${ImageSrc2});
+    background-image: url(${postImgUploadBtn});
     background-position: center;
     background-size: cover;
     cursor: pointer;
@@ -63,26 +46,157 @@ const PostFormStyle = styled.form`
   }
 `;
 
-function PostUpload() {
+const ImageBox = styled.ul`
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+
+  & > li {
+    position: relative;
+    & > button {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      padding: 5.5px;
+    }
+    & > img {
+      width: calc(100%);
+      max-width: 304px;
+      aspect-ratio: 168/126;
+      object-fit: cover;
+      border: 0.5px solid var(--border-color);
+      border-radius: 10px;
+    }
+  }
+`;
+const userImgSrc = () => {
+  return localStorage.getItem('image');
+};
+
+function PostUpload({ setDisabled }) {
+  const [userprofile] = useState(userImgSrc);
+  const [inputValue, setInputValue] = useState({ content: '', image: [] });
+  const textarea = useRef();
+  const handleResizeHeight = () => {
+    textarea.current.style.height = 'auto';
+    textarea.current.style.height = textarea.current.scrollHeight + 'px';
+  };
+
+  const handleValueChange = (e) => {
+    const { id, value } = e.target;
+    if (id !== 'image') {
+      setInputValue({ ...inputValue, [id]: value });
+      if (value) setDisabled(false);
+      else setDisabled(true);
+    } else {
+      const { files } = e.target;
+      if (files.length + inputValue.image.length > 3)
+        alert('파일 최대 가능 업로드 갯수는 3개입니다');
+      else {
+        getImagesSrc(files);
+      }
+    }
+  };
+
+  const getImagesSrc = async (files) => {
+    let formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append('image', files[i]);
+    }
+
+    try {
+      const res = await baseInstance.post('/image/uploadfiles', formData);
+      const { data } = res;
+      const imageList = [];
+      for (let i = 0; i < data.length; i++) {
+        imageList.push(`${process.env.REACT_APP_BASE_URL}${data[i].filename}`);
+      }
+      setInputValue({
+        ...inputValue,
+        image: [...inputValue.image, ...imageList],
+      });
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const handleDeleteBtnClick = (e) => {
+    const { src: clickedSrc } = e.currentTarget.dataset;
+    const newImageList = inputValue.image.filter((item) => item !== clickedSrc);
+    setInputValue({ ...inputValue, image: newImageList });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const { content, image } = inputValue;
+    console.log(inputValue.image.join());
+
+    try {
+      await authInstance.post('/post', {
+        post: {
+          content,
+          image: image.join(),
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <PostMainStyle>
-      <h2 className="a11y-hidden">게시글 작성</h2>
-      <UploadImageStyle src={ImageSrc} alt="사용자이미지" />
-      <PostWriteStyle>
+    <>
+      <UserImageStyle
+        src={
+          userprofile === 'http://146.56.183.55:5050/Ellipse.png'
+            ? defaultImg
+            : userprofile
+        }
+        alt="사용자이미지"
+      />
+      <PostWriteArticle>
         <h3 className="a11y-hidden">게시글 작성</h3>
-        <PostFormStyle>
+        <PostForm onSubmit={handleFormSubmit} id="post">
           <textarea
+            ref={textarea}
+            className="post-input"
+            id="content"
+            value={inputValue.content}
+            onChange={(e) => {
+              handleResizeHeight();
+              handleValueChange(e);
+            }}
             name="text"
             placeholder="게시글 입력하기..."
-            data-value="0"
-            data-dl-input-translation="true"
           ></textarea>
+          <ImageBox>
+            {inputValue.image.map((item) => {
+              return (
+                <li key={item}>
+                  <button
+                    type="button"
+                    onClick={handleDeleteBtnClick}
+                    data-src={item}
+                  >
+                    <img src={delteBtn} alt="사진 삭제" />
+                  </button>
+                  <img src={item} alt="" />
+                </li>
+              );
+            })}
+          </ImageBox>
           <label className="upload-photo-btn">
-            <input type="file" accept="image/*" style={{ display: 'none' }} />
+            <input
+              id="image"
+              onChange={handleValueChange}
+              type="file"
+              accept="image/*"
+              multiple
+              className="a11y-hidden"
+            />
           </label>
-        </PostFormStyle>
-      </PostWriteStyle>
-    </PostMainStyle>
+        </PostForm>
+      </PostWriteArticle>
+    </>
   );
 }
 
