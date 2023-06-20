@@ -89,8 +89,7 @@ const StyledIconButton = styled.button`
 export default function PostCard({ data }) {
   const {
     id,
-    username,
-    accountname,
+    author,
     content,
     image,
     hearted,
@@ -133,8 +132,8 @@ export default function PostCard({ data }) {
       <UserInfo>
         <img src={profileImage} alt="" />
         <div>
-          <strong>{username}</strong>
-          <span>{accountname}</span>
+          <strong>{author.username}</strong>
+          <span>@ {author.accountname}</span>
         </div>
       </UserInfo>
       <PostContent>
