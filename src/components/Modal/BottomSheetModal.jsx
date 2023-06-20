@@ -6,7 +6,7 @@ const BottomSheetSection = styled.section`
   inset: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: -100;
+  /* z-index: -100; */
 `;
 
 const BottomSheet = styled.ul`
@@ -30,11 +30,19 @@ const BottomSheet = styled.ul`
   }
 `;
 
-export default function BottomSheetModal({ children }) {
+export default function BottomSheetModal({ children, setIsMenuOpen }) {
+  const handleMenu = (e) => {
+    e.stopPropagation();
+  };
+
+  const handleBackgroundClick = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
-    <BottomSheetSection>
+    <BottomSheetSection onClick={handleBackgroundClick}>
       <h2 className="a11y-hidden">메뉴</h2>
-      <BottomSheet>{children}</BottomSheet>
+      <BottomSheet onClick={handleMenu}>{children}</BottomSheet>
     </BottomSheetSection>
   );
 }
