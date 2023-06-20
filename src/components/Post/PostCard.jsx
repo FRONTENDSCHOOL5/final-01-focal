@@ -98,30 +98,29 @@ export default function PostCard({ data }) {
     createdAt,
   } = data;
 
-  const [liked, setLiked] = useState(hearted);
-  const [likeCount, setLikeCount] = useState(heartCount);
+  const [likeInfo, setLikeInfo] = useState({
+    liked: hearted,
+    count: heartCount,
+  });
 
   const date = `
-  ${createdAt.slice(0, 4)}년 
-  ${createdAt.slice(5, 7)}월 
-  ${createdAt.slice(8, 10)}일
+    ${createdAt.slice(0, 4)}년 
+    ${createdAt.slice(5, 7)}월 
+    ${createdAt.slice(8, 10)}일
   `;
 
   const handleLike = async () => {
     try {
-      const res = await authInstance.post(`/post/${id}/heart`);
-      setLiked(res.data.post.hearted);
-      setLikeCount(res.data.post.heartCount);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleUnlike = async () => {
-    try {
-      const res = await authInstance.delete(`/post/${id}/unheart`);
-      setLiked(res.data.post.hearted);
-      setLikeCount(res.data.post.heartCount);
+      const endpoint = likeInfo.liked
+        ? `/post/${id}/unheart`
+        : `/post/${id}/heart`;
+      const res = await (likeInfo.liked
+        ? authInstance.delete(endpoint)
+        : authInstance.post(endpoint));
+      setLikeInfo({
+        liked: res.data.post.hearted,
+        count: res.data.post.heartCount,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -147,12 +146,9 @@ export default function PostCard({ data }) {
       <ContentInfo>
         <InfoIcons>
           <IconButton>
-            <StyledHeartIcon
-              onClick={liked ? handleUnlike : handleLike}
-              $liked={liked}
-            />
+            <StyledHeartIcon onClick={handleLike} $liked={likeInfo.liked} />
           </IconButton>
-          <IconText>{likeCount}</IconText>
+          <IconText>{likeInfo.count}</IconText>
           <IconButton>
             <CommentIcon fill="white" stroke="var(--sub-text-color)" />
           </IconButton>
