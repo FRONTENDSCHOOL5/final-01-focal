@@ -38,7 +38,6 @@ const StyledUserInfo = styled(Link)`
 `;
 
 export default function UserInfo({ user, searchQuery }) {
-  console.log(user);
   const username = user.username.replaceAll(
     searchQuery,
     `<span class="keyword">${searchQuery}</span>`,
