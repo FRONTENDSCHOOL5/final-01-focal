@@ -23,24 +23,30 @@ export default function SearchPage() {
   const [inputValue, setInputValue] = useState('');
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    const getData = async () => {
-      if (inputValue) {
-        try {
-          const res = await authInstance.get(
-            `/user/searchuser/?keyword=${inputValue}`,
-          );
-          const { data } = res;
-          setUsers(data);
-        } catch (err) {
-          console.log(err);
-        }
-      } else {
-        setUsers([]);
+  const getData = async () => {
+    if (inputValue) {
+      try {
+        const res = await authInstance.get(
+          `/user/searchuser/?keyword=${inputValue}`,
+        );
+        const { data } = res;
+        setUsers(data);
+      } catch (err) {
+        console.log(err);
       }
-    };
+    } else {
+      setUsers([]);
+    }
+  };
 
-    getData();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      getData();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [inputValue]);
 
   return (
