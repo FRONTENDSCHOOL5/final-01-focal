@@ -47,6 +47,7 @@ const Logo = styled.h1`
 export default function Header({
   type,
   onClick,
+  onChange,
   buttonId,
   buttonText,
   followText,
@@ -100,7 +101,7 @@ export default function Header({
           <IconButton>
             <BackButton onClick={goBack} />
           </IconButton>
-          <SearchInput />
+          <SearchInput onChange={onChange} />
         </>
       );
 
