@@ -172,6 +172,7 @@ function PostUpload({
           </ImageBox>
           <label className="upload-photo-btn">
             <input
+              required
               id="image"
               onChange={handleValueChange}
               type="file"
