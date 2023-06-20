@@ -22,13 +22,17 @@ export const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
-    font-family: 'SpoqaHanSansNeo-Regular';
     color: var(--main-text-color);
+  }
+
+  body {
+    font-family: 'SpoqaHanSansNeo-Regular';
   }
 
   button {
     border: none;
     background: transparent;
+    font-family: 'SpoqaHanSansNeo-Regular';
     cursor: pointer;
 
     :disabled {
