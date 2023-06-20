@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import authInstance from '../../api/instance/authInstance';
 import IconButton from '../Button/IconButton';
 import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
 import profileImage from '../../assets/images/basic-profile-s.png';
-import authInstance from '../../api/instance/authInstance';
 
 const PostArticle = styled.article`
   position: relative;
@@ -59,6 +59,7 @@ const ContentInfo = styled.section`
 
   time {
     font-size: 10px;
+    color: var(--sub-text-color);
   }
 `;
 
@@ -81,7 +82,7 @@ const IconText = styled.span`
 const StyledIconButton = styled.button`
   position: absolute;
   top: 5px;
-  right: 0;
+  right: 15px;
   padding: 0;
 `;
 
@@ -100,6 +101,12 @@ export default function PostCard({ data }) {
 
   const [liked, setLiked] = useState(hearted);
   const [likeCount, setLikeCount] = useState(heartCount);
+
+  const date = `
+  ${createdAt.slice(0, 4)}년 
+  ${createdAt.slice(5, 7)}월 
+  ${createdAt.slice(8, 10)}일
+  `;
 
   const handleLike = async () => {
     try {
@@ -152,7 +159,7 @@ export default function PostCard({ data }) {
           </IconButton>
           <IconText>{commentCount}</IconText>
         </InfoIcons>
-        <time dateTime={createdAt}>{createdAt.slice(0, 10)}</time>
+        <time dateTime={createdAt}>{date}</time>
       </ContentInfo>
       <StyledIconButton>
         <MoreIcon />
