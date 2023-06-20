@@ -47,6 +47,18 @@ export const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
+  textarea{
+    border: none;
+    outline: none;
+    padding: 0;
+    background: transparent;
+    resize: none;
+    box-shadow: none;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+  }
+
   .a11y-hidden {
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
