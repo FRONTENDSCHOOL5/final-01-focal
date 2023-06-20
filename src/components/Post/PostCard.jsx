@@ -157,9 +157,14 @@ export default function PostCard({ data }) {
       >
         <p>{content}</p>
         <ul>
-          <li>
-            <img src={image} alt="" />
-          </li>
+          {image &&
+            image.split(',').map((item, index) => {
+              return (
+                <li key={id + index}>
+                  <img src={item} alt="" />
+                </li>
+              );
+            })}
         </ul>
       </PostContent>
       <ContentInfo>
