@@ -5,6 +5,7 @@ import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
 import profileImage from '../../assets/images/basic-profile-s.png';
+import authInstance from '../../api/instance/authInstance';
 
 const PostArticle = styled.article`
   position: relative;
@@ -62,9 +63,9 @@ const ContentInfo = styled.section`
 `;
 
 const StyledHeartIcon = styled(HeartIcon)`
-  stroke: ${({ like }) =>
-    like ? 'var(--main-color)' : 'var(--sub-text-color)'};
-  fill: ${({ like }) => (like ? 'var(--main-color)' : 'transparent')};
+  stroke: ${({ $liked }) =>
+    $liked ? 'var(--main-color)' : 'var(--sub-text-color)'};
+  fill: ${({ $liked }) => ($liked ? 'var(--main-color)' : 'transparent')};
 `;
 
 const InfoIcons = styled.div`
@@ -85,8 +86,41 @@ const StyledIconButton = styled.button`
 `;
 
 export default function PostCard({ data }) {
-  const [like, setLike] = useState(false);
-  const { username, accountname, content, image, createdAt } = data;
+  const {
+    id,
+    username,
+    accountname,
+    content,
+    image,
+    hearted,
+    heartCount,
+    commentCount,
+    createdAt,
+  } = data;
+
+  const [liked, setLiked] = useState(hearted);
+  const [likeCount, setLikeCount] = useState(heartCount);
+
+  const handleLike = async () => {
+    try {
+      const res = await authInstance.post(`/post/${id}/heart`);
+      setLiked(res.data.post.hearted);
+      setLikeCount(res.data.post.heartCount);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleUnlike = async () => {
+    try {
+      const res = await authInstance.delete(`/post/${id}/unheart`);
+      setLiked(res.data.post.hearted);
+      setLikeCount(res.data.post.heartCount);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <PostArticle>
       <UserInfo>
@@ -107,13 +141,16 @@ export default function PostCard({ data }) {
       <ContentInfo>
         <InfoIcons>
           <IconButton>
-            <StyledHeartIcon onClick={() => setLike(!like)} like={like} />
+            <StyledHeartIcon
+              onClick={liked ? handleUnlike : handleLike}
+              $liked={liked}
+            />
           </IconButton>
-          <IconText>0</IconText>
+          <IconText>{likeCount}</IconText>
           <IconButton>
             <CommentIcon fill="white" stroke="var(--sub-text-color)" />
           </IconButton>
-          <IconText>0</IconText>
+          <IconText>{commentCount}</IconText>
         </InfoIcons>
         <time dateTime={createdAt}>{createdAt.slice(0, 10)}</time>
       </ContentInfo>
