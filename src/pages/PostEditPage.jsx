@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
+import { useNavigate, useParams } from 'react-router-dom';
 import authInstance from '../api/instance/authInstance';
-import { useNavigate } from 'react-router-dom';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
@@ -15,17 +15,33 @@ const PostMainStyle = styled.main`
   overflow-y: auto;
 `;
 
-export default function PostUploadPage() {
+export default function PostEditPage() {
   const navigate = useNavigate();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
+  const { post_id } = useParams();
   const [inputValue, setInputValue] = useState({ content: '', image: [] });
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const {
+          data: { post },
+        } = await authInstance.get(`/post/${post_id}`);
+
+        setInputValue({ content: post.content, image: post.image.split(',') });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getData();
+  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const { content, image } = inputValue;
 
     try {
-      await authInstance.post('/post', {
+      await authInstance.put(`/post/${post_id}`, {
         post: {
           content,
           image: image.join(),
@@ -50,8 +66,8 @@ export default function PostUploadPage() {
         <PostUpload
           setDisabled={setDisabled}
           inputValue={inputValue}
-          setInputValue={setInputValue}
           handleFormSubmit={handleFormSubmit}
+          setInputValue={setInputValue}
         />
       </PostMainStyle>
     </>

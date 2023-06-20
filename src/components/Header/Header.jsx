@@ -50,6 +50,7 @@ export default function Header({
   buttonId,
   buttonText,
   followText,
+  disabled,
 }) {
   const navigate = useNavigate();
   let headerContent;
@@ -110,7 +111,12 @@ export default function Header({
           <IconButton>
             <BackButton onClick={goBack} />
           </IconButton>
-          <Button className="sm" formId={buttonId} onClick={onClick}>
+          <Button
+            className="sm"
+            formId={buttonId}
+            onClick={onClick}
+            disabled={disabled}
+          >
             {buttonText}
           </Button>
         </>
