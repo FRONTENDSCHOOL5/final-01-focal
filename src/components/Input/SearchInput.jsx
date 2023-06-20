@@ -22,6 +22,7 @@ export default function SearchInput({ onChange }) {
         계정 검색
       </label>
       <input
+        autoComplete={'off'}
         id="search"
         type="text"
         placeholder="계정 검색"
