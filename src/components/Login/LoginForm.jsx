@@ -45,7 +45,8 @@ export default function LoginForm() {
         setError(message);
       } else {
         setError('');
-        console.log(user);
+        localStorage.getItem('accountname', user.accountname);
+        localStorage.setItem('image', user.image);
         localStorage.setItem('token', user.token);
         setIsLogined(true);
       }
