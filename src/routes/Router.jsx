@@ -18,6 +18,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import PostUploadPage from '../pages/PostUploadPage';
 import ProductUploadPage from '../pages/ProductUploadPage';
 import ProfileEditPage from '../pages/ProfileEditPage';
+import PostEditPage from '../pages/PostEditPage';
 
 export default function Router() {
   return (
@@ -38,6 +39,7 @@ export default function Router() {
           <Route path="/post/" element={<Outlet />}>
             <Route path=":post_id" element={<PostPage />} />
             <Route path="upload" element={<PostUploadPage />} />
+            <Route path=":post_id/upload" element={<PostEditPage />} />
           </Route>
           <Route path="/profile/" element={<Outlet />}>
             <Route path="" element={<MyProfilePage />} />
