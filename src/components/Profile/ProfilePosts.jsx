@@ -1,7 +1,10 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import authInstance from '../../api/instance/authInstance';
+import PostCard from '../Post/PostCard';
 import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-album.svg';
+import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -50,7 +53,7 @@ const PostGalleryItem = styled.li`
   box-sizing: border-box;
 `;
 
-const PostListView = styled.div`
+const PostListView = styled.ul`
   display: flex;
   flex-direction: column;
   max-width: 390px;
@@ -59,13 +62,9 @@ const PostListView = styled.div`
   gap: 20px;
 `;
 
-const PostListItem = styled.div`
-  height: 434px;
-  background-color: orange;
-`;
-
-export default function ProfilePosts() {
+export default function ProfilePosts({ accountname }) {
   const [isListView, setIsListView] = useState(true);
+  const [posts, setPosts] = useState([]);
 
   const handleListAlign = () => {
     setIsListView(true);
@@ -74,6 +73,15 @@ export default function ProfilePosts() {
   const handleGalleryAlign = () => {
     setIsListView(false);
   };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = await authInstance.get(`/post/${accountname}/userpost`);
+      setPosts(res.data.post);
+    };
+    fetchPosts();
+    console.log(posts);
+  }, []);
 
   return (
     <PostsContainer>
@@ -110,9 +118,11 @@ export default function ProfilePosts() {
       </PostAlignWrapper>
       {isListView ? (
         <PostListView>
-          <PostListItem />
-          <PostListItem />
-          <PostListItem />
+          {posts.map((post) => (
+            <li key={post.createdAt}>
+              <PostCard post={post} />
+            </li>
+          ))}
         </PostListView>
       ) : (
         <PostGalleryView>
