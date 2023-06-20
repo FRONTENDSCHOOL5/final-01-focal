@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ImageUpload from './ImageUpload';
@@ -32,13 +32,36 @@ const ProductFormStyle = styled.form`
   }
 `;
 
-function ProductUpload() {
+function ProductUpload({ onValidChange }) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
+  const [displayPrice, setDisplayPrice] = useState('');
   const [url, setUrl] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
+
+  const handlePriceChange = (e) => {
+    const numericPrice = e.target.value.replace(/,/g, '');
+    setPrice(numericPrice);
+
+    if (numericPrice) {
+      const formattedPrice = numericPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      setDisplayPrice(formattedPrice);
+    } else {
+      setDisplayPrice('');
+    }
+  };
+
+  function isValidUrl(string) {
+    try {
+      new URL(string);
+    } catch (_) {
+      return false;
+    }
+
+    return true;
+  }
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -90,6 +113,18 @@ function ProductUpload() {
     }
   };
 
+  const isSaveButtonDisabled =
+    !name ||
+    name.length < 2 ||
+    name.length > 15 ||
+    !price ||
+    Number(price) <= 0 ||
+    !image ||
+    !isValidUrl(url);
+
+  useEffect(() => {
+    onValidChange(!isSaveButtonDisabled);
+  }, [name, price, image, url, onValidChange]);
   return (
     <ProductMainStyle>
       <ProductSectionStyle>
@@ -110,10 +145,10 @@ function ProductUpload() {
           </TextInput>
           <TextInput
             id="priceInput"
-            type="number"
+            type="text"
             placeholder="숫자만 입력 가능합니다."
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            value={displayPrice}
+            onChange={handlePriceChange}
           >
             가격
           </TextInput>
