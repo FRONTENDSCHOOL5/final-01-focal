@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import authInstance from '../../api/instance/authInstance';
 import IconButton from '../Button/IconButton';
-import profileImage from '../../assets/images/basic-profile-s.png';
-import postImage from '../../assets/images/post-img-example.png';
 import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
+import profileImage from '../../assets/images/basic-profile-s.png';
+import { useNavigate } from 'react-router-dom';
 
 const PostArticle = styled.article`
   position: relative;
   width: 390px;
-  padding: 5px 0;
+  padding: 5px 20px;
 `;
 
 const UserInfo = styled.section`
   display: flex;
   align-items: center;
   gap: 12px;
+  cursor: pointer;
 
   strong {
     display: block;
@@ -33,6 +35,7 @@ const UserInfo = styled.section`
 
 const PostContent = styled.section`
   margin: 12px 0;
+  cursor: pointer;
 
   p {
     font-size: 14px;
@@ -41,8 +44,7 @@ const PostContent = styled.section`
   }
 
   li {
-    min-width: 390px;
-    height: 293px;
+    width: 100%;
   }
 
   img {
@@ -58,15 +60,22 @@ const ContentInfo = styled.section`
   justify-content: space-between;
   align-items: center;
 
+  div {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
   time {
     font-size: 10px;
+    color: var(--sub-text-color);
   }
 `;
 
 const StyledHeartIcon = styled(HeartIcon)`
-  stroke: ${({ like }) =>
-    like ? 'var(--main-color)' : 'var(--sub-text-color)'};
-  fill: ${({ like }) => (like ? 'var(--main-color)' : 'transparent')};
+  stroke: ${({ $liked }) =>
+    $liked ? 'var(--main-color)' : 'var(--sub-text-color)'};
+  fill: ${({ $liked }) => ($liked ? 'var(--main-color)' : 'transparent')};
 `;
 
 const InfoIcons = styled.div`
@@ -82,46 +91,100 @@ const IconText = styled.span`
 const StyledIconButton = styled.button`
   position: absolute;
   top: 5px;
-  right: 0;
+  right: 15px;
   padding: 0;
 `;
 
-export default function PostCard() {
-  const [like, setLike] = useState(false);
+export default function PostCard({ data }) {
+  const {
+    id,
+    author,
+    content,
+    image,
+    hearted,
+    heartCount,
+    commentCount,
+    createdAt,
+  } = data;
+
+  const [likeInfo, setLikeInfo] = useState({
+    liked: hearted,
+    count: heartCount,
+  });
+
+  const navigate = useNavigate();
+  const date = `
+    ${createdAt.slice(0, 4)}년 
+    ${createdAt.slice(5, 7)}월 
+    ${createdAt.slice(8, 10)}일
+  `;
+
+  const handleLike = async () => {
+    try {
+      const endpoint = likeInfo.liked
+        ? `/post/${id}/unheart`
+        : `/post/${id}/heart`;
+      const res = await (likeInfo.liked
+        ? authInstance.delete(endpoint)
+        : authInstance.post(endpoint));
+      console.log(res);
+      setLikeInfo({
+        liked: res.data.post.hearted,
+        count: res.data.post.heartCount,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <PostArticle>
-      <UserInfo>
+      <UserInfo
+        onClick={() => {
+          navigate(`/profile/${author.accountname}`);
+        }}
+      >
         <img src={profileImage} alt="" />
         <div>
-          <strong>애월읍 위니브 감귤농장</strong>
-          <span>@weniv_Mandarin</span>
+          <strong>{author.username}</strong>
+          <span>@ {author.accountname}</span>
         </div>
       </UserInfo>
-      <PostContent>
-        <p>
-          옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다.
-          이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할 넣는 풍부하게
-          뛰노는 인생의 힘있다.
-        </p>
+      <PostContent
+        onClick={() => {
+          navigate(`/post/${id}`);
+        }}
+      >
+        <p>{content}</p>
         <ul>
-          <li>
-            <img src={postImage} alt="" />
-          </li>
+          {image &&
+            image.split(',').map((item, index) => {
+              return (
+                <li key={id + index}>
+                  <img src={item} alt="" />
+                </li>
+              );
+            })}
         </ul>
       </PostContent>
       <ContentInfo>
         <InfoIcons>
           <IconButton>
-            <StyledHeartIcon onClick={() => setLike(!like)} like={like} />
+            <StyledHeartIcon onClick={handleLike} $liked={likeInfo.liked} />
           </IconButton>
-          <IconText>0</IconText>
-          <IconButton>
-            <CommentIcon fill="white" stroke="var(--sub-text-color)" />
-          </IconButton>
-          <IconText>0</IconText>
+          <IconText>{likeInfo.count}</IconText>
+          <div
+            onClick={() => {
+              navigate(`/post/${id}`);
+            }}
+          >
+            <IconButton>
+              <CommentIcon fill="white" stroke="var(--sub-text-color)" />
+            </IconButton>
+            <IconText>{commentCount}</IconText>
+          </div>
         </InfoIcons>
-        <time dateTime="2023-06-15">2023년 6월 15일</time>
+        <time dateTime={createdAt}>{date}</time>
       </ContentInfo>
       <StyledIconButton>
         <MoreIcon />
