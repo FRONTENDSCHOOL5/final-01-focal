@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import ProfileForm from '../components/SignUp/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
 import authInstance from '../api/instance/authInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Main = styled.main`
   width: 100%;
@@ -21,7 +22,13 @@ const Main = styled.main`
   }
 `;
 
+const getAccountName = () => {
+  return localStorage.getItem('accountname');
+};
+
 export default function ProfileEditPage() {
+  const [accountParams] = useState(getAccountName);
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     username: '',
     accountname: '',
@@ -35,17 +42,13 @@ export default function ProfileEditPage() {
 
     try {
       const res = await baseInstance.post('/image/uploadfile', formData);
-      const { status } = res;
-      if (status !== 200) throw new Error('에러');
-      if (status === 200) {
-        const {
-          data: { filename },
-        } = res;
-        setInputValue({
-          ...inputValue,
-          image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
-        });
-      }
+      const {
+        data: { filename },
+      } = res;
+      setInputValue({
+        ...inputValue,
+        image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
+      });
     } catch (err) {
       alert(err);
     }
@@ -63,13 +66,36 @@ export default function ProfileEditPage() {
 
   const handleProfileFormSubmit = async (e) => {
     e.preventDefault();
-    const res = await authInstance.put('/user', { user: inputValue });
-    console.log(res);
+    try {
+      const {
+        data: {
+          user: { accountname, image },
+        },
+      } = await authInstance.put('/user', { user: inputValue });
+      localStorage.setItem('accountname', accountname);
+      localStorage.setItem('image', image);
+      navigate('/profile');
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const {
+        data: {
+          profile: { image, username, accountname, intro },
+        },
+      } = await authInstance.get(`/profile/${accountParams}`);
+
+      setInputValue({ image, username, accountname, intro });
+    };
+    getData();
+  }, []);
 
   return (
     <>
-      <Header type="upload" buttonId="profile-edit" />
+      <Header type="upload" buttonId="profile-edit" buttonText={'저장'} />
       <Main>
         <section>
           <h2 className="a11y-hidden">
