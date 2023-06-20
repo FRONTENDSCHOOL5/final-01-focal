@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button/Button';
 import Header from '../components/Header/Header';
-import logo from '../assets/images/logo.png';
+import NavBar from '../components/NavBar/NavBar';
 import PostCard from '../components/Post/PostCard';
 import authInstance from '../api/instance/authInstance';
-import NavBar from '../components/NavBar/NavBar';
+import logo from '../assets/images/logo.png';
 import { useNavigate } from 'react-router-dom';
 
 const PageWrapper = styled.div`
