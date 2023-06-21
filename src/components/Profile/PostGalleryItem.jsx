@@ -10,7 +10,6 @@ const Div = styled.div`
 const GalleryItem = styled.img`
   width: 100%;
   height: 114px;
-  border: 1px solid gray;
   box-sizing: border-box;
   object-fit: cover;
 `;

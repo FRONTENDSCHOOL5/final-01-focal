@@ -83,10 +83,9 @@ export default function ProfilePosts({ accountname, isUser }) {
 
   const handlePostDelete = async () => {
     try {
-      console.log(`/post/${postId}`);
-      const res = await authInstance.delete(`/post/${postId}`);
-      console.log(res);
-      window.location.reload();
+      await authInstance.delete(`/post/${postId}`);
+      const res = await authInstance.get(`/post/${accountname}/userpost`);
+      setPosts(res.data.post);
       setIsMenuOpen(false);
       setIsModalOpen(false);
     } catch (err) {
