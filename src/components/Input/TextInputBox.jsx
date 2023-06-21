@@ -18,6 +18,10 @@ const InputBox = styled.form`
   input {
     width: calc(100% - 100px);
   }
+
+  input::placeholder {
+    color: var(--light-gray);
+  }
 `;
 
 const StyledLabel = styled.label`
@@ -29,6 +33,7 @@ const StyledLabel = styled.label`
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
+    border-radius: 50%;
   }
 `;
 
@@ -39,17 +44,30 @@ const StyledButton = styled.button`
     isActive ? 'var(--main-color)' : 'var(--light-gray)'};
 `;
 
-export default function TextInputBox({ type }) {
+export default function TextInputBox({ type, onButtonClick }) {
   const [inputValue, setInputValue] = useState('');
   let isActive;
   let inputContent;
   inputValue ? (isActive = true) : (isActive = false);
 
+  const image = localStorage.getItem('image');
+  const profileImage =
+    image === 'http://146.56.183.55:5050/Ellipse.png'
+      ? profile
+      : image.replaceAll('mandarin.api', 'api.mandarin');
+
+  const handleButtonClick = () => {
+    onButtonClick(inputValue);
+    setInputValue('');
+  };
+
   switch (type) {
     case 'comment':
       inputContent = (
         <>
-          <img src={profile} alt="" />
+          <StyledLabel htmlFor="image">
+            <img src={profileImage} alt="" />
+          </StyledLabel>
           <label htmlFor="comment" className="a11y-hidden">
             댓글 입력
           </label>
@@ -58,8 +76,14 @@ export default function TextInputBox({ type }) {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            placeholder="댓글 입력하기..."
           />
-          <StyledButton type="submit" isActive={isActive} disabled={!isActive}>
+          <StyledButton
+            type="button"
+            isActive={isActive}
+            disabled={!isActive}
+            onClick={handleButtonClick}
+          >
             게시
           </StyledButton>
         </>
