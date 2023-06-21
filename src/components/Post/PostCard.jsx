@@ -113,7 +113,6 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
     createdAt,
   } = post;
 
-  const navigate = useNavigate();
   const [likeInfo, setLikeInfo] = useState({
     liked: hearted,
     count: heartCount,
@@ -122,7 +121,6 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const isProfile = pathname.includes('profile');
-
 
   const date = `
     ${createdAt.slice(0, 4)}년 
