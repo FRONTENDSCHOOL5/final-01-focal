@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button/Button';
 import Header from '../components/Header/Header';
 import NavBar from '../components/NavBar/NavBar';
 import PostCard from '../components/Post/PostCard';
+import BottomSheetModal from '../components/Modal/BottomSheetModal';
+import BottomSheetContent from '../components/Modal/BottomSheetContent';
+import ConfirmModal from '../components/Modal/ConfirmModal';
 import authInstance from '../api/instance/authInstance';
 import logo from '../assets/images/logo.png';
-import { useNavigate } from 'react-router-dom';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -41,6 +44,10 @@ const Info = styled.h3`
 
 export default function HomePage() {
   const [postDatas, setPostDatas] = useState();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [postId, setPostId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(postId);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,6 +62,23 @@ export default function HomePage() {
     getPost();
   }, []);
 
+  const openModal = () => {
+    setIsMenuOpen(true);
+    setIsModalOpen(true);
+  };
+
+  const handleReport = async (e) => {
+    e.stopPropagation();
+    try {
+      const res = await authInstance.post(`/post/${postId}/report`);
+      console.log(res);
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <PageWrapper>
       <Header type="main" />
@@ -63,7 +87,14 @@ export default function HomePage() {
           <h2 className="a11y-hidden">Focal 홈 피드</h2>
 
           {postDatas && postDatas.length > 0 ? (
-            postDatas.map((data) => <PostCard key={data.id} data={data} />)
+            postDatas.map((data) => (
+              <PostCard
+                key={data.id}
+                data={data}
+                setIsMenuOpen={setIsMenuOpen}
+                setPostId={setPostId}
+              />
+            ))
           ) : (
             <>
               <Img src={logo} alt="Focal 로고" />
@@ -82,6 +113,20 @@ export default function HomePage() {
         </Container>
       </ContentWrapper>
       <NavBar />
+      {isMenuOpen && (
+        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+          <BottomSheetContent onClick={openModal}>신고</BottomSheetContent>
+        </BottomSheetModal>
+      )}
+      {isModalOpen && (
+        <ConfirmModal
+          title="게시글을 신고하시겠어요?"
+          confirmInfo="신고"
+          setIsMenuOpen={setIsMenuOpen}
+          setIsModalOpen={setIsModalOpen}
+          onClick={handleReport}
+        />
+      )}
     </PageWrapper>
   );
 }

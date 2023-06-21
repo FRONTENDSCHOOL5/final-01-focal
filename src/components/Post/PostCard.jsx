@@ -95,7 +95,7 @@ const StyledIconButton = styled.button`
   padding: 0;
 `;
 
-export default function PostCard({ data }) {
+export default function PostCard({ data, setPostId, setIsMenuOpen }) {
   const {
     id,
     author,
@@ -107,12 +107,12 @@ export default function PostCard({ data }) {
     createdAt,
   } = data;
 
+  const navigate = useNavigate();
   const [likeInfo, setLikeInfo] = useState({
     liked: hearted,
     count: heartCount,
   });
 
-  const navigate = useNavigate();
   const date = `
     ${createdAt.slice(0, 4)}년 
     ${createdAt.slice(5, 7)}월 
@@ -135,6 +135,11 @@ export default function PostCard({ data }) {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleMenu = () => {
+    setIsMenuOpen(true);
+    setPostId(id);
   };
 
   return (
@@ -187,7 +192,7 @@ export default function PostCard({ data }) {
         <time dateTime={createdAt}>{date}</time>
       </ContentInfo>
       <StyledIconButton>
-        <MoreIcon />
+        <MoreIcon onClick={handleMenu} />
       </StyledIconButton>
     </PostArticle>
   );

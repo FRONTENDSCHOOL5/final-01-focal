@@ -12,8 +12,8 @@ const BottomSheetItem = styled.li`
 
 export default function BottomSheetContent({ onClick, children }) {
   return (
-    <BottomSheetItem>
-      <button onClick={onClick}>{children}</button>
+    <BottomSheetItem onClick={onClick}>
+      <button>{children}</button>
     </BottomSheetItem>
   );
 }
