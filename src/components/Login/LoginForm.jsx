@@ -45,7 +45,7 @@ export default function LoginForm() {
         setError(message);
       } else {
         setError('');
-        localStorage.getItem('accountname', user.accountname);
+        localStorage.setItem('accountname', user.accountname);
         localStorage.setItem('image', user.image);
         localStorage.setItem('token', user.token);
         setIsLogined(true);
