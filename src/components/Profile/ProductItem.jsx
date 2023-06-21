@@ -28,13 +28,21 @@ const ProductPrice = styled.strong`
 `;
 
 export default function ProductItem({ product }) {
+  console.log(product);
   return (
     <ProductItemWrapper
       onClick={() => {
         window.open(product.link);
       }}
     >
-      <ProductImg src={product.itemImage} alt="판매 상품 이미지" />
+      <ProductImg
+        src={
+          product.itemImage.includes('https')
+            ? product.itemImage
+            : `https://api.mandarin.weniv.co.kr/${product.itemImage}`
+        }
+        alt="판매 상품 이미지"
+      />
       <ProductName>{product.itemName}</ProductName>
       <ProductPrice>{product.price.toLocaleString()}</ProductPrice>
     </ProductItemWrapper>
