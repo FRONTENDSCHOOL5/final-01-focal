@@ -4,6 +4,10 @@ const ProductItemWrapper = styled.li`
   cursor: pointer;
 `;
 
+const ProductInfo = styled.div`
+  position: relative;
+`;
+
 const ProductImg = styled.img`
   height: 90px;
   min-width: 140px;
@@ -11,6 +15,20 @@ const ProductImg = styled.img`
   border-radius: 8px;
   object-fit: cover;
   overflow: hidden;
+`;
+
+const ProductTypeTag = styled.div`
+  position: absolute;
+  right: 5px;
+  bottom: 7px;
+  width: 40px;
+  padding: 4px 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--main-color);
+  text-align: center;
+  background-color: var(--white);
+  border-radius: 4px;
 `;
 
 const ProductName = styled.strong`
@@ -27,23 +45,13 @@ const ProductPrice = styled.strong`
   color: #f26e22;
 `;
 
-export default function ProductItem({ product }) {
-  console.log(product);
+export default function ProductItem({ product, onClick }) {
   return (
-    <ProductItemWrapper
-      onClick={() => {
-        window.open(product.link);
-      }}
-    >
-      <ProductImg
-        src={
-          product.itemImage &&
-          (product.itemImage.includes('https')
-            ? product.itemImage
-            : `https://api.mandarin.weniv.co.kr/${product.itemImage}`)
-        }
-        alt="판매 상품 이미지"
-      />
+    <ProductItemWrapper onClick={onClick}>
+      <ProductInfo>
+        <ProductImg src={product.itemImage} alt="판매 상품 이미지" />
+        <ProductTypeTag>{product.link}</ProductTypeTag>
+      </ProductInfo>
       <ProductName>{product.itemName}</ProductName>
       <ProductPrice>{product.price.toLocaleString()}</ProductPrice>
     </ProductItemWrapper>
