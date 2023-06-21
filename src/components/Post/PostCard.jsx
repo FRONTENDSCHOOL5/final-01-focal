@@ -1,36 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import authInstance from '../../api/instance/authInstance';
+import { useNavigate } from 'react-router-dom';
+import UserInfo from '../UserItem/UserInfo';
 import IconButton from '../Button/IconButton';
+import authInstance from '../../api/instance/authInstance';
 import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
-import profileImage from '../../assets/images/basic-profile-s.png';
-import { useNavigate } from 'react-router-dom';
 
 const PostArticle = styled.article`
   position: relative;
   width: 390px;
   padding: 5px 20px;
-`;
-
-const UserInfo = styled.section`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-
-  strong {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  span {
-    font-size: 12px;
-    line-height: 14px;
-    color: var(--sub-text-color);
-  }
 `;
 
 const PostContent = styled.section`
@@ -169,17 +150,7 @@ export default function PostCard({ data }) {
   };
   return (
     <PostArticle>
-      <UserInfo
-        onClick={() => {
-          navigate(`/profile/${author.accountname}`);
-        }}
-      >
-        <img src={profileImage} alt="" />
-        <div>
-          <strong>{author.username}</strong>
-          <span>@ {author.accountname}</span>
-        </div>
-      </UserInfo>
+      <UserInfo user={author} />
       <PostContent
         onClick={() => {
           navigate(`/post/${id}`);
