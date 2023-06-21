@@ -36,15 +36,12 @@ const UserInfo = styled.section`
 const PostContent = styled.section`
   margin: 12px 0;
   cursor: pointer;
+  position: relative;
 
   p {
     font-size: 14px;
     line-height: 18px;
     margin-bottom: 12px;
-  }
-
-  li {
-    width: 100%;
   }
 
   img {
@@ -53,6 +50,35 @@ const PostContent = styled.section`
     object-fit: cover;
     border-radius: 10px;
   }
+`;
+
+const ImageCarousel = styled.ul`
+  display: flex;
+  overflow: hidden;
+  /* transform: translateX(${({ currentSlide }) => currentSlide * -100}%); */
+
+  li {
+    flex: 0 0 100%;
+  }
+`;
+
+const ImageCarouselButtons = styled.div`
+  position: absolute;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+const ImageCarouselButton = styled.button`
+  flex: 0 0 6px;
+  height: 6px;
+  margin: 0 5px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: ${({ active }) =>
+    active ? 'var(--main-color)' : 'var(--sub-text-color)'};
+  cursor: pointer;
 `;
 
 const ContentInfo = styled.section`
@@ -118,7 +144,7 @@ export default function PostCard({ data }) {
     ${createdAt.slice(5, 7)}월 
     ${createdAt.slice(8, 10)}일
   `;
-
+  const imageList = image.split(',');
   const handleLike = async () => {
     try {
       const endpoint = likeInfo.liked
@@ -136,7 +162,11 @@ export default function PostCard({ data }) {
       console.log(err);
     }
   };
+  const [currentSlide, setCurrentSlide] = useState(0);
 
+  const handleSlideChange = (index) => {
+    setCurrentSlide(index);
+  };
   return (
     <PostArticle>
       <UserInfo
@@ -156,16 +186,30 @@ export default function PostCard({ data }) {
         }}
       >
         <p>{content}</p>
-        <ul>
+        <ImageCarousel currentSlide={currentSlide}>
           {image &&
-            image.split(',').map((item, index) => {
+            imageList.map((image, index) => {
               return (
                 <li key={id + index}>
-                  <img src={item} alt="" />
+                  <img src={imageList[currentSlide]} alt="" />
                 </li>
               );
             })}
-        </ul>
+        </ImageCarousel>
+        {imageList.length > 1 && (
+          <ImageCarouselButtons>
+            {imageList.map((_, index) => (
+              <ImageCarouselButton
+                key={index}
+                active={index === currentSlide}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSlideChange(index);
+                }}
+              />
+            ))}
+          </ImageCarouselButtons>
+        )}
       </PostContent>
       <ContentInfo>
         <InfoIcons>
