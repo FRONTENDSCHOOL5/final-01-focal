@@ -5,6 +5,7 @@ import authInstance from '../../api/instance/authInstance';
 import PostCard from '../Post/PostCard';
 import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-album.svg';
 import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
+import PostGalleryItem from './PostGalleryItem';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -45,14 +46,6 @@ const PostGalleryView = styled.ul`
   gap: 8px;
 `;
 
-const PostGalleryItem = styled.li`
-  width: 100%;
-  height: 114px;
-  background-color: orange;
-  border: 1px solid gray;
-  box-sizing: border-box;
-`;
-
 const PostListView = styled.ul`
   display: flex;
   flex-direction: column;
@@ -80,7 +73,6 @@ export default function ProfilePosts({ accountname }) {
       setPosts(res.data.post);
     };
     fetchPosts();
-    console.log(posts);
   }, []);
 
   return (
@@ -120,16 +112,20 @@ export default function ProfilePosts({ accountname }) {
         <PostListView>
           {posts.map((post) => (
             <li key={post.createdAt}>
-              <PostCard post={post} />
+              <PostCard data={post} />
             </li>
           ))}
         </PostListView>
       ) : (
         <PostGalleryView>
-          <PostGalleryItem />
-          <PostGalleryItem />
-          <PostGalleryItem />
-          <PostGalleryItem />
+          {posts.map((post) => (
+            <li key={post.createdAt}>
+              <PostGalleryItem
+                img={post.image}
+                accountname={post.author.accountname}
+              />
+            </li>
+          ))}
         </PostGalleryView>
       )}
     </PostsContainer>
