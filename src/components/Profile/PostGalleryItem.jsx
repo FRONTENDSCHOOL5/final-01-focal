@@ -23,7 +23,6 @@ const MultipleImg = styled.img`
 export default function PostGalleryItem({ img, accountname }) {
   const galleryImg = img.split(',')[0];
   const navigate = useNavigate();
-  console.log(galleryImg);
   return (
     <>
       {galleryImg && (
@@ -33,7 +32,7 @@ export default function PostGalleryItem({ img, accountname }) {
           }}
         >
           <GalleryImg src={galleryImg} />
-          <MultipleImg src={multipleImg} />
+          {img.split(',').length > 1 && <MultipleImg src={multipleImg} />}
         </GalleryListItem>
       )}
     </>
