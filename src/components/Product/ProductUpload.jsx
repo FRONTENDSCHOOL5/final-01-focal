@@ -5,6 +5,7 @@ import ImageUpload from './ImageUpload';
 import TextInput from '../Input/TextInput';
 import authInstance from '../../api/instance/authInstance';
 import baseInstance from '../../api/instance/baseInstance';
+import RadioInput, { RadioInputGroup } from '../Input/RadioInput';
 
 const ProductMainStyle = styled.main`
   margin-top: 48px;
@@ -36,13 +37,13 @@ function ProductUpload({ onValidChange }) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [displayPrice, setDisplayPrice] = useState('');
-  const [url, setUrl] = useState('');
+  const [productType, setProductType] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
 
   const handlePriceChange = (e) => {
-    const numericPrice = e.target.value.replace(/,/g, '');
+    const numericPrice = e.target.value.replace(/[^0-9]/g, '');
     setPrice(numericPrice);
 
     if (numericPrice) {
@@ -52,17 +53,6 @@ function ProductUpload({ onValidChange }) {
       setDisplayPrice('');
     }
   };
-
-  function isValidUrl(string) {
-    try {
-      new URL(string);
-    } catch (_) {
-      return false;
-    }
-
-    return true;
-  }
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
@@ -96,7 +86,7 @@ function ProductUpload({ onValidChange }) {
         product: {
           itemName: name,
           price: Number(price),
-          link: url,
+          link: productType,
           itemImage: filename,
         },
       };
@@ -120,11 +110,11 @@ function ProductUpload({ onValidChange }) {
     !price ||
     Number(price) <= 0 ||
     !image ||
-    !isValidUrl(url);
+    !productType;
 
   useEffect(() => {
     onValidChange(!isSaveButtonDisabled);
-  }, [name, price, image, url, onValidChange]);
+  }, [name, price, image, productType, onValidChange]);
   return (
     <ProductMainStyle>
       <ProductSectionStyle>
@@ -134,6 +124,24 @@ function ProductUpload({ onValidChange }) {
             onImageChange={handleImageChange}
             imagePreview={imagePreview}
           />
+          <RadioInputGroup title={'상품종류'}>
+            <RadioInput
+              id="film"
+              value="film"
+              checked={productType === 'film'}
+              onChange={(e) => setProductType(e.target.value)}
+            >
+              필름
+            </RadioInput>
+            <RadioInput
+              id="camera"
+              value="camera"
+              checked={productType === 'camera'}
+              onChange={(e) => setProductType(e.target.value)}
+            >
+              카메라
+            </RadioInput>
+          </RadioInputGroup>
           <TextInput
             id="productNameInput"
             type="text"
@@ -151,15 +159,6 @@ function ProductUpload({ onValidChange }) {
             onChange={handlePriceChange}
           >
             가격
-          </TextInput>
-          <TextInput
-            id="storeLinkInput"
-            type="url"
-            placeholder="URL을 입력해 주세요."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          >
-            판매링크
           </TextInput>
         </ProductFormStyle>
       </ProductSectionStyle>
