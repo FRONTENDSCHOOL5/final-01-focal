@@ -1,8 +1,12 @@
 import styled from 'styled-components';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import authInstance from '../api/instance/authInstance';
 import Header from '../components/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
+import NavBar from '../components/NavBar/NavBar';
 
 const Container = styled.main`
   display: flex;
@@ -15,13 +19,33 @@ const Container = styled.main`
 `;
 
 export default function MyProfilePage() {
+  const [userData, setUserData] = useState('');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await authInstance.get('user/myinfo');
+        const { user } = res.data;
+        setUserData(user);
+      } catch (err) {
+        console.error('Error :', err);
+      }
+    };
+    fetchUserData();
+  }, []);
+
   return (
     <Container>
       <Header type="basic" />
       <h1 className="a11y-hidden">나의 프로필 페이지</h1>
-      <ProfileInfo />
-      <ProfileProducts />
-      <ProfilePosts />
+      {userData && (
+        <>
+          <ProfileInfo userInfo={userData} />
+          <ProfileProducts accountname={userData.accountname} />
+          <ProfilePosts accountname={userData.accountname} />
+        </>
+      )}
+      <NavBar />
     </Container>
   );
 }

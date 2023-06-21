@@ -1,8 +1,10 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { useState } from 'react';
+import authInstance from '../../api/instance/authInstance';
 import Button from '../Button/Button';
-import { ReactComponent as ChatIcon } from '../../assets/icons/icon-message.svg';
 import { ReactComponent as ShareIcon } from '../../assets/icons/icon-share.svg';
+import { ReactComponent as ChatIcon } from '../../assets/icons/icon-message.svg';
+import { useNavigate } from 'react-router-dom';
 
 const BtnRow = styled.div`
   display: flex;
@@ -20,21 +22,39 @@ const ProfileButton = styled.button.attrs({ type: 'button' })`
   background-color: transparent;
 `;
 
-export default function UserInfoBtns() {
-  const [isFollow, setIsFollow] = useState(false);
+export default function UserInfoBtns({
+  handleFollowNum,
+  isfollow,
+  accountname,
+}) {
+  const [getFollow, setGetFollow] = useState(isfollow);
+  const navigate = useNavigate();
 
   const handleFollowBtn = () => {
-    setIsFollow(!isFollow);
-    console.log('first');
+    authInstance.post(`/profile/${accountname}/follow`, {
+      profile: { isfollow: isfollow },
+    });
+    setGetFollow(!getFollow);
+    handleFollowNum(getFollow);
+  };
+
+  const handleUnfollowBtn = () => {
+    authInstance.delete(`/profile/${accountname}/unfollow`);
+    setGetFollow(!getFollow);
+    handleFollowNum(getFollow);
   };
 
   return (
     <BtnRow>
-      <ProfileButton>
+      <ProfileButton
+        onClick={() => {
+          navigate(`/chat/${accountname}`);
+        }}
+      >
         <ChatIcon fill="none" stroke="black" alt="채팅버튼" />
       </ProfileButton>
-      {isFollow ? (
-        <Button onClick={handleFollowBtn} className="md" active={false}>
+      {getFollow ? (
+        <Button onClick={handleUnfollowBtn} className="md" active={false}>
           언팔로우
         </Button>
       ) : (

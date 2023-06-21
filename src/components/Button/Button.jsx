@@ -43,7 +43,7 @@ const StyledButton = styled.button`
       props.active ? 'var(--main-color)' : 'var(--white)'};
     color: ${(props) =>
       props.active ? 'var(--white)' : 'var(--sub-text-color)'};
-    border: ${(props) =>
+    outline: ${(props) =>
       props.active ? 'none' : '1px solid var(--border-color)'};
   }
 
