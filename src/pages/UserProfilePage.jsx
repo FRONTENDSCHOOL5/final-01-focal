@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { loginState } from '../states/LoginState';
 import authInstance from '../api/instance/authInstance';
 import Header from '../components/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
@@ -25,10 +27,11 @@ const Container = styled.main`
 export default function UserProfilePage() {
   const { _id } = useParams();
   const [userData, setUserData] = useState('');
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const navigate = useNavigate();
+  const setIsLogined = useSetRecoilState(loginState);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -55,7 +58,9 @@ export default function UserProfilePage() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/welcome');
+    localStorage.removeItem('accountname');
+    localStorage.removeItem('image');
+    setIsLogined(false);
   };
 
   return (
@@ -66,7 +71,7 @@ export default function UserProfilePage() {
         <>
           <ProfileInfo userInfo={userData} isUser={_id} />
           <ProfileProducts accountname={userData.accountname} />
-          <ProfilePosts accountname={userData.accountname} />
+          <ProfilePosts accountname={userData.accountname} isUser={_id} />
         </>
       )}
       <NavBar />

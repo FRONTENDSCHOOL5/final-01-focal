@@ -59,7 +59,7 @@ const PostListView = styled.ul`
   gap: 20px;
 `;
 
-export default function ProfilePosts({ accountname }) {
+export default function ProfilePosts({ accountname, isUser }) {
   const [isListView, setIsListView] = useState(true);
   const [posts, setPosts] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,6 +86,20 @@ export default function ProfilePosts({ accountname }) {
       console.log(`/post/${postId}`);
       const res = await authInstance.delete(`/post/${postId}`);
       console.log(res);
+      window.location.reload();
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handlePostReport = async () => {
+    try {
+      console.log(`/post/${postId}`);
+      const res = await authInstance.post(`/post/${postId}/report`);
+      console.log(res);
+      alert('신고되었습니다.');
       setIsMenuOpen(false);
       setIsModalOpen(false);
     } catch (err) {
@@ -103,73 +117,83 @@ export default function ProfilePosts({ accountname }) {
 
   return (
     <>
-      <PostsContainer>
-        <h2 className="a11y-hidden">포스트</h2>
-        <PostAlignWrapper>
-          <PostsAlignRow>
-            <Button onClick={handleListAlign}>
-              {isListView ? (
-                <PostListIcon
-                  fill="var(--main-color)"
-                  strock="var(--main-color)"
-                />
-              ) : (
-                <PostListIcon
-                  fill="var(--light-gray)"
-                  stroke="var(--light-gray)"
-                />
-              )}
-            </Button>
-            <Button onClick={handleGalleryAlign}>
-              {isListView ? (
-                <PostGalleryIcon
-                  fill="var(--light-gray)"
-                  stroke="var(--light-gray)"
-                />
-              ) : (
-                <PostGalleryIcon
-                  fill="var(--main-color)"
-                  strock="var(--main-color)"
-                />
-              )}
-            </Button>
-          </PostsAlignRow>
-        </PostAlignWrapper>
-        {isListView ? (
-          <PostListView>
-            {posts.map((post) => (
-              <li key={post.createdAt}>
-                <PostCard
-                  post={post}
-                  setIsMenuOpen={setIsMenuOpen}
-                  setPostId={setPostId}
-                />
-              </li>
-            ))}
-          </PostListView>
-        ) : (
-          <PostGalleryView>
-            {posts.map((post) => (
-              <li key={post.createdAt}>
-                <PostGalleryItem
-                  img={post.image}
-                  accountname={post.author.accountname}
-                />
-              </li>
-            ))}
-          </PostGalleryView>
-        )}
-      </PostsContainer>
+      {posts.length > 0 && (
+        <PostsContainer>
+          <h2 className="a11y-hidden">포스트</h2>
+          <PostAlignWrapper>
+            <PostsAlignRow>
+              <Button onClick={handleListAlign}>
+                {isListView ? (
+                  <PostListIcon
+                    fill="var(--main-color)"
+                    strock="var(--main-color)"
+                  />
+                ) : (
+                  <PostListIcon
+                    fill="var(--light-gray)"
+                    stroke="var(--light-gray)"
+                  />
+                )}
+              </Button>
+              <Button onClick={handleGalleryAlign}>
+                {isListView ? (
+                  <PostGalleryIcon
+                    fill="var(--light-gray)"
+                    stroke="var(--light-gray)"
+                  />
+                ) : (
+                  <PostGalleryIcon
+                    fill="var(--main-color)"
+                    strock="var(--main-color)"
+                  />
+                )}
+              </Button>
+            </PostsAlignRow>
+          </PostAlignWrapper>
+          {isListView ? (
+            <PostListView>
+              {posts.map((post) => (
+                <li key={post.createdAt}>
+                  <PostCard
+                    post={post}
+                    setIsMenuOpen={setIsMenuOpen}
+                    setPostId={setPostId}
+                  />
+                </li>
+              ))}
+            </PostListView>
+          ) : (
+            <PostGalleryView>
+              {posts.map((post) => (
+                <li key={post.createdAt}>
+                  <PostGalleryItem
+                    img={post.image}
+                    accountname={post.author.accountname}
+                  />
+                </li>
+              ))}
+            </PostGalleryView>
+          )}
+        </PostsContainer>
+      )}
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
-          <BottomSheetContent onClick={openModal}>삭제</BottomSheetContent>
-          <BottomSheetContent
-            onClick={() => {
-              navigate(`/post/${postId}/upload`);
-            }}
-          >
-            수정
-          </BottomSheetContent>
+          {isUser ? (
+            <BottomSheetContent onClick={handlePostReport}>
+              신고
+            </BottomSheetContent>
+          ) : (
+            <>
+              <BottomSheetContent onClick={openModal}>삭제</BottomSheetContent>
+              <BottomSheetContent
+                onClick={() => {
+                  navigate(`/post/${postId}/upload`);
+                }}
+              >
+                수정
+              </BottomSheetContent>
+            </>
+          )}
         </BottomSheetModal>
       )}
       {isModalOpen && (
