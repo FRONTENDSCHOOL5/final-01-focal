@@ -49,7 +49,12 @@ function ImageUpload({ title, onImageChange, imagePreview }) {
     <ImageContainerStyle>
       <ImageTitleStyle>{title}</ImageTitleStyle>
       <ImageLabelStyle htmlFor="productImg" imagePreview={imagePreview}>
-        <ImageInputStyle type="file" id="productImg" onChange={onImageChange} />
+        <ImageInputStyle
+          type="file"
+          id="productImg"
+          onChange={onImageChange}
+          accept=".jpg,.jpeg,.png,.gif,.bmp,.tif,.heic"
+        />
       </ImageLabelStyle>
     </ImageContainerStyle>
   );
