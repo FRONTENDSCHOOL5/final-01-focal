@@ -10,6 +10,7 @@ import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
 import authInstance from '../api/instance/authInstance';
 import logo from '../assets/images/logo.png';
+import Splash from '../components/Splash/Splash';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -43,6 +44,7 @@ const Info = styled.h3`
 `;
 
 export default function HomePage() {
+  const [isLoading, setIsLoading] = useState(false);
   const [postDatas, setPostDatas] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [postId, setPostId] = useState(null);
@@ -54,6 +56,7 @@ export default function HomePage() {
       try {
         const res = await authInstance.get('/post/feed');
         setPostDatas(res.data.posts);
+        setIsLoading(true);
       } catch (err) {
         console.log(err);
       }
@@ -79,38 +82,44 @@ export default function HomePage() {
 
   return (
     <PageWrapper>
-      <Header type="main" />
-      <ContentWrapper>
-        <Container>
-          <h2 className="a11y-hidden">Focal 홈 피드</h2>
+      {isLoading ? (
+        <>
+          <Header type="main" />
+          <ContentWrapper>
+            <Container>
+              <h2 className="a11y-hidden">Focal 홈 피드</h2>
 
-          {postDatas && postDatas.length > 0 ? (
-            postDatas.map((data) => (
-              <PostCard
-                key={data.id}
-                post={data}
-                setIsMenuOpen={setIsMenuOpen}
-                setPostId={setPostId}
-              />
-            ))
-          ) : (
-            <>
-              <Img src={logo} alt="Focal 로고" />
-              <Info>유저를 검색해 팔로우 해보세요!</Info>
-              <Button
-                type="button"
-                className="md"
-                onClick={() => {
-                  navigate('/search');
-                }}
-              >
-                검색하기
-              </Button>
-            </>
-          )}
-        </Container>
-      </ContentWrapper>
-      <NavBar />
+              {postDatas && postDatas.length > 0 ? (
+                postDatas.map((data) => (
+                  <PostCard
+                    key={data.id}
+                    post={data}
+                    setIsMenuOpen={setIsMenuOpen}
+                    setPostId={setPostId}
+                  />
+                ))
+              ) : (
+                <>
+                  <Img src={logo} alt="Focal 로고" />
+                  <Info>유저를 검색해 팔로우 해보세요!</Info>
+                  <Button
+                    type="button"
+                    className="md"
+                    onClick={() => {
+                      navigate('/search');
+                    }}
+                  >
+                    검색하기
+                  </Button>
+                </>
+              )}
+            </Container>
+          </ContentWrapper>
+          <NavBar />
+        </>
+      ) : (
+        <Splash />
+      )}
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
           <BottomSheetContent onClick={openModal}>신고</BottomSheetContent>

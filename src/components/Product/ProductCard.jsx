@@ -7,6 +7,7 @@ const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
   height: 100%;
+  z-index: 10;
 `;
 
 const ProductCardWrapper = styled.article`
@@ -55,37 +56,53 @@ const ProductPrice = styled.strong`
 
 const ButtonGroup = styled.div`
   display: flex;
-  margin-top: 14px;
-  border: 1px solid var(--border-color);
 `;
 
 const Button = styled.button`
+  display: block;
   width: 126px;
   font-size: 14px;
   font-weight: 500;
   line-height: 18px;
   color: var(--main-color);
   padding: 14px 0;
+  margin: 14px auto;
+  border: 1px solid var(--border-color);
 
   :first-child {
-    border-right: 1px solid var(--border-color);
+    border-right: none;
   }
 `;
 
-export default function ProductCard() {
+export default function ProductCard({
+  product,
+  handleDelete,
+  setIsMenuOpen,
+  isMe,
+}) {
+  const { itemImage, itemName, link, price } = product;
+
+  const handleBackgroundClick = () => {
+    setIsMenuOpen(false);
+  };
   return (
-    <Overlay>
+    <Overlay onClick={handleBackgroundClick}>
       <ProductCardWrapper>
-        <ProductImage></ProductImage>
+        <ProductImage src={itemImage}></ProductImage>
         <ProductInfo>
-          <ProductName>애월읍 노지 감귤</ProductName>
-          <ProductTypeTag>필름</ProductTypeTag>
+          <ProductName>{itemName}</ProductName>
+          <ProductTypeTag>{link}</ProductTypeTag>
         </ProductInfo>
-        <ProductPrice>35,000원</ProductPrice>
-        <ButtonGroup>
-          <Button>삭제</Button>
-          <Button>수정</Button>
-        </ButtonGroup>
+        <ProductPrice>{price.toLocaleString()}원</ProductPrice>
+
+        {isMe ? (
+          <ButtonGroup>
+            <Button onClick={handleDelete}>삭제</Button>
+            <Button>수정</Button>
+          </ButtonGroup>
+        ) : (
+          <Button>채팅</Button>
+        )}
       </ProductCardWrapper>
     </Overlay>
   );
