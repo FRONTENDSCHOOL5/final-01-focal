@@ -1,6 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
-import basicSaleImg from '../../assets/images/profile-upload.png';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import authInstance from '../../api/instance/authInstance';
+import NavBar from '../NavBar/NavBar';
+import ProductItem from './ProductItem';
 
 const ProductsCol = styled.section`
   display: flex;
@@ -27,59 +30,40 @@ const Title = styled.h2`
 const ProductList = styled.ul`
   display: flex;
   gap: 10px;
-  overflow-x: auto;
+  overflow-x: scroll;
   overflow-y: hidden;
 `;
 
-const ProductItem = styled.li`
-  cursor: pointer;
-`;
+export default function ProfileProducts({ accountname = '' }) {
+  const [products, setProducts] = useState([]);
 
-const ProductImg = styled.img`
-  height: 90px;
-  border: 0.5px solid var(--border-color);
-  border-radius: 8px;
-  object-fit: cover;
-  overflow: hidden;
-`;
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await authInstance.get(`/product/${accountname}`);
+        setProducts(res.data.product);
+      } catch (error) {
+        console.error('Error :', error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
-const ProductName = styled.strong`
-  display: block;
-  margin-bottom: 4px;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 18px;
-`;
-
-const ProductPrice = styled.strong`
-  font-weight: 700;
-  font-size: 12px;
-  color: #f26e22;
-`;
-
-export default function ProfileProducts() {
   return (
-    <ProductsCol>
-      <ProductsWrapper>
-        <Title>판매 중인 상품</Title>
-        <ProductList>
-          <ProductItem>
-            <ProductImg src={basicSaleImg} alt="판매 상품 이미지" />
-            <ProductName>앗</ProductName>
-            <ProductPrice>99,999,999</ProductPrice>
-          </ProductItem>
-          <ProductItem>
-            <ProductImg src={basicSaleImg} alt="판매 상품 이미지" />
-            <ProductName>앗</ProductName>
-            <ProductPrice>99,999,999</ProductPrice>
-          </ProductItem>
-          <ProductItem>
-            <ProductImg src={basicSaleImg} alt="판매 상품 이미지" />
-            <ProductName>앗</ProductName>
-            <ProductPrice>99,999,999</ProductPrice>
-          </ProductItem>
-        </ProductList>
-      </ProductsWrapper>
-    </ProductsCol>
+    <>
+      {products.length > 0 && (
+        <ProductsCol>
+          <ProductsWrapper>
+            <Title>판매 중인 상품</Title>
+            <ProductList>
+              {products.map((product) => (
+                <ProductItem key={product.id} product={product} />
+              ))}
+            </ProductList>
+          </ProductsWrapper>
+        </ProductsCol>
+      )}
+      <NavBar />
+    </>
   );
 }

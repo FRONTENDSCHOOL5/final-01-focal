@@ -1,5 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const BtnRow = styled.div`
   display: flex;
@@ -18,10 +18,23 @@ const Button = styled.button.attrs({ type: 'button' })`
 `;
 
 export default function MyInfoBtns() {
+  const navigate = useNavigate();
   return (
     <BtnRow>
-      <Button>프로필 수정</Button>
-      <Button>상품 등록</Button>
+      <Button
+        onClick={() => {
+          navigate(`/profile/edit`);
+        }}
+      >
+        프로필 수정
+      </Button>
+      <Button
+        onClick={() => {
+          navigate(`/product`);
+        }}
+      >
+        상품 등록
+      </Button>
     </BtnRow>
   );
 }

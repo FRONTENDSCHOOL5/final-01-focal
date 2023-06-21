@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import basicUserImg from '../../assets/images/basic-profile.png';
+import { useState } from 'react';
 import UserInfoBtns from './UserInfoBtns';
 import MyInfoBtns from './MyInfoBtns';
 
@@ -18,7 +18,7 @@ const UserInfoRow = styled.div`
   gap: 41px;
 `;
 
-const FollowCol = styled.div`
+const FollowBtn = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,24 +66,50 @@ const UserTitle = styled.h3`
   margin: 16px 0 24px;
 `;
 
-export default function ProfileInfo({ user }) {
+export default function ProfileInfo({ userInfo, isUser }) {
+  const {
+    username,
+    accountname,
+    intro,
+    image,
+    isfollow,
+    followerCount,
+    followingCount,
+  } = userInfo;
+
+  const [followerNum, setFollowerNum] = useState(followerCount);
+
+  const handleFollowNum = (isfollow) => {
+    isfollow
+      ? setFollowerNum(followerNum - 1)
+      : setFollowerNum(followerNum + 1);
+  };
+
   return (
     <UserCol>
       <UserInfoRow>
-        <FollowCol>
-          <FollowerNumber>2950</FollowerNumber>
+        <FollowBtn>
+          <FollowerNumber>{followerNum}</FollowerNumber>
           <FollowText>followers</FollowText>
-        </FollowCol>
-        <UserImage src={basicUserImg} alt="프로필 이미지" />
-        <FollowCol>
-          <FollowingNumber>128</FollowingNumber>
+        </FollowBtn>
+        <UserImage src={image} alt="프로필 이미지" />
+        <FollowBtn>
+          <FollowingNumber>{followingCount}</FollowingNumber>
           <FollowText>followings</FollowText>
-        </FollowCol>
+        </FollowBtn>
       </UserInfoRow>
-      <UserName>Focal</UserName>
-      <UserAccount>@ focal_official</UserAccount>
-      <UserTitle>당신의 필카를 공유하세요!</UserTitle>
-      {user ? <UserInfoBtns /> : <MyInfoBtns />}
+      <UserName>{username}</UserName>
+      <UserAccount>{accountname}</UserAccount>
+      <UserTitle>{intro}</UserTitle>
+      {isUser ? (
+        <UserInfoBtns
+          handleFollowNum={handleFollowNum}
+          isfollow={isfollow}
+          accountname={accountname}
+        />
+      ) : (
+        <MyInfoBtns />
+      )}
     </UserCol>
   );
 }

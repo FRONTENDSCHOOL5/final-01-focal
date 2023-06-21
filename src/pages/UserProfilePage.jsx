@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import authInstance from '../api/instance/authInstance';
 import Header from '../components/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
-import { useParams } from 'react-router-dom';
 
 const Container = styled.main`
   display: flex;
@@ -15,16 +18,35 @@ const Container = styled.main`
   gap: 6px;
 `;
 
-export default function MyProfilePage() {
+export default function UserProfilePage() {
   const { _id } = useParams();
-  console.log(_id);
+  const [userData, setUserData] = useState('');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await authInstance.get(`profile/${_id}`);
+        const { profile } = res.data;
+        setUserData(profile);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchUserData();
+  }, [userData.isfollow]);
+
   return (
     <Container>
       <Header type="basic" />
       <h1 className="a11y-hidden">나의 프로필 페이지</h1>
-      <ProfileInfo user={_id} />
-      <ProfileProducts />
-      <ProfilePosts />
+      {userData && (
+        <>
+          <ProfileInfo userInfo={userData} isUser={_id} />
+          <ProfileProducts accountname={userData.accountname} />
+          <ProfilePosts accountname={userData.accountname} />
+        </>
+      )}
     </Container>
   );
 }
