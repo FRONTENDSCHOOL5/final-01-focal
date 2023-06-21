@@ -37,9 +37,10 @@ export default function ProductItem({ product }) {
     >
       <ProductImg
         src={
-          product.itemImage.includes('https')
+          product.itemImage &&
+          (product.itemImage.includes('https')
             ? product.itemImage
-            : `https://api.mandarin.weniv.co.kr/${product.itemImage}`
+            : `https://api.mandarin.weniv.co.kr/${product.itemImage}`)
         }
         alt="판매 상품 이미지"
       />
