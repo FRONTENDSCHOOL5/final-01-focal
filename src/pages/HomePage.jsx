@@ -90,7 +90,7 @@ export default function HomePage() {
             postDatas.map((data) => (
               <PostCard
                 key={data.id}
-                data={data}
+                post={data}
                 setIsMenuOpen={setIsMenuOpen}
                 setPostId={setPostId}
               />
