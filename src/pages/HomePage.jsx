@@ -47,7 +47,6 @@ export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [postId, setPostId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(postId);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,8 +69,7 @@ export default function HomePage() {
   const handleReport = async (e) => {
     e.stopPropagation();
     try {
-      const res = await authInstance.post(`/post/${postId}/report`);
-      console.log(res);
+      await authInstance.post(`/post/${postId}/report`);
       setIsMenuOpen(false);
       setIsModalOpen(false);
     } catch (err) {
@@ -90,7 +88,7 @@ export default function HomePage() {
             postDatas.map((data) => (
               <PostCard
                 key={data.id}
-                data={data}
+                post={data}
                 setIsMenuOpen={setIsMenuOpen}
                 setPostId={setPostId}
               />

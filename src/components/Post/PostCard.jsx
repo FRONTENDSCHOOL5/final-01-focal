@@ -101,7 +101,7 @@ const StyledIconButton = styled.button`
   padding: 0;
 `;
 
-export default function PostCard({ data, setPostId, setIsMenuOpen }) {
+export default function PostCard({ post, setPostId, setIsMenuOpen }) {
   const {
     id,
     author,
@@ -111,7 +111,7 @@ export default function PostCard({ data, setPostId, setIsMenuOpen }) {
     heartCount,
     commentCount,
     createdAt,
-  } = data;
+  } = post;
 
   const navigate = useNavigate();
   const [likeInfo, setLikeInfo] = useState({
