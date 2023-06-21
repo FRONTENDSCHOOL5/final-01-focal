@@ -18,8 +18,9 @@ const StyledHeader = styled.header`
   width: 100%;
   height: 48px;
   padding: 0 16px;
-  background-color: var(--white);
   border-bottom: 1px solid var(--border-color);
+  background-color: var(--white);
+  z-index: 100;
 
   div {
     display: flex;
