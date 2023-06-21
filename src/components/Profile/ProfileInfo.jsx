@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import UserInfoBtns from './UserInfoBtns';
 import MyInfoBtns from './MyInfoBtns';
+import { useNavigate } from 'react-router-dom';
 
 const UserCol = styled.section`
   display: flex;
@@ -68,6 +69,7 @@ const UserTitle = styled.h3`
 
 export default function ProfileInfo({ userInfo, isUser }) {
   const {
+    _id,
     username,
     accountname,
     intro,
@@ -78,6 +80,7 @@ export default function ProfileInfo({ userInfo, isUser }) {
   } = userInfo;
 
   const [followerNum, setFollowerNum] = useState(followerCount);
+  const navigate = useNavigate();
 
   const handleFollowNum = (isfollow) => {
     isfollow
@@ -88,12 +91,28 @@ export default function ProfileInfo({ userInfo, isUser }) {
   return (
     <UserCol>
       <UserInfoRow>
-        <FollowBtn>
+        <FollowBtn
+          onClick={() => {
+            navigate(`/follow/${_id}/follower`, {
+              state: {
+                accountname: accountname,
+              },
+            });
+          }}
+        >
           <FollowerNumber>{followerNum}</FollowerNumber>
           <FollowText>followers</FollowText>
         </FollowBtn>
         <UserImage src={image} alt="프로필 이미지" />
-        <FollowBtn>
+        <FollowBtn
+          onClick={() => {
+            navigate(`/follow/${_id}/following`, {
+              state: {
+                accountname: accountname,
+              },
+            });
+          }}
+        >
           <FollowingNumber>{followingCount}</FollowingNumber>
           <FollowText>followings</FollowText>
         </FollowBtn>
