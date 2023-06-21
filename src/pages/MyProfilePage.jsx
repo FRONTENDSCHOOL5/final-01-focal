@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { loginState } from '../states/LoginState';
 import authInstance from '../api/instance/authInstance';
 import Header from '../components/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
@@ -10,7 +13,6 @@ import NavBar from '../components/NavBar/NavBar';
 import BottomSheetModal from '../components/Modal/BottomSheetModal';
 import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
-import { useNavigate } from 'react-router-dom';
 
 const Container = styled.main`
   display: flex;
@@ -27,6 +29,15 @@ export default function MyProfilePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  const setIsLogined = useSetRecoilState(loginState);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('accountname');
+    localStorage.removeItem('image');
+    setIsLogined(false);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -48,11 +59,6 @@ export default function MyProfilePage() {
   const openModal = () => {
     setIsMenuOpen(true);
     setIsModalOpen(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/welcome');
   };
 
   return (
