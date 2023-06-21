@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UserInfo from '../UserItem/UserInfo';
 import IconButton from '../Button/IconButton';
 import authInstance from '../../api/instance/authInstance';
@@ -36,7 +36,6 @@ const PostContent = styled.section`
 const ImageCarousel = styled.ul`
   display: flex;
   overflow: hidden;
-  /* transform: translateX(${({ currentSlide }) => currentSlide * -100}%); */
 
   li {
     flex: 0 0 100%;
@@ -52,8 +51,8 @@ const ImageCarouselButtons = styled.div`
 `;
 
 const ImageCarouselButton = styled.button`
-  flex: 0 0 6px;
-  height: 6px;
+  flex: 0 0 10px;
+  height: 10px;
   margin: 0 5px;
   padding: 0;
   border-radius: 50%;
@@ -120,6 +119,9 @@ export default function PostCard({ data }) {
   });
 
   const navigate = useNavigate();
+  const pathname = useLocation().pathname;
+  const isProfile = pathname.includes('profile');
+
   const date = `
     ${createdAt.slice(0, 4)}년 
     ${createdAt.slice(5, 7)}월 
@@ -150,7 +152,7 @@ export default function PostCard({ data }) {
   };
   return (
     <PostArticle>
-      <UserInfo user={author} />
+      {!isProfile ? <UserInfo user={author} /> : null}
       <PostContent
         onClick={() => {
           navigate(`/post/${id}`);
@@ -159,7 +161,7 @@ export default function PostCard({ data }) {
         <p>{content}</p>
         <ImageCarousel currentSlide={currentSlide}>
           {image &&
-            imageList.map((image, index) => {
+            imageList.map((_, index) => {
               return (
                 <li key={id + index}>
                   <img src={imageList[currentSlide]} alt="" />
