@@ -64,7 +64,6 @@ export default function ProfilePosts({ accountname, isUser }) {
   const [posts, setPosts] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [postId, setPostId] = useState(null);
-  console.log(postId);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -95,9 +94,7 @@ export default function ProfilePosts({ accountname, isUser }) {
 
   const handlePostReport = async () => {
     try {
-      console.log(`/post/${postId}`);
-      const res = await authInstance.post(`/post/${postId}/report`);
-      console.log(res);
+      await authInstance.post(`/post/${postId}/report`);
       alert('신고되었습니다.');
       setIsMenuOpen(false);
       setIsModalOpen(false);
@@ -164,12 +161,11 @@ export default function ProfilePosts({ accountname, isUser }) {
           ) : (
             <PostGalleryView>
               {posts.map((post) => (
-                <li key={post.createdAt}>
-                  <PostGalleryItem
-                    img={post.image}
-                    accountname={post.author.accountname}
-                  />
-                </li>
+                <PostGalleryItem
+                  key={post.createdAt}
+                  img={post.image}
+                  accountname={post.author.accountname}
+                />
               ))}
             </PostGalleryView>
           )}
