@@ -5,14 +5,28 @@ const RadioInputBox = styled.div`
   align-items: center;
 
   label {
+    display: flex;
+    align-items: center;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--sub-text-color);
-    cursor: pointer;
+    margin-right: 10px;
   }
 
   input {
-    margin-right: 10px;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+    appearance: none;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    transition: border-color 0.3s;
+  }
+
+  input:checked {
+    background-color: var(--main-color);
+    border: none;
   }
 
   p {
@@ -34,17 +48,15 @@ export default function RadioInput({
 }) {
   return (
     <RadioInputBox>
-      <label htmlFor={id}>
-        <input
-          type="radio"
-          id={id}
-          onBlur={validate}
-          checked={checked}
-          onChange={onChange}
-          value={value}
-        />
-        {children}
-      </label>
+      <input
+        type="radio"
+        id={id}
+        onBlur={validate}
+        checked={checked}
+        onChange={onChange}
+        value={value}
+      />
+      <label htmlFor={id}>{children}</label>
       {error && <p>*{error}</p>}
     </RadioInputBox>
   );
@@ -58,7 +70,7 @@ const RadioInputGroupBox = styled.div`
     font-weight: 500;
     font-size: 12px;
     color: var(--sub-text-color);
-    margin-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   div.inputs {
