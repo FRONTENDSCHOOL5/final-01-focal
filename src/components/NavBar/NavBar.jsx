@@ -14,6 +14,7 @@ const StyledNav = styled.nav`
   height: 60px;
   padding: 0 6px;
   border-top: 0.5px solid var(--border-color);
+  background-color: var(--white);
 
   ul {
     display: flex;

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import authInstance from '../../api/instance/authInstance';
+import { useLocation, useNavigate } from 'react-router-dom';
+import UserInfo from '../UserItem/UserInfo';
 import IconButton from '../Button/IconButton';
+import authInstance from '../../api/instance/authInstance';
 import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
-import profileImage from '../../assets/images/basic-profile-s.png';
-import { useNavigate } from 'react-router-dom';
 
 const PostArticle = styled.article`
   position: relative;
@@ -14,37 +14,15 @@ const PostArticle = styled.article`
   padding: 5px 20px;
 `;
 
-const UserInfo = styled.section`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-
-  strong {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  span {
-    font-size: 12px;
-    line-height: 14px;
-    color: var(--sub-text-color);
-  }
-`;
-
 const PostContent = styled.section`
   margin: 12px 0;
   cursor: pointer;
+  position: relative;
 
   p {
     font-size: 14px;
     line-height: 18px;
     margin-bottom: 12px;
-  }
-
-  li {
-    width: 100%;
   }
 
   img {
@@ -53,6 +31,34 @@ const PostContent = styled.section`
     object-fit: cover;
     border-radius: 10px;
   }
+`;
+
+const ImageCarousel = styled.ul`
+  display: flex;
+  overflow: hidden;
+
+  li {
+    flex: 0 0 100%;
+  }
+`;
+
+const ImageCarouselButtons = styled.div`
+  position: absolute;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+const ImageCarouselButton = styled.button`
+  flex: 0 0 10px;
+  height: 10px;
+  margin: 0 5px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: ${({ active }) =>
+    active ? 'var(--main-color)' : 'var(--sub-text-color)'};
+  cursor: pointer;
 `;
 
 const ContentInfo = styled.section`
@@ -113,12 +119,17 @@ export default function PostCard({ data, setPostId, setIsMenuOpen }) {
     count: heartCount,
   });
 
+  const navigate = useNavigate();
+  const pathname = useLocation().pathname;
+  const isProfile = pathname.includes('profile');
+
+
   const date = `
     ${createdAt.slice(0, 4)}년 
     ${createdAt.slice(5, 7)}월 
     ${createdAt.slice(8, 10)}일
   `;
-
+  const imageList = image.split(',');
   const handleLike = async () => {
     try {
       const endpoint = likeInfo.liked
@@ -136,6 +147,11 @@ export default function PostCard({ data, setPostId, setIsMenuOpen }) {
       console.log(err);
     }
   };
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const handleSlideChange = (index) => {
+    setCurrentSlide(index);
+  };
 
   const handleMenu = () => {
     setIsMenuOpen(true);
@@ -144,33 +160,37 @@ export default function PostCard({ data, setPostId, setIsMenuOpen }) {
 
   return (
     <PostArticle>
-      <UserInfo
-        onClick={() => {
-          navigate(`/profile/${author.accountname}`);
-        }}
-      >
-        <img src={profileImage} alt="" />
-        <div>
-          <strong>{author.username}</strong>
-          <span>@ {author.accountname}</span>
-        </div>
-      </UserInfo>
+      {!isProfile ? <UserInfo user={author} /> : null}
       <PostContent
         onClick={() => {
           navigate(`/post/${id}`);
         }}
       >
         <p>{content}</p>
-        <ul>
+        <ImageCarousel currentSlide={currentSlide}>
           {image &&
-            image.split(',').map((item, index) => {
+            imageList.map((_, index) => {
               return (
                 <li key={id + index}>
-                  <img src={item} alt="" />
+                  <img src={imageList[currentSlide]} alt="" />
                 </li>
               );
             })}
-        </ul>
+        </ImageCarousel>
+        {imageList.length > 1 && (
+          <ImageCarouselButtons>
+            {imageList.map((_, index) => (
+              <ImageCarouselButton
+                key={index}
+                active={index === currentSlide}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSlideChange(index);
+                }}
+              />
+            ))}
+          </ImageCarouselButtons>
+        )}
       </PostContent>
       <ContentInfo>
         <InfoIcons>
