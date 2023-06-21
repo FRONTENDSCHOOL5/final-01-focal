@@ -2,13 +2,11 @@ import styled from 'styled-components';
 
 const Container = styled.section`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
   z-index: 100;
 `;
 
@@ -48,22 +46,28 @@ const ConfirmButton = styled.button`
   color: var(--main-color);
 `;
 
-const AlertModal = ({
-  title = '로그아웃하시겠어요?',
-  confirmInfo = '로그아웃',
-}) => {
+export default function ConfirmModal({
+  title,
+  confirmInfo,
+  setIsMenuOpen,
+  setIsModalOpen,
+  onClick,
+}) {
+  const closeModal = () => {
+    setIsMenuOpen(false);
+    setIsModalOpen(false);
+  };
+
   return (
     <Container>
       <h2 className="a11y-hidden">경고 메시지</h2>
       <ModalWrapper>
         <ModalTitle>{title}</ModalTitle>
         <ButtonsRow>
-          <CancelButton>취소</CancelButton>
-          <ConfirmButton>{confirmInfo}</ConfirmButton>
+          <CancelButton onClick={closeModal}>취소</CancelButton>
+          <ConfirmButton onClick={onClick}>{confirmInfo}</ConfirmButton>
         </ButtonsRow>
       </ModalWrapper>
     </Container>
   );
-};
-
-export default AlertModal;
+}
