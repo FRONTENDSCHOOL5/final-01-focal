@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Overlay = styled.div`
@@ -81,7 +82,15 @@ export default function ProductCard({
   setIsMenuOpen,
   isCurrentUser,
 }) {
-  const { itemImage, itemName, link, price } = product;
+  const {
+    itemImage,
+    itemName,
+    link,
+    price,
+    author: { accountname },
+  } = product;
+
+  const navigate = useNavigate();
 
   const handleBackgroundClick = () => {
     setIsMenuOpen(false);
@@ -102,7 +111,7 @@ export default function ProductCard({
             <Button onClick={handleUpdate}>수정</Button>
           </ButtonGroup>
         ) : (
-          <Button>채팅</Button>
+          <Button onClick={() => navigate(`/chat/${accountname}`)}>채팅</Button>
         )}
       </ProductCardWrapper>
     </Overlay>
