@@ -45,7 +45,9 @@ function ProductUpload({
   const [displayPrice, setDisplayPrice] = useState('');
   const [itemType, setItemType] = useState(inputValue.itemType);
   const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(
+    inputValue.itemImage || null,
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,48 +81,52 @@ function ProductUpload({
     }
   };
 
-  useEffect(() => {
-    setInputValue((prevInputValue) => ({
-      ...prevInputValue,
-      price: displayPrice,
-    }));
-  }, [displayPrice, setInputValue]);
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
 
     if (file) {
       setImagePreview(URL.createObjectURL(file));
+      setInputValue((prevInputValue) => ({
+        ...prevInputValue,
+        itemImage: file,
+      }));
     } else {
       setImagePreview(null);
+      setInputValue((prevInputValue) => ({
+        ...prevInputValue,
+        itemImage: '',
+      }));
     }
   };
 
   const handleImageSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const imageFormData = new FormData();
-      imageFormData.append('image', image);
+      let itemImage = inputValue.itemImage;
 
-      const imageResponse = await baseInstance.post(
-        '/image/uploadfile',
-        imageFormData,
-      );
+      if (image) {
+        const imageFormData = new FormData();
+        imageFormData.append('image', image);
 
-      if (imageResponse.status !== 200) {
-        throw new Error('이미지 파일 업로드 에러');
+        const imageResponse = await baseInstance.post(
+          '/image/uploadfile',
+          imageFormData,
+        );
+
+        if (imageResponse.status !== 200) {
+          throw new Error('이미지 파일 업로드 에러');
+        }
+
+        itemImage = `${process.env.REACT_APP_BASE_URL}${imageResponse.data.filename}`;
       }
-
-      const itemImage = `${process.env.REACT_APP_BASE_URL}${imageResponse.data.filename}`;
 
       const productData = {
         product: {
           itemName: name || inputValue.itemName,
           price: Number(displayPrice) || inputValue.price,
           link: itemType || inputValue.itemType,
-          itemImage: itemImage || inputValue.itemImage,
+          itemImage: itemImage,
         },
       };
 
@@ -165,13 +171,8 @@ function ProductUpload({
           <ImageUpload
             title="이미지 등록"
             onImageChange={handleImageChange}
-            imagePreview={
-              imagePreview
-                ? imagePreview
-                : inputValue.itemImage
-                ? inputValue.itemImage
-                : null
-            }
+            value={image}
+            imagePreview={imagePreview || inputValue.itemImage}
           />
           <RadioInputGroup title={'상품종류'}>
             <RadioInput

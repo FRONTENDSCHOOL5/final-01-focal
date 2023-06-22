@@ -54,7 +54,7 @@ function ImageUpload({ title, onImageChange, imagePreview }) {
           id="productImg"
           onChange={onImageChange}
           accept=".jpg,.jpeg,.png,.gif,.bmp,.tif,.heic"
-          required
+          name="image"
         />
       </ImageLabelStyle>
     </ImageContainerStyle>

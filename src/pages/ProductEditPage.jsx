@@ -32,7 +32,6 @@ export default function ProductEditPage() {
     };
     getData();
   }, []);
-  console.log(inputValue.itemImage);
 
   const handleEditSubmit = async (productData) => {
     try {
