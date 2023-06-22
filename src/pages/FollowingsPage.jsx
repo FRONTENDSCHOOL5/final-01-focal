@@ -28,9 +28,7 @@ export default function FollowingsPage() {
   const location = useLocation();
   const accountname = location.state?.accountname;
   const [userData, setUserData] = useState([]);
-  console.log(userData);
 
-  // const user = { accountname: 'eunsu2201', username: '은수' };
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await authInstance.get(`/profile/${accountname}/following`);
