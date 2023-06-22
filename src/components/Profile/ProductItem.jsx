@@ -53,7 +53,7 @@ export default function ProductItem({ product, onClick }) {
         <ProductTypeTag>{product.link}</ProductTypeTag>
       </ProductInfo>
       <ProductName>{product.itemName}</ProductName>
-      <ProductPrice>{product.price.toLocaleString()}</ProductPrice>
+      <ProductPrice>{product.price.toLocaleString()}원</ProductPrice>
     </ProductItemWrapper>
   );
 }

@@ -66,7 +66,7 @@ function ProductUpload({
     setPrice(numericPrice);
 
     if (numericPrice) {
-      const formattedPrice = numericPrice.toLocaleString();
+      const formattedPrice = numericPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       setInputValue((prevInputValue) => ({
         ...prevInputValue,
         price: Number(numericPrice),
@@ -124,7 +124,7 @@ function ProductUpload({
       const productData = {
         product: {
           itemName: name || inputValue.itemName,
-          price: Number(displayPrice) || inputValue.price,
+          price: Number(price) || inputValue.price,
           link: itemType || inputValue.itemType,
           itemImage: itemImage,
         },
