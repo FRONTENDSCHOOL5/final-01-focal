@@ -15,7 +15,7 @@ const ProductsCol = styled.section`
 `;
 
 const ProductsWrapper = styled.div`
-  padding: 20px 0 20px 16px;
+  padding: 20px 16px;
   max-width: 390px;
   width: 100%;
 `;
