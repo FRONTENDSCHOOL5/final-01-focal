@@ -109,7 +109,9 @@ export default function PostPage() {
           />
         )}
       </Main>
-      {comments.length > 0 && <PostComment comments={comments} />}
+      {comments.length > 0 && (
+        <PostComment comments={comments} postId={postId} />
+      )}
       <TextInputBox type="comment" onButtonClick={handleCommentButton} />
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
