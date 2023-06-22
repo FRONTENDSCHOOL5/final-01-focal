@@ -34,7 +34,6 @@ export default function FollowersPage() {
       const res = await authInstance.get(
         `/profile/${accountname}/follower?limit=1000&skip=0`,
       );
-      console.log(res);
       setUserData(res.data);
     };
     fetchPosts();
