@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import authInstance from '../../api/instance/authInstance';
 import PostCard from '../Post/PostCard';
-import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-album.svg';
-import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
 import PostGalleryItem from './PostGalleryItem';
 import BottomSheetModal from '../Modal/BottomSheetModal';
 import BottomSheetContent from '../Modal/BottomSheetContent';
 import ConfirmModal from '../Modal/ConfirmModal';
-import { useNavigate } from 'react-router-dom';
+import Button from '../Button/Button';
+import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-album.svg';
+import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
+import LogoImg from '../../assets/images/logo.png';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -36,7 +38,7 @@ const PostsAlignRow = styled.div`
   height: 44px;
 `;
 
-const Button = styled.button.attrs({ type: 'button' })`
+const AlignButton = styled.button.attrs({ type: 'button' })`
   background: transparent;
   border: none;
 `;
@@ -57,6 +59,26 @@ const PostListView = styled.ul`
   width: 100%;
   padding: 16px 16px 70px;
   gap: 20px;
+`;
+
+const PostInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+  gap: 18px;
+`;
+
+const PostInfoImg = styled.img`
+  height: 50px;
+`;
+
+const PostInfo = styled.h4`
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  color: var(--main-text-color);
 `;
 
 export default function ProfilePosts({ accountname, isUser }) {
@@ -113,12 +135,12 @@ export default function ProfilePosts({ accountname, isUser }) {
 
   return (
     <>
-      {posts.length > 0 && (
+      {posts.length > 0 ? (
         <PostsContainer>
           <h2 className="a11y-hidden">포스트</h2>
           <PostAlignWrapper>
             <PostsAlignRow>
-              <Button onClick={handleListAlign}>
+              <AlignButton onClick={handleListAlign}>
                 {isListView ? (
                   <PostListIcon
                     fill="var(--main-color)"
@@ -130,8 +152,8 @@ export default function ProfilePosts({ accountname, isUser }) {
                     stroke="var(--light-gray)"
                   />
                 )}
-              </Button>
-              <Button onClick={handleGalleryAlign}>
+              </AlignButton>
+              <AlignButton onClick={handleGalleryAlign}>
                 {isListView ? (
                   <PostGalleryIcon
                     fill="var(--light-gray)"
@@ -143,7 +165,7 @@ export default function ProfilePosts({ accountname, isUser }) {
                     strock="var(--main-color)"
                   />
                 )}
-              </Button>
+              </AlignButton>
             </PostsAlignRow>
           </PostAlignWrapper>
           {isListView ? (
@@ -169,6 +191,29 @@ export default function ProfilePosts({ accountname, isUser }) {
               ))}
             </PostGalleryView>
           )}
+        </PostsContainer>
+      ) : isUser ? (
+        <PostsContainer>
+          <PostInfoWrapper>
+            <PostInfoImg src={LogoImg} />
+            <PostInfo>아직 게시글이 없습니다!</PostInfo>
+          </PostInfoWrapper>
+        </PostsContainer>
+      ) : (
+        <PostsContainer>
+          <PostInfoWrapper>
+            <PostInfoImg src={LogoImg} />
+            <PostInfo>게시글을 작성해 보세요!</PostInfo>
+
+            <Button
+              onClick={() => {
+                navigate(`/post/upload`);
+              }}
+              className="md"
+            >
+              작성하러 가기
+            </Button>
+          </PostInfoWrapper>
         </PostsContainer>
       )}
       {isMenuOpen && (

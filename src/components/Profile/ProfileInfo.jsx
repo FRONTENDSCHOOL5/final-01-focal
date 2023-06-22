@@ -85,7 +85,6 @@ export default function ProfileInfo({ userInfo, isUser }) {
       ? setFollowerNum(followerNum - 1)
       : setFollowerNum(followerNum + 1);
   };
-  console.log(image);
 
   return (
     <UserCol>
