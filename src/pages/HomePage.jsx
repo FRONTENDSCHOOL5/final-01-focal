@@ -54,7 +54,6 @@ export default function HomePage() {
       try {
         const res = await authInstance.get('/post/feed');
         setPostDatas(res.data.posts);
-        console.log(res.data);
         setIsLoading(false);
       } catch (err) {
         console.log(err);
