@@ -77,6 +77,7 @@ export default function TextInputBox({ type, onButtonClick }) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="댓글 입력하기..."
+            autoComplete="off"
           />
           <StyledButton
             type="button"
