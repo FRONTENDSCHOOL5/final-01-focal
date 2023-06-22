@@ -84,8 +84,6 @@ export default function PostPage() {
   };
 
   const handleCommentButton = async (inputText) => {
-    setIsLoading(true);
-
     try {
       const response = await authInstance.post(`/post/${postId}/comments`, {
         comment: {
@@ -96,8 +94,6 @@ export default function PostPage() {
       setComments([...comments, newComment]);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
