@@ -186,7 +186,7 @@ export default function ProfilePosts({ accountname, isUser }) {
                 <PostGalleryItem
                   key={post.createdAt}
                   img={post.image}
-                  accountname={post.author.accountname}
+                  _id={post.id}
                 />
               ))}
             </PostGalleryView>

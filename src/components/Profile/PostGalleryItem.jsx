@@ -12,6 +12,7 @@ const GalleryImg = styled.img`
   height: 114px;
   box-sizing: border-box;
   object-fit: cover;
+  border-radius: 5px;
 `;
 
 const MultipleImg = styled.img`
@@ -20,7 +21,7 @@ const MultipleImg = styled.img`
   right: 6px;
 `;
 
-export default function PostGalleryItem({ img, accountname }) {
+export default function PostGalleryItem({ img, _id }) {
   const galleryImg = img.split(',')[0];
   const navigate = useNavigate();
   return (
@@ -28,7 +29,7 @@ export default function PostGalleryItem({ img, accountname }) {
       {galleryImg && (
         <GalleryListItem
           onClick={() => {
-            navigate(`/post/${accountname}`);
+            navigate(`/post/${_id}`);
           }}
         >
           <GalleryImg src={galleryImg} />
