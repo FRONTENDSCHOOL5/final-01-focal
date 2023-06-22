@@ -90,16 +90,14 @@ export default function ProfileProducts({ accountname }) {
             <Title>판매 중인 상품</Title>
             <ProductList>
               {products.map((product, index) => (
-                <>
-                  <ProductItem
-                    key={product.id}
-                    product={product}
-                    onClick={() => {
-                      getProductIndex(index);
-                      openCard();
-                    }}
-                  />
-                </>
+                <ProductItem
+                  key={product.id}
+                  product={product}
+                  onClick={() => {
+                    getProductIndex(index);
+                    openCard();
+                  }}
+                />
               ))}
             </ProductList>
           </ProductsWrapper>
