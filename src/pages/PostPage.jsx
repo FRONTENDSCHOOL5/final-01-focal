@@ -28,6 +28,7 @@ export default function PostPage() {
   const [isDelete, setIsDelete] = useState(false);
   const accountName = localStorage.getItem('accountname');
   const navigate = useNavigate();
+  const [comments, setComments] = useState([]);
 
   const openModal = () => {
     setIsMenuOpen(true);
@@ -63,10 +64,36 @@ export default function PostPage() {
     try {
       const response = await authInstance.get(`/post/${postId}`);
       setPost(response.data.post);
+
+      if (response.data.post.commentCount === 0) return;
+
+      const commentResponse = await authInstance.get(
+        `/post/${postId}/comments`,
+      );
+
+      const sortedComments = commentResponse.data.comments.sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      );
+
+      setComments(sortedComments);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleCommentButton = async (inputText) => {
+    try {
+      const response = await authInstance.post(`/post/${postId}/comments`, {
+        comment: {
+          content: inputText,
+        },
+      });
+      const newComment = response.data.comment;
+      setComments([...comments, newComment]);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -88,8 +115,8 @@ export default function PostPage() {
           />
         )}
       </Main>
-      <PostComment />
-      <TextInputBox type="comment" />
+      {comments.length > 0 && <PostComment comments={comments} />}
+      <TextInputBox type="comment" onButtonClick={handleCommentButton} />
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
           {post.author.accountname === accountName ? (
