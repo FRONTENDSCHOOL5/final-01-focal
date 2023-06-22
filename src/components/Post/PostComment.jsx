@@ -127,6 +127,13 @@ function PostComment({ comments, postId }) {
   };
 
   const handleReportButton = async () => {
+    try {
+      await authInstance.post(`/post/${postId}/comments/${commentId}/report`);
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
