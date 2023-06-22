@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import UserInfoBtns from './UserInfoBtns';
 import MyInfoBtns from './MyInfoBtns';
+import defaultImg from '../../assets/images/basic-profile.png';
 
 const UserCol = styled.section`
   display: flex;
@@ -84,6 +85,7 @@ export default function ProfileInfo({ userInfo, isUser }) {
       ? setFollowerNum(followerNum - 1)
       : setFollowerNum(followerNum + 1);
   };
+  console.log(image);
 
   return (
     <UserCol>
@@ -92,7 +94,16 @@ export default function ProfileInfo({ userInfo, isUser }) {
           <FollowerNumber>{followerNum}</FollowerNumber>
           <FollowText>followers</FollowText>
         </FollowBtn>
-        <UserImage src={image} alt="프로필 이미지" />
+        <UserImage
+          src={
+            image.includes('mandarin.api')
+              ? defaultImg
+              : image === 'http://146.56.183.55:5050/Ellipse.png'
+              ? defaultImg
+              : image
+          }
+          alt="프로필 이미지"
+        />
         <FollowBtn>
           <FollowingNumber>{followingCount}</FollowingNumber>
           <FollowText>followings</FollowText>
