@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ImageUpload from './ImageUpload';
 import TextInput from '../Input/TextInput';
-import authInstance from '../../api/instance/authInstance';
 import baseInstance from '../../api/instance/baseInstance';
 import RadioInput, { RadioInputGroup } from '../Input/RadioInput';
 
@@ -33,26 +32,60 @@ const ProductFormStyle = styled.form`
   }
 `;
 
-function ProductUpload({ onValidChange }) {
+function ProductUpload({
+  onValidChange,
+  handleSubmit,
+  handleEditSubmit,
+  inputValue,
+  setInputValue,
+}) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [displayPrice, setDisplayPrice] = useState('');
-  const [productType, setProductType] = useState('');
+  const [itemType, setItemType] = useState(inputValue.itemType);
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
+  const isEditMode = !!inputValue.productId;
+
+  useEffect(() => {
+    setItemType(inputValue.itemType);
+  }, [inputValue.itemType]);
+
+  useEffect(() => {
+    if (inputValue.itemName && inputValue.price) {
+      setName(inputValue.itemName);
+      setDisplayPrice(inputValue.price);
+    }
+  }, [inputValue.itemName]);
 
   const handlePriceChange = (e) => {
     const numericPrice = e.target.value.replace(/[^0-9]/g, '');
     setPrice(numericPrice);
 
     if (numericPrice) {
-      const formattedPrice = numericPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      const formattedPrice = numericPrice.toLocaleString();
+      setInputValue((prevInputValue) => ({
+        ...prevInputValue,
+        price: Number(numericPrice),
+      }));
       setDisplayPrice(formattedPrice);
     } else {
       setDisplayPrice('');
+      setInputValue((prevInputValue) => ({
+        ...prevInputValue,
+        price: 0,
+      }));
     }
   };
+
+  useEffect(() => {
+    setInputValue((prevInputValue) => ({
+      ...prevInputValue,
+      price: displayPrice,
+    }));
+  }, [displayPrice, setInputValue]);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
@@ -64,7 +97,7 @@ function ProductUpload({ onValidChange }) {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleImageSubmit = async (e) => {
     e.preventDefault();
 
     try {
@@ -80,21 +113,22 @@ function ProductUpload({ onValidChange }) {
         throw new Error('이미지 파일 업로드 에러');
       }
 
-      const filename = imageResponse.data.filename;
+      const itemImage = `${process.env.REACT_APP_BASE_URL}${imageResponse.data.filename}`;
 
       const productData = {
         product: {
-          itemName: name,
-          price: Number(price),
-          link: productType,
-          itemImage: filename,
+          itemName: name || inputValue.itemName,
+          price: Number(displayPrice) || inputValue.price,
+          link: itemType || inputValue.itemType,
+          itemImage: itemImage,
         },
       };
 
-      const productResponse = await authInstance.post('/product', productData);
-
-      if (productResponse.status !== 200) {
-        throw new Error('파일 업로드 에러');
+      if (isEditMode) {
+        productData.product.productId = inputValue.productId;
+        await handleEditSubmit(productData);
+      } else {
+        await handleSubmit(productData);
       }
 
       navigate('/profile');
@@ -110,34 +144,48 @@ function ProductUpload({ onValidChange }) {
     !price ||
     Number(price) <= 0 ||
     !image ||
-    !productType;
+    !itemType;
 
   useEffect(() => {
     onValidChange(!isSaveButtonDisabled);
-  }, [name, price, image, productType, onValidChange]);
+  }, [name, price, image, itemType, onValidChange]);
+
+  useEffect(() => {
+    setInputValue((prevInputValue) => ({
+      ...prevInputValue,
+      price: displayPrice !== '' ? displayPrice : prevInputValue.price,
+    }));
+  }, [displayPrice, setInputValue]);
+
   return (
     <ProductMainStyle>
       <ProductSectionStyle>
-        <ProductFormStyle id="product" onSubmit={handleSubmit}>
+        <ProductFormStyle id="product" onSubmit={handleImageSubmit}>
           <ImageUpload
             title="이미지 등록"
             onImageChange={handleImageChange}
-            imagePreview={imagePreview}
+            imagePreview={
+              imagePreview
+                ? imagePreview
+                : inputValue.itemImage
+                ? inputValue.itemImage
+                : null
+            }
           />
           <RadioInputGroup title={'상품종류'}>
             <RadioInput
               id="film"
-              value="film"
-              checked={productType === 'film'}
-              onChange={(e) => setProductType(e.target.value)}
+              value="필름"
+              checked={itemType === '필름'}
+              onChange={(e) => setItemType(e.target.value)}
             >
               필름
             </RadioInput>
             <RadioInput
               id="camera"
-              value="camera"
-              checked={productType === 'camera'}
-              onChange={(e) => setProductType(e.target.value)}
+              value="카메라"
+              checked={itemType === '카메라'}
+              onChange={(e) => setItemType(e.target.value)}
             >
               카메라
             </RadioInput>

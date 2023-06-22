@@ -5,6 +5,7 @@ import authInstance from '../../api/instance/authInstance';
 import ProductItem from './ProductItem';
 import ProductCard from '../Product/ProductCard';
 import ConfirmModal from '../Modal/ConfirmModal';
+import { useNavigate } from 'react-router-dom';
 
 const ProductsCol = styled.section`
   display: flex;
@@ -40,6 +41,7 @@ export default function ProfileProducts({ accountname }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const isMe = accountname === localStorage.getItem('accountname');
 
   useEffect(() => {
@@ -106,6 +108,9 @@ export default function ProfileProducts({ accountname }) {
               product={selectedProduct}
               setIsMenuOpen={setIsMenuOpen}
               handleDelete={openModal}
+              handleUpdate={() =>
+                navigate(`/product/${selectedProduct.id}/edit`)
+              }
               isMe={isMe}
             />
           )}

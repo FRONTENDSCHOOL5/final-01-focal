@@ -77,6 +77,7 @@ const Button = styled.button`
 export default function ProductCard({
   product,
   handleDelete,
+  handleUpdate,
   setIsMenuOpen,
   isMe,
 }) {
@@ -98,7 +99,7 @@ export default function ProductCard({
         {isMe ? (
           <ButtonGroup>
             <Button onClick={handleDelete}>삭제</Button>
-            <Button>수정</Button>
+            <Button onClick={handleUpdate}>수정</Button>
           </ButtonGroup>
         ) : (
           <Button>채팅</Button>
