@@ -37,11 +37,13 @@ const StyledUserInfo = styled(Link)`
   }
 `;
 
-export default function UserInfo({ user, searchQuery }) {
-  const username = user.username.replaceAll(
-    searchQuery,
-    `<span class="keyword">${searchQuery}</span>`,
-  );
+export default function UserInfo({ user, searchQuery = '' }) {
+  const username = searchQuery
+    ? user.username
+    : user.username.replaceAll(
+        searchQuery,
+        `<span class="keyword">${searchQuery}</span>`,
+      );
 
   return (
     <StyledUserInfo to={`/profile/${user.accountname}`}>
