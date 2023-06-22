@@ -11,6 +11,7 @@ const StyledLi = styled.li`
 
 export default function UserFollowListItem({ user }) {
   const [isClicked, setIsClicked] = useState(user.isfollow);
+  const accoutName = localStorage.getItem('accountname');
 
   const handleFollowBtn = () => {
     authInstance.post(`/profile/${user.accountname}/follow`, {
@@ -32,9 +33,11 @@ export default function UserFollowListItem({ user }) {
           취소
         </Button>
       ) : (
-        <Button className="xs" onClick={handleFollowBtn}>
-          팔로우
-        </Button>
+        accoutName != user.accountname && (
+          <Button className="xs" onClick={handleFollowBtn}>
+            팔로우
+          </Button>
+        )
       )}
     </StyledLi>
   );
