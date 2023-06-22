@@ -66,7 +66,7 @@ const Button = styled.button`
   line-height: 18px;
   color: var(--main-color);
   padding: 14px 0;
-  margin: 14px auto;
+  margin: 14px auto 0;
   border: 1px solid var(--border-color);
 
   :first-child {
