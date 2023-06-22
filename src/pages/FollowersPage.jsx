@@ -31,7 +31,10 @@ export default function FollowersPage() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await authInstance.get(`/profile/${accountname}/follower`);
+      const res = await authInstance.get(
+        `/profile/${accountname}/follower?limit=1000&skip=0`,
+      );
+      console.log(res);
       setUserData(res.data);
     };
     fetchPosts();
