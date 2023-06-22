@@ -49,6 +49,7 @@ export const GlobalStyle = createGlobalStyle`
     border: none;
     background: none;
     outline: none;
+    font-family: 'SpoqaHanSansNeo-Regular';
   }
 
   textarea{

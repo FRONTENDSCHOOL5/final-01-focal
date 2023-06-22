@@ -15,6 +15,7 @@ const TextInputBox = styled.div`
     display: block;
     width: 100%;
     height: 32px;
+    margin-top: 10px;
 
     &::placeholder {
       color: var(--border-color);
