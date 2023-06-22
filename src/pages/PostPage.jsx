@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import PostCard from '../components/Post/PostCard';
@@ -27,20 +27,33 @@ export default function PostPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const accountName = localStorage.getItem('accountname');
+  const navigate = useNavigate();
 
   const openModal = () => {
     setIsMenuOpen(true);
     setIsModalOpen(true);
   };
 
-  const handleReport = async (e) => {
-    e.stopPropagation();
+  const handleEditButton = () => {
+    navigate(`/post/${postId}/upload`);
+  };
+
+  const handleDeleteButton = async () => {
+    try {
+      await authInstance.delete(`/post/${postId}`);
+      navigate('/profile');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleReportButton = async () => {
     try {
       await authInstance.post(`/post/${postId}/report`);
       setIsMenuOpen(false);
       setIsModalOpen(false);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -82,7 +95,9 @@ export default function PostPage() {
           {post.author.accountname === accountName ? (
             <>
               {' '}
-              <BottomSheetContent>수정</BottomSheetContent>
+              <BottomSheetContent onClick={handleEditButton}>
+                수정
+              </BottomSheetContent>
               <BottomSheetContent
                 onClick={() => {
                   setIsDelete(true);
@@ -104,6 +119,7 @@ export default function PostPage() {
             confirmInfo="삭제"
             setIsMenuOpen={setIsMenuOpen}
             setIsModalOpen={setIsModalOpen}
+            onClick={handleDeleteButton}
           />
         ) : (
           <ConfirmModal
@@ -111,7 +127,7 @@ export default function PostPage() {
             confirmInfo="신고"
             setIsMenuOpen={setIsMenuOpen}
             setIsModalOpen={setIsModalOpen}
-            onClick={handleReport}
+            onClick={handleReportButton}
           />
         )
       ) : null}
