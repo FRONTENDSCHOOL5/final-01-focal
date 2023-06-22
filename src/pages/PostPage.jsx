@@ -25,19 +25,9 @@ export default function PostPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
   const accountName = localStorage.getItem('accountname');
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
-
-  const openModal = () => {
-    setIsMenuOpen(true);
-    setIsModalOpen(true);
-  };
-
-  const handleEditButton = () => {
-    navigate(`/post/${postId}/upload`);
-  };
 
   const handleDeleteButton = async () => {
     try {
@@ -92,6 +82,10 @@ export default function PostPage() {
       });
       const newComment = response.data.comment;
       setComments([...comments, newComment]);
+      setPost((prev) => ({
+        ...prev,
+        commentCount: prev.commentCount + 1,
+      }));
     } catch (error) {
       console.error(error);
     }
@@ -122,25 +116,24 @@ export default function PostPage() {
           {post.author.accountname === accountName ? (
             <>
               {' '}
-              <BottomSheetContent onClick={handleEditButton}>
+              <BottomSheetContent
+                onClick={() => navigate(`/post/${postId}/upload`)}
+              >
                 수정
               </BottomSheetContent>
-              <BottomSheetContent
-                onClick={() => {
-                  setIsDelete(true);
-                  setIsModalOpen(true);
-                }}
-              >
+              <BottomSheetContent onClick={() => setIsModalOpen(true)}>
                 삭제
               </BottomSheetContent>
             </>
           ) : (
-            <BottomSheetContent onClick={openModal}>신고</BottomSheetContent>
+            <BottomSheetContent onClick={() => setIsModalOpen(true)}>
+              신고
+            </BottomSheetContent>
           )}
         </BottomSheetModal>
       )}
       {isModalOpen ? (
-        isDelete ? (
+        post.author.accountname === accountName ? (
           <ConfirmModal
             title="게시글을 삭제하시겠어요?"
             confirmInfo="삭제"
