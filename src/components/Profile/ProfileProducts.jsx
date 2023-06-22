@@ -42,7 +42,7 @@ export default function ProfileProducts({ accountname }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const isMe = accountname === localStorage.getItem('accountname');
+  const isCurrentUser = accountname === localStorage.getItem('accountname');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -109,10 +109,10 @@ export default function ProfileProducts({ accountname }) {
               handleUpdate={() =>
                 navigate(`/product/${selectedProduct.id}/edit`)
               }
-              isMe={isMe}
+              isCurrentUser={isCurrentUser}
             />
           )}
-          {isMe && isModalOpen && (
+          {isCurrentUser && isModalOpen && (
             <ConfirmModal
               title="상품을 삭제할까요?"
               confirmInfo="삭제"
