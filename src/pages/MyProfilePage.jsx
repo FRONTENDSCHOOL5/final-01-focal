@@ -62,38 +62,42 @@ export default function MyProfilePage() {
   };
 
   return (
-    <Container>
+    <>
       <Header type="basic" onClick={onClick} />
-      <h1 className="a11y-hidden">나의 프로필 페이지</h1>
-      {userData && (
-        <>
-          <ProfileInfo userInfo={userData} />
-          <ProfileProducts accountname={userData.accountname} />
-          <ProfilePosts accountname={userData.accountname} />
-        </>
-      )}
-      <NavBar />
-      {isMenuOpen && (
-        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
-          <BottomSheetContent
-            onClick={() => {
-              navigate('/profile/edit');
-            }}
-          >
-            설정 및 개인정보
-          </BottomSheetContent>
-          <BottomSheetContent onClick={openModal}>로그아웃</BottomSheetContent>
-        </BottomSheetModal>
-      )}
-      {isModalOpen && (
-        <ConfirmModal
-          title="로그아웃하시겠어요?"
-          confirmInfo="로그아웃"
-          setIsMenuOpen={setIsMenuOpen}
-          setIsModalOpen={setIsModalOpen}
-          onClick={handleLogout}
-        />
-      )}
-    </Container>
+      <Container>
+        <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+        {userData && (
+          <>
+            <ProfileInfo userInfo={userData} />
+            <ProfileProducts accountname={userData.accountname} />
+            <ProfilePosts accountname={userData.accountname} />
+          </>
+        )}
+        <NavBar />
+        {isMenuOpen && (
+          <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+            <BottomSheetContent
+              onClick={() => {
+                navigate('/profile/edit');
+              }}
+            >
+              설정 및 개인정보
+            </BottomSheetContent>
+            <BottomSheetContent onClick={openModal}>
+              로그아웃
+            </BottomSheetContent>
+          </BottomSheetModal>
+        )}
+        {isModalOpen && (
+          <ConfirmModal
+            title="로그아웃하시겠어요?"
+            confirmInfo="로그아웃"
+            setIsMenuOpen={setIsMenuOpen}
+            setIsModalOpen={setIsModalOpen}
+            onClick={handleLogout}
+          />
+        )}
+      </Container>
+    </>
   );
 }

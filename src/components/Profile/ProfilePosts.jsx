@@ -19,13 +19,14 @@ const PostsContainer = styled.section`
   align-items: center;
   width: 100%;
   background-color: var(--white);
+  border-top: var(--border-color);
 `;
 
 const PostAlignWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  border-top: var(--border-color);
+  border-top: 0.5px solid var(--border-color);
   border-bottom: 0.5px solid var(--border-color);
 `;
 
@@ -36,11 +37,13 @@ const PostsAlignRow = styled.div`
   max-width: 390px;
   width: 100%;
   height: 44px;
+  padding-right: 10px;
 `;
 
 const AlignButton = styled.button.attrs({ type: 'button' })`
   background: transparent;
   border: none;
+  height: 26px;
 `;
 
 const PostGalleryView = styled.ul`
@@ -57,7 +60,7 @@ const PostListView = styled.ul`
   flex-direction: column;
   max-width: 390px;
   width: 100%;
-  padding: 16px 16px 70px;
+  padding-top: 16px;
   gap: 20px;
 `;
 
@@ -144,13 +147,21 @@ export default function ProfilePosts({ accountname, isUser }) {
                 {isListView ? (
                   <PostListIcon
                     fill="var(--main-color)"
-                    strock="var(--main-color)"
-                  />
+                    stroke="var(--main-color)"
+                    aria-hidden={true}
+                    role="img"
+                  >
+                    <desc id="desc">리스트 뷰 활성화</desc>
+                  </PostListIcon>
                 ) : (
                   <PostListIcon
                     fill="var(--light-gray)"
                     stroke="var(--light-gray)"
-                  />
+                    aria-hidden={true}
+                    role="img"
+                  >
+                    <desc id="desc">리스트 뷰 비활성화</desc>
+                  </PostListIcon>
                 )}
               </AlignButton>
               <AlignButton onClick={handleGalleryAlign}>
@@ -158,12 +169,20 @@ export default function ProfilePosts({ accountname, isUser }) {
                   <PostGalleryIcon
                     fill="var(--light-gray)"
                     stroke="var(--light-gray)"
-                  />
+                    aria-hidden={true}
+                    role="img"
+                  >
+                    <desc id="desc">갤러리 뷰 비활성화</desc>
+                  </PostGalleryIcon>
                 ) : (
                   <PostGalleryIcon
                     fill="var(--main-color)"
-                    strock="var(--main-color)"
-                  />
+                    stroke="var(--main-color)"
+                    aria-hidden={true}
+                    role="img"
+                  >
+                    <desc id="desc">갤러리 뷰 활성화</desc>
+                  </PostGalleryIcon>
                 )}
               </AlignButton>
             </PostsAlignRow>

@@ -32,8 +32,10 @@ export default function PostGalleryItem({ img, _id }) {
             navigate(`/post/${_id}`);
           }}
         >
-          <GalleryImg src={galleryImg} />
-          {img.split(',').length > 1 && <MultipleImg src={multipleImg} />}
+          <GalleryImg src={galleryImg} alt="갤러리 게시글 이미지" />
+          {img.split(',').length > 1 && (
+            <MultipleImg src={multipleImg} alt="여러장 아이콘" />
+          )}
         </GalleryListItem>
       )}
     </>
