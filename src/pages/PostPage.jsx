@@ -91,6 +91,14 @@ export default function PostPage() {
     }
   };
 
+  const handleDeleteComment = (commentId) => {
+    setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+    setPost((prev) => ({
+      ...prev,
+      commentCount: prev.commentCount - 1,
+    }));
+  };
+
   useEffect(() => {
     if (postId) {
       getPost();
@@ -110,7 +118,11 @@ export default function PostPage() {
         )}
       </Main>
       {comments.length > 0 && (
-        <PostComment comments={comments} postId={postId} />
+        <PostComment
+          comments={comments}
+          postId={postId}
+          onDelete={handleDeleteComment}
+        />
       )}
       <TextInputBox type="comment" onButtonClick={handleCommentButton} />
       {isMenuOpen && (

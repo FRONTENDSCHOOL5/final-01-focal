@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Btn from '../../assets/icons/icon-more.svg';
 import defaultImage from '../../assets/images/basic-profile-s.png';
@@ -80,12 +80,13 @@ const MoreBtn = styled.button`
   background-size: contain;
 `;
 
-function PostComment({ comments, postId }) {
+function PostComment({ comments, postId, onDelete }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [author, setAuthor] = useState('');
   const [commentId, setCommentId] = useState('');
   const accountName = localStorage.getItem('accountname');
+
   const timeAgo = (date) => {
     const currentTime = new Date();
     const commentDate = new Date(date);
@@ -124,6 +125,14 @@ function PostComment({ comments, postId }) {
   };
 
   const handleDeleteButton = async () => {
+    try {
+      await authInstance.delete(`/post/${postId}/comments/${commentId}`);
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+      onDelete(commentId);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleReportButton = async () => {
