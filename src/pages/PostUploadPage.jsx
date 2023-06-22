@@ -24,6 +24,11 @@ export default function PostUploadPage() {
     e.preventDefault();
     const { content, image } = inputValue;
 
+    if (!image.length) {
+      alert('한개이상의 이미지를 첨부해주세요');
+      return;
+    }
+
     try {
       await authInstance.post('/post', {
         post: {
