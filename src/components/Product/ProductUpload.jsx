@@ -38,6 +38,7 @@ function ProductUpload({
   handleEditSubmit,
   inputValue,
   setInputValue,
+  isEditMode,
 }) {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -46,7 +47,6 @@ function ProductUpload({
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
-  const isEditMode = !!inputValue.productId;
 
   useEffect(() => {
     setItemType(inputValue.itemType);
@@ -120,12 +120,11 @@ function ProductUpload({
           itemName: name || inputValue.itemName,
           price: Number(displayPrice) || inputValue.price,
           link: itemType || inputValue.itemType,
-          itemImage: itemImage,
+          itemImage: itemImage || inputValue.itemImage,
         },
       };
 
       if (isEditMode) {
-        productData.product.productId = inputValue.productId;
         await handleEditSubmit(productData);
       } else {
         await handleSubmit(productData);
@@ -147,7 +146,9 @@ function ProductUpload({
     !itemType;
 
   useEffect(() => {
-    onValidChange(!isSaveButtonDisabled);
+    if (onValidChange && !isEditMode) {
+      onValidChange(!isSaveButtonDisabled);
+    }
   }, [name, price, image, itemType, onValidChange]);
 
   useEffect(() => {
