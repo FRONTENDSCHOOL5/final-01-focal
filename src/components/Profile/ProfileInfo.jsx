@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserInfoBtns from './UserInfoBtns';
 import MyInfoBtns from './MyInfoBtns';
 import defaultImg from '../../assets/images/basic-profile.png';
-import { useNavigate } from 'react-router-dom';
 
 const UserCol = styled.section`
   display: flex;
@@ -106,16 +106,12 @@ export default function ProfileInfo({ userInfo, isUser }) {
         </FollowBtn>
         <UserImage
           src={
-            image.includes('mandarin.api')
+            image === 'http://146.56.183.55:5050/Ellipse.png'
               ? defaultImg
-              : image === 'http://146.56.183.55:5050/Ellipse.png'
-              ? defaultImg
-              : image
+              : image.replaceAll('mandarin.api', 'api.mandarin')
           }
           alt="프로필 이미지"
         />
-        <FollowBtn>
-        <UserImage src={image} alt="프로필 이미지" />
         <FollowBtn
           onClick={() => {
             navigate(`/follow/${_id}/following`, {
