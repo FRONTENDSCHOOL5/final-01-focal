@@ -10,6 +10,7 @@ authInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     config.headers['Content-Type'] = 'application/json';
+    config.headers['Access-Control-Allow-origin'] = '*';
     config.headers['Authorization'] = `Bearer ${token}`;
 
     return config;

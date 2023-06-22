@@ -1,10 +1,17 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import authInstance from '../../api/instance/authInstance';
 import PostCard from '../Post/PostCard';
+import PostGalleryItem from './PostGalleryItem';
+import BottomSheetModal from '../Modal/BottomSheetModal';
+import BottomSheetContent from '../Modal/BottomSheetContent';
+import ConfirmModal from '../Modal/ConfirmModal';
+import Button from '../Button/Button';
 import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-album.svg';
 import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
+import LogoImg from '../../assets/images/logo.png';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -31,7 +38,7 @@ const PostsAlignRow = styled.div`
   height: 44px;
 `;
 
-const Button = styled.button.attrs({ type: 'button' })`
+const AlignButton = styled.button.attrs({ type: 'button' })`
   background: transparent;
   border: none;
 `;
@@ -45,14 +52,6 @@ const PostGalleryView = styled.ul`
   gap: 8px;
 `;
 
-const PostGalleryItem = styled.li`
-  width: 100%;
-  height: 114px;
-  background-color: orange;
-  border: 1px solid gray;
-  box-sizing: border-box;
-`;
-
 const PostListView = styled.ul`
   display: flex;
   flex-direction: column;
@@ -62,9 +61,33 @@ const PostListView = styled.ul`
   gap: 20px;
 `;
 
-export default function ProfilePosts({ accountname }) {
+const PostInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+  gap: 18px;
+`;
+
+const PostInfoImg = styled.img`
+  height: 50px;
+`;
+
+const PostInfo = styled.h4`
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  color: var(--main-text-color);
+`;
+
+export default function ProfilePosts({ accountname, isUser }) {
   const [isListView, setIsListView] = useState(true);
   const [posts, setPosts] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [postId, setPostId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleListAlign = () => {
     setIsListView(true);
@@ -74,64 +97,154 @@ export default function ProfilePosts({ accountname }) {
     setIsListView(false);
   };
 
+  const openModal = () => {
+    setIsMenuOpen(true);
+    setIsModalOpen(true);
+  };
+
+  const handlePostDelete = async () => {
+    try {
+      await authInstance.delete(`/post/${postId}`);
+      const res = await authInstance.get(`/post/${accountname}/userpost`);
+      setPosts(res.data.post);
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handlePostReport = async () => {
+    try {
+      await authInstance.post(`/post/${postId}/report`);
+      alert('신고되었습니다.');
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await authInstance.get(`/post/${accountname}/userpost`);
       setPosts(res.data.post);
     };
     fetchPosts();
-    console.log(posts);
   }, []);
 
   return (
-    <PostsContainer>
-      <h2 className="a11y-hidden">포스트</h2>
-      <PostAlignWrapper>
-        <PostsAlignRow>
-          <Button onClick={handleListAlign}>
-            {isListView ? (
-              <PostListIcon
-                fill="var(--main-color)"
-                strock="var(--main-color)"
-              />
-            ) : (
-              <PostListIcon
-                fill="var(--light-gray)"
-                stroke="var(--light-gray)"
-              />
-            )}
-          </Button>
-          <Button onClick={handleGalleryAlign}>
-            {isListView ? (
-              <PostGalleryIcon
-                fill="var(--light-gray)"
-                stroke="var(--light-gray)"
-              />
-            ) : (
-              <PostGalleryIcon
-                fill="var(--main-color)"
-                strock="var(--main-color)"
-              />
-            )}
-          </Button>
-        </PostsAlignRow>
-      </PostAlignWrapper>
-      {isListView ? (
-        <PostListView>
-          {posts.map((post) => (
-            <li key={post.createdAt}>
-              <PostCard post={post} />
-            </li>
-          ))}
-        </PostListView>
+    <>
+      {posts.length > 0 ? (
+        <PostsContainer>
+          <h2 className="a11y-hidden">포스트</h2>
+          <PostAlignWrapper>
+            <PostsAlignRow>
+              <AlignButton onClick={handleListAlign}>
+                {isListView ? (
+                  <PostListIcon
+                    fill="var(--main-color)"
+                    strock="var(--main-color)"
+                  />
+                ) : (
+                  <PostListIcon
+                    fill="var(--light-gray)"
+                    stroke="var(--light-gray)"
+                  />
+                )}
+              </AlignButton>
+              <AlignButton onClick={handleGalleryAlign}>
+                {isListView ? (
+                  <PostGalleryIcon
+                    fill="var(--light-gray)"
+                    stroke="var(--light-gray)"
+                  />
+                ) : (
+                  <PostGalleryIcon
+                    fill="var(--main-color)"
+                    strock="var(--main-color)"
+                  />
+                )}
+              </AlignButton>
+            </PostsAlignRow>
+          </PostAlignWrapper>
+          {isListView ? (
+            <PostListView>
+              {posts.map((post) => (
+                <li key={post.createdAt}>
+                  <PostCard
+                    post={post}
+                    setIsMenuOpen={setIsMenuOpen}
+                    setPostId={setPostId}
+                  />
+                </li>
+              ))}
+            </PostListView>
+          ) : (
+            <PostGalleryView>
+              {posts.map((post) => (
+                <PostGalleryItem
+                  key={post.createdAt}
+                  img={post.image}
+                  accountname={post.author.accountname}
+                />
+              ))}
+            </PostGalleryView>
+          )}
+        </PostsContainer>
+      ) : isUser ? (
+        <PostsContainer>
+          <PostInfoWrapper>
+            <PostInfoImg src={LogoImg} />
+            <PostInfo>아직 게시글이 없습니다!</PostInfo>
+          </PostInfoWrapper>
+        </PostsContainer>
       ) : (
-        <PostGalleryView>
-          <PostGalleryItem />
-          <PostGalleryItem />
-          <PostGalleryItem />
-          <PostGalleryItem />
-        </PostGalleryView>
+        <PostsContainer>
+          <PostInfoWrapper>
+            <PostInfoImg src={LogoImg} />
+            <PostInfo>게시글을 작성해 보세요!</PostInfo>
+
+            <Button
+              onClick={() => {
+                navigate(`/post/upload`);
+              }}
+              className="md"
+            >
+              작성하러 가기
+            </Button>
+          </PostInfoWrapper>
+        </PostsContainer>
       )}
-    </PostsContainer>
+      {isMenuOpen && (
+        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+          {isUser ? (
+            <BottomSheetContent onClick={handlePostReport}>
+              신고
+            </BottomSheetContent>
+          ) : (
+            <>
+              <BottomSheetContent onClick={openModal}>삭제</BottomSheetContent>
+              <BottomSheetContent
+                onClick={() => {
+                  navigate(`/post/${postId}/upload`);
+                }}
+              >
+                수정
+              </BottomSheetContent>
+            </>
+          )}
+        </BottomSheetModal>
+      )}
+      {isModalOpen && (
+        <ConfirmModal
+          title="게시글을 삭제할까요?"
+          confirmInfo="삭제"
+          setIsMenuOpen={setIsMenuOpen}
+          setIsModalOpen={setIsModalOpen}
+          onClick={handlePostDelete}
+        />
+      )}
+    </>
   );
 }

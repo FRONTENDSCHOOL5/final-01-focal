@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import authInstance from '../../api/instance/authInstance';
-import NavBar from '../NavBar/NavBar';
 import ProductItem from './ProductItem';
 
 const ProductsCol = styled.section`
@@ -63,7 +62,6 @@ export default function ProfileProducts({ accountname = '' }) {
           </ProductsWrapper>
         </ProductsCol>
       )}
-      <NavBar />
     </>
   );
 }
