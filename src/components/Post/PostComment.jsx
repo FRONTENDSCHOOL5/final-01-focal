@@ -1,7 +1,12 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Btn from '../../assets/icons/icon-more.svg';
 import defaultImage from '../../assets/images/basic-profile-s.png';
+import BottomSheetModal from '../Modal/BottomSheetModal';
+import BottomSheetContent from '../Modal/BottomSheetContent';
+import ConfirmModal from '../Modal/ConfirmModal';
+import authInstance from '../../api/instance/authInstance';
 
 const CommentSection = styled.section`
   max-width: 390px;
@@ -75,7 +80,13 @@ const MoreBtn = styled.button`
   background-size: contain;
 `;
 
-function PostComment({ comments }) {
+function PostComment({ comments, postId, onDelete }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [author, setAuthor] = useState('');
+  const [commentId, setCommentId] = useState('');
+  const accountName = localStorage.getItem('accountname');
+
   const timeAgo = (date) => {
     const currentTime = new Date();
     const commentDate = new Date(date);
@@ -113,6 +124,27 @@ function PostComment({ comments }) {
     return image;
   };
 
+  const handleDeleteButton = async () => {
+    try {
+      await authInstance.delete(`/post/${postId}/comments/${commentId}`);
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+      onDelete(commentId);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleReportButton = async () => {
+    try {
+      await authInstance.post(`/post/${postId}/comments/${commentId}/report`);
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <CommentSection>
       <h2 className="a11y-hidden">댓글목록</h2>
@@ -132,10 +164,54 @@ function PostComment({ comments }) {
               <CommentDate>{timeAgo(comment.createdAt)}</CommentDate>
             </CommentInfo>
             <CommentText>{comment.content}</CommentText>
-            <MoreBtn />
+            <MoreBtn
+              onClick={() => {
+                setIsMenuOpen(true);
+                setAuthor(comment.author.accountname);
+                setCommentId(comment.id);
+              }}
+            />
           </CommentItem>
         ))}
       </ul>
+      {isMenuOpen && (
+        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+          {author === accountName ? (
+            <>
+              <BottomSheetContent
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              >
+                삭제
+              </BottomSheetContent>
+            </>
+          ) : (
+            <BottomSheetContent onClick={() => setIsModalOpen(true)}>
+              신고
+            </BottomSheetContent>
+          )}
+        </BottomSheetModal>
+      )}
+      {isModalOpen ? (
+        author === accountName ? (
+          <ConfirmModal
+            title="댓글을 삭제하시겠어요?"
+            confirmInfo="삭제"
+            setIsMenuOpen={setIsMenuOpen}
+            setIsModalOpen={setIsModalOpen}
+            onClick={handleDeleteButton}
+          />
+        ) : (
+          <ConfirmModal
+            title="신고하시겠어요?"
+            confirmInfo="신고"
+            setIsMenuOpen={setIsMenuOpen}
+            setIsModalOpen={setIsModalOpen}
+            onClick={handleReportButton}
+          />
+        )
+      ) : null}
     </CommentSection>
   );
 }
