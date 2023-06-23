@@ -78,7 +78,7 @@ export default function UserProfilePage() {
             <>
               <ProfileInfo userInfo={userData} />
               <ProfileProducts accountname={userData.accountname} />
-              <ProfilePosts accountname={userData.accountname} />
+              <ProfilePosts accountname={userData.accountname} isUser={_id} />
             </>
           )}
         </main>

@@ -18,6 +18,7 @@ const PostsContainer = styled.section`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
   background-color: var(--white);
   border-top: var(--border-color);
 `;
@@ -68,7 +69,9 @@ const PostInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding-top: 25px;
+  height: 100%;
   gap: 18px;
 `;
 
@@ -78,7 +81,7 @@ const PostInfoImg = styled.img`
 
 const PostInfo = styled.h4`
   font-size: 18px;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   font-weight: bold;
   padding-bottom: 10px;
   color: var(--main-text-color);
