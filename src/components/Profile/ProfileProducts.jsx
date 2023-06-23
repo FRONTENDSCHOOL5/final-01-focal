@@ -6,6 +6,7 @@ import ProductItem from './ProductItem';
 import ProductCard from '../Product/ProductCard';
 import ConfirmModal from '../Modal/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
+import useModal from '../../hooks/useModal';
 
 const ProductsCol = styled.section`
   display: flex;
@@ -39,8 +40,14 @@ const ProductList = styled.ul`
 export default function ProfileProducts({ accountname }) {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    isMenuOpen,
+    isModalOpen,
+    openMenu,
+    closeMenu,
+    openModal,
+    closeModal,
+  } = useModal();
   const navigate = useNavigate();
   const isCurrentUser = accountname === localStorage.getItem('accountname');
 
@@ -59,8 +66,8 @@ export default function ProfileProducts({ accountname }) {
   const deleteProduct = async () => {
     try {
       await authInstance.delete(`/product/${selectedProduct.id}`);
-      setIsMenuOpen(false);
-      setIsModalOpen(false);
+      closeMenu();
+      closeModal();
 
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product.id !== selectedProduct.id),
@@ -74,12 +81,12 @@ export default function ProfileProducts({ accountname }) {
     setSelectedProduct(products[index]);
   };
 
-  const openCard = () => {
-    setIsMenuOpen(true);
+  const handleCardClick = () => {
+    openMenu();
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleProductUpdate = () => {
+    navigate(`/product/${selectedProduct.id}/edit`);
   };
 
   return (
@@ -95,7 +102,7 @@ export default function ProfileProducts({ accountname }) {
                   product={product}
                   onClick={() => {
                     getProductIndex(index);
-                    openCard();
+                    handleCardClick();
                   }}
                 />
               ))}
@@ -104,11 +111,9 @@ export default function ProfileProducts({ accountname }) {
           {isMenuOpen && (
             <ProductCard
               product={selectedProduct}
-              setIsMenuOpen={setIsMenuOpen}
+              setIsMenuOpen={closeMenu}
               handleDelete={openModal}
-              handleUpdate={() =>
-                navigate(`/product/${selectedProduct.id}/edit`)
-              }
+              handleUpdate={handleProductUpdate}
               isCurrentUser={isCurrentUser}
             />
           )}
@@ -117,8 +122,8 @@ export default function ProfileProducts({ accountname }) {
               title="상품을 삭제할까요?"
               confirmInfo="삭제"
               onClick={deleteProduct}
-              setIsMenuOpen={setIsMenuOpen}
-              setIsModalOpen={setIsModalOpen}
+              setIsMenuOpen={closeMenu}
+              setIsModalOpen={closeModal}
             />
           )}
         </ProductsCol>

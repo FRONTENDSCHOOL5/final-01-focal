@@ -9,12 +9,14 @@ import authInstance from '../api/instance/authInstance';
 import BottomSheetModal from '../components/Modal/BottomSheetModal';
 import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
+import useModal from '../hooks/useModal';
 
 const Main = styled.main`
   margin-top: 48px;
   height: calc(100vh - 108px);
   overflow: scroll;
 `;
+
 const CardStyle = styled.div`
   display: flex;
   justify-content: center;
@@ -27,11 +29,18 @@ export default function PostPage() {
   const [postId, setPostId] = useState(useParams().post_id);
   const [post, setPost] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const accountName = localStorage.getItem('accountname');
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
+
+  const {
+    isMenuOpen,
+    isModalOpen,
+    openMenu,
+    closeMenu,
+    openModal,
+    closeModal,
+  } = useModal();
 
   const handleDeleteButton = async () => {
     try {
@@ -45,8 +54,8 @@ export default function PostPage() {
   const handleReportButton = async () => {
     try {
       await authInstance.post(`/post/${postId}/report`);
-      setIsMenuOpen(false);
-      setIsModalOpen(false);
+      closeMenu();
+      closeModal();
     } catch (error) {
       console.error(error);
     }
@@ -117,7 +126,7 @@ export default function PostPage() {
           {!isLoading && (
             <PostCard
               post={post}
-              setIsMenuOpen={setIsMenuOpen}
+              setIsMenuOpen={openMenu}
               setPostId={setPostId}
             />
           )}
@@ -132,7 +141,7 @@ export default function PostPage() {
         <TextInputBox type="comment" onButtonClick={handleCommentButton} />
       </Main>
       {isMenuOpen && (
-        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+        <BottomSheetModal setIsMenuOpen={closeMenu}>
           {post.author.accountname === accountName ? (
             <>
               {' '}
@@ -141,14 +150,10 @@ export default function PostPage() {
               >
                 수정
               </BottomSheetContent>
-              <BottomSheetContent onClick={() => setIsModalOpen(true)}>
-                삭제
-              </BottomSheetContent>
+              <BottomSheetContent onClick={openModal}>삭제</BottomSheetContent>
             </>
           ) : (
-            <BottomSheetContent onClick={() => setIsModalOpen(true)}>
-              신고
-            </BottomSheetContent>
+            <BottomSheetContent onClick={openModal}>신고</BottomSheetContent>
           )}
         </BottomSheetModal>
       )}
@@ -157,16 +162,16 @@ export default function PostPage() {
           <ConfirmModal
             title="게시글을 삭제하시겠어요?"
             confirmInfo="삭제"
-            setIsMenuOpen={setIsMenuOpen}
-            setIsModalOpen={setIsModalOpen}
+            setIsMenuOpen={closeMenu}
+            setIsModalOpen={closeModal}
             onClick={handleDeleteButton}
           />
         ) : (
           <ConfirmModal
             title="게시글을 신고하시겠어요?"
             confirmInfo="신고"
-            setIsMenuOpen={setIsMenuOpen}
-            setIsModalOpen={setIsModalOpen}
+            setIsMenuOpen={closeMenu}
+            setIsModalOpen={closeModal}
             onClick={handleReportButton}
           />
         )

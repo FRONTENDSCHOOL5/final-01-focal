@@ -11,6 +11,7 @@ import ConfirmModal from '../Modal/ConfirmModal';
 import Button from '../Button/Button';
 import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-album.svg';
 import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
+import useModal from '../../hooks/useModal';
 import LogoImg from '../../assets/images/logo.png';
 
 const PostsContainer = styled.section`
@@ -95,9 +96,16 @@ const PostInfo = styled.h4`
 export default function ProfilePosts({ accountname }) {
   const [isListView, setIsListView] = useState(true);
   const [posts, setPosts] = useState([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {
+    isMenuOpen,
+    isModalOpen,
+    openMenu,
+    closeMenu,
+    openModal,
+    closeModal,
+  } = useModal();
   const [postId, setPostId] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const useraccount = localStorage.getItem('accountname');
   const navigate = useNavigate();
 
@@ -109,18 +117,13 @@ export default function ProfilePosts({ accountname }) {
     setIsListView(false);
   };
 
-  const openModal = () => {
-    setIsMenuOpen(true);
-    setIsModalOpen(true);
-  };
-
   const handlePostDelete = async () => {
     try {
       await authInstance.delete(`/post/${postId}`);
       const res = await authInstance.get(`/post/${accountname}/userpost`);
       setPosts(res.data.post);
-      setIsMenuOpen(false);
-      setIsModalOpen(false);
+      closeMenu();
+      closeModal();
     } catch (err) {
       console.log(err);
     }
@@ -130,8 +133,8 @@ export default function ProfilePosts({ accountname }) {
     try {
       await authInstance.post(`/post/${postId}/report`);
       alert('신고되었습니다.');
-      setIsMenuOpen(false);
-      setIsModalOpen(false);
+      closeMenu();
+      closeModal();
     } catch (err) {
       console.log(err);
     }
@@ -202,7 +205,7 @@ export default function ProfilePosts({ accountname }) {
                 <li key={post.createdAt}>
                   <PostCard
                     post={post}
-                    setIsMenuOpen={setIsMenuOpen}
+                    setIsMenuOpen={openMenu}
                     setPostId={setPostId}
                   />
                 </li>
@@ -245,7 +248,7 @@ export default function ProfilePosts({ accountname }) {
         </NoPostsContainer>
       )}
       {isMenuOpen && (
-        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+        <BottomSheetModal setIsMenuOpen={closeMenu}>
           {accountname !== useraccount ? (
             <BottomSheetContent onClick={handlePostReport}>
               신고
@@ -268,8 +271,8 @@ export default function ProfilePosts({ accountname }) {
         <ConfirmModal
           title="게시글을 삭제할까요?"
           confirmInfo="삭제"
-          setIsMenuOpen={setIsMenuOpen}
-          setIsModalOpen={setIsModalOpen}
+          setIsMenuOpen={closeMenu}
+          setIsModalOpen={closeModal}
           onClick={handlePostDelete}
         />
       )}

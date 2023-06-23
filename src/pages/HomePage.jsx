@@ -9,6 +9,7 @@ import PostCard from '../components/Post/PostCard';
 import BottomSheetModal from '../components/Modal/BottomSheetModal';
 import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
+import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
 
 const ContentWrapper = styled.main`
@@ -44,9 +45,15 @@ const Info = styled.h3`
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [postDatas, setPostDatas] = useState();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {
+    isMenuOpen,
+    isModalOpen,
+    openMenu,
+    closeMenu,
+    openModal,
+    closeModal,
+  } = useModal();
   const [postId, setPostId] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,17 +69,12 @@ export default function HomePage() {
     getPost();
   }, []);
 
-  const openModal = () => {
-    setIsMenuOpen(true);
-    setIsModalOpen(true);
-  };
-
   const handleReport = async (e) => {
     e.stopPropagation();
     try {
       await authInstance.post(`/post/${postId}/report`);
-      setIsMenuOpen(false);
-      setIsModalOpen(false);
+      closeMenu();
+      closeModal();
     } catch (err) {
       console.log(err);
     }
@@ -93,7 +95,7 @@ export default function HomePage() {
                 <PostCard
                   key={data.id}
                   post={data}
-                  setIsMenuOpen={setIsMenuOpen}
+                  setIsMenuOpen={openMenu}
                   setPostId={setPostId}
                 />
               ))}
@@ -118,7 +120,7 @@ export default function HomePage() {
       <NavBar />
 
       {isMenuOpen && (
-        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+        <BottomSheetModal setIsMenuOpen={closeMenu}>
           <BottomSheetContent onClick={openModal}>신고</BottomSheetContent>
         </BottomSheetModal>
       )}
@@ -126,8 +128,8 @@ export default function HomePage() {
         <ConfirmModal
           title="게시글을 신고하시겠어요?"
           confirmInfo="신고"
-          setIsMenuOpen={setIsMenuOpen}
-          setIsModalOpen={setIsModalOpen}
+          setIsMenuOpen={closeMenu}
+          setIsModalOpen={closeModal}
           onClick={handleReport}
         />
       )}

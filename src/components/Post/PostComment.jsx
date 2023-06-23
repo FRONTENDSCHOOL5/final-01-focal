@@ -7,6 +7,7 @@ import BottomSheetModal from '../Modal/BottomSheetModal';
 import BottomSheetContent from '../Modal/BottomSheetContent';
 import ConfirmModal from '../Modal/ConfirmModal';
 import authInstance from '../../api/instance/authInstance';
+import useModal from '../../hooks/useModal';
 
 const CommentSection = styled.section`
   max-width: 390px;
@@ -81,8 +82,14 @@ const MoreBtn = styled.button`
 `;
 
 function PostComment({ comments, postId, onDelete }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    isMenuOpen,
+    isModalOpen,
+    openMenu,
+    closeMenu,
+    openModal,
+    closeModal,
+  } = useModal();
   const [author, setAuthor] = useState('');
   const [commentId, setCommentId] = useState('');
   const accountName = localStorage.getItem('accountname');
@@ -127,8 +134,8 @@ function PostComment({ comments, postId, onDelete }) {
   const handleDeleteButton = async () => {
     try {
       await authInstance.delete(`/post/${postId}/comments/${commentId}`);
-      setIsMenuOpen(false);
-      setIsModalOpen(false);
+      closeMenu();
+      closeModal();
       onDelete(commentId);
     } catch (error) {
       console.error(error);
@@ -138,8 +145,8 @@ function PostComment({ comments, postId, onDelete }) {
   const handleReportButton = async () => {
     try {
       await authInstance.post(`/post/${postId}/comments/${commentId}/report`);
-      setIsMenuOpen(false);
-      setIsModalOpen(false);
+      closeMenu();
+      closeModal();
     } catch (error) {
       console.error(error);
     }
@@ -166,7 +173,7 @@ function PostComment({ comments, postId, onDelete }) {
             <CommentText>{comment.content}</CommentText>
             <MoreBtn
               onClick={() => {
-                setIsMenuOpen(true);
+                openMenu();
                 setAuthor(comment.author.accountname);
                 setCommentId(comment.id);
               }}
@@ -175,19 +182,19 @@ function PostComment({ comments, postId, onDelete }) {
         ))}
       </ul>
       {isMenuOpen && (
-        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+        <BottomSheetModal setIsMenuOpen={closeMenu}>
           {author === accountName ? (
             <>
               <BottomSheetContent
                 onClick={() => {
-                  setIsModalOpen(true);
+                  openModal();
                 }}
               >
                 삭제
               </BottomSheetContent>
             </>
           ) : (
-            <BottomSheetContent onClick={() => setIsModalOpen(true)}>
+            <BottomSheetContent onClick={() => openModal()}>
               신고
             </BottomSheetContent>
           )}
@@ -198,16 +205,16 @@ function PostComment({ comments, postId, onDelete }) {
           <ConfirmModal
             title="댓글을 삭제하시겠어요?"
             confirmInfo="삭제"
-            setIsMenuOpen={setIsMenuOpen}
-            setIsModalOpen={setIsModalOpen}
+            setIsMenuOpen={closeMenu}
+            setIsModalOpen={closeModal}
             onClick={handleDeleteButton}
           />
         ) : (
           <ConfirmModal
             title="신고하시겠어요?"
             confirmInfo="신고"
-            setIsMenuOpen={setIsMenuOpen}
-            setIsModalOpen={setIsModalOpen}
+            setIsMenuOpen={closeMenu}
+            setIsModalOpen={closeModal}
             onClick={handleReportButton}
           />
         )

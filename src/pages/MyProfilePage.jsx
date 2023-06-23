@@ -13,6 +13,7 @@ import NavBar from '../components/NavBar/NavBar';
 import BottomSheetModal from '../components/Modal/BottomSheetModal';
 import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
+import useModal from '../hooks/useModal';
 
 const Container = styled.main`
   & > main {
@@ -31,8 +32,14 @@ const Container = styled.main`
 
 export default function MyProfilePage() {
   const [userData, setUserData] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    isMenuOpen,
+    isModalOpen,
+    openMenu,
+    closeMenu,
+    openModal,
+    closeModal,
+  } = useModal();
   const navigate = useNavigate();
 
   const setIsLogined = useSetRecoilState(loginState);
@@ -57,21 +64,12 @@ export default function MyProfilePage() {
     fetchUserData();
   }, []);
 
-  const onClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const openModal = () => {
-    setIsMenuOpen(true);
-    setIsModalOpen(true);
-  };
-
   return (
     <>
       <Container>
         <Header
           type="basic"
-          onClick={onClick}
+          onClick={openMenu}
           ellipsisBtnShow={true}
           backBtnShow={false}
         />
@@ -89,7 +87,7 @@ export default function MyProfilePage() {
       </Container>
 
       {isMenuOpen && (
-        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+        <BottomSheetModal setIsMenuOpen={closeMenu}>
           <BottomSheetContent
             onClick={() => {
               navigate('/profile/edit');
@@ -104,8 +102,8 @@ export default function MyProfilePage() {
         <ConfirmModal
           title="로그아웃하시겠어요?"
           confirmInfo="로그아웃"
-          setIsMenuOpen={setIsMenuOpen}
-          setIsModalOpen={setIsModalOpen}
+          setIsMenuOpen={closeMenu}
+          setIsModalOpen={closeModal}
           onClick={handleLogout}
         />
       )}
