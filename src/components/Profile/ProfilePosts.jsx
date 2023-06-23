@@ -18,7 +18,6 @@ const PostsContainer = styled.section`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100%;
   background-color: var(--white);
   border-top: var(--border-color);
 `;
@@ -65,12 +64,17 @@ const PostListView = styled.ul`
   gap: 20px;
 `;
 
+const NoPostsContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  background-color: var(--white);
+`;
+
 const PostInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 25px;
   height: 100%;
   gap: 18px;
 `;
@@ -215,14 +219,14 @@ export default function ProfilePosts({ accountname, isUser }) {
           )}
         </PostsContainer>
       ) : isUser ? (
-        <PostsContainer>
+        <NoPostsContainer>
           <PostInfoWrapper>
             <PostInfoImg src={LogoImg} />
             <PostInfo>아직 게시글이 없습니다!</PostInfo>
           </PostInfoWrapper>
-        </PostsContainer>
+        </NoPostsContainer>
       ) : (
-        <PostsContainer>
+        <NoPostsContainer>
           <PostInfoWrapper>
             <PostInfoImg src={LogoImg} />
             <PostInfo>게시글을 작성해 보세요!</PostInfo>
@@ -236,7 +240,7 @@ export default function ProfilePosts({ accountname, isUser }) {
               작성하러 가기
             </Button>
           </PostInfoWrapper>
-        </PostsContainer>
+        </NoPostsContainer>
       )}
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
