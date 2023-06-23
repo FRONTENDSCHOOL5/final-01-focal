@@ -76,7 +76,7 @@ const UserTitle = styled.h3`
   margin: 16px 0 24px;
 `;
 
-export default function ProfileInfo({ userInfo, isUser }) {
+export default function ProfileInfo({ userInfo }) {
   const {
     _id,
     username,
@@ -89,6 +89,7 @@ export default function ProfileInfo({ userInfo, isUser }) {
   } = userInfo;
 
   const [followerNum, setFollowerNum] = useState(followerCount);
+  const useraccount = localStorage.getItem('accountname');
   const navigate = useNavigate();
 
   const handleFollowNum = (isfollow) => {
@@ -140,7 +141,7 @@ export default function ProfileInfo({ userInfo, isUser }) {
         <UserAccount>{accountname}</UserAccount>
         <UserTitle>{intro}</UserTitle>
       </UserInfoCol>
-      {isUser ? (
+      {useraccount !== accountname ? (
         <UserInfoBtns
           handleFollowNum={handleFollowNum}
           isfollow={isfollow}
