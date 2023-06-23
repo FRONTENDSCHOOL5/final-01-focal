@@ -67,19 +67,22 @@ export default function MyProfilePage() {
   };
 
   return (
-    <Container>
-      <Header type="basic" onClick={onClick} />
-      <main>
-        <h1 className="a11y-hidden">나의 프로필 페이지</h1>
-        {userData && (
-          <>
-            <ProfileInfo userInfo={userData} />
-            <ProfileProducts accountname={userData.accountname} />
-            <ProfilePosts accountname={userData.accountname} />
-          </>
-        )}
-      </main>
-      <NavBar />
+    <>
+      <Container>
+        <Header type="basic" onClick={onClick} />
+        <main>
+          <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+          {userData && (
+            <>
+              <ProfileInfo userInfo={userData} />
+              <ProfileProducts accountname={userData.accountname} />
+              <ProfilePosts accountname={userData.accountname} />
+            </>
+          )}
+        </main>
+        <NavBar />
+      </Container>
+
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
           <BottomSheetContent
@@ -101,6 +104,6 @@ export default function MyProfilePage() {
           onClick={handleLogout}
         />
       )}
-    </Container>
+    </>
   );
 }
