@@ -11,7 +11,6 @@ import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
-import useModal from '../hooks/useModal';
 
 const ContentWrapper = styled.main`
   margin: 48px 0 0;
