@@ -72,7 +72,7 @@ export default function MyProfilePage() {
         <Header
           type="basic"
           onClick={onClick}
-          ellipsis={true}
+          ellipsisBtnShow={true}
           backBtnShow={false}
         />
         <main>
