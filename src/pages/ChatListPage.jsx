@@ -5,7 +5,7 @@ import ChatList from '../components/Chat/ChatList';
 export default function ChatListPage() {
   return (
     <>
-      <Header type="basic" />
+      <Header type="basic" backBtnShow={false} />
       <ChatList />
     </>
   );

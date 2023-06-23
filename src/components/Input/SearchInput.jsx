@@ -17,7 +17,11 @@ const SearchInputBox = styled.form`
 
 export default function SearchInput({ onChange }) {
   return (
-    <SearchInputBox>
+    <SearchInputBox
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
       <label htmlFor="search" className="a11y-hidden">
         계정 검색
       </label>
