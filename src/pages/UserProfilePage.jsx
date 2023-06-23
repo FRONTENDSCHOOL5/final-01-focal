@@ -45,7 +45,7 @@ export default function UserProfilePage() {
   return (
     <>
       <Container>
-        <Header type="basic" onClick={onClick} />
+        <Header type="basic" />
         <main>
           <h1 className="a11y-hidden">나의 프로필 페이지</h1>
           {userData && (
@@ -58,28 +58,6 @@ export default function UserProfilePage() {
         </main>
         <NavBar />
       </Container>
-
-      {isMenuOpen && (
-        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
-          <BottomSheetContent
-            onClick={() => {
-              navigate('/profile/edit');
-            }}
-          >
-            설정 및 개인정보
-          </BottomSheetContent>
-          <BottomSheetContent onClick={openModal}>로그아웃</BottomSheetContent>
-        </BottomSheetModal>
-      )}
-      {isModalOpen && (
-        <ConfirmModal
-          title="로그아웃하시겠어요?"
-          confirmInfo="로그아웃"
-          setIsMenuOpen={setIsMenuOpen}
-          setIsModalOpen={setIsModalOpen}
-          onClick={handleLogout}
-        />
-      )}
     </>
   );
 }
