@@ -15,13 +15,18 @@ import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
 
 const Container = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 390px;
-  margin-top: 48px;
-  background-color: #f2f2f2;
-  gap: 6px;
+  & > main {
+    width: 100%;
+    height: calc(100vh - 108px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 390px;
+    margin-top: 48px;
+    background-color: #f2f2f2;
+    gap: 6px;
+  }
 `;
 
 export default function MyProfilePage() {
@@ -62,9 +67,9 @@ export default function MyProfilePage() {
   };
 
   return (
-    <>
+    <Container>
       <Header type="basic" onClick={onClick} />
-      <Container>
+      <main>
         <h1 className="a11y-hidden">나의 프로필 페이지</h1>
         {userData && (
           <>
@@ -73,31 +78,29 @@ export default function MyProfilePage() {
             <ProfilePosts accountname={userData.accountname} />
           </>
         )}
-        <NavBar />
-        {isMenuOpen && (
-          <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
-            <BottomSheetContent
-              onClick={() => {
-                navigate('/profile/edit');
-              }}
-            >
-              설정 및 개인정보
-            </BottomSheetContent>
-            <BottomSheetContent onClick={openModal}>
-              로그아웃
-            </BottomSheetContent>
-          </BottomSheetModal>
-        )}
-        {isModalOpen && (
-          <ConfirmModal
-            title="로그아웃하시겠어요?"
-            confirmInfo="로그아웃"
-            setIsMenuOpen={setIsMenuOpen}
-            setIsModalOpen={setIsModalOpen}
-            onClick={handleLogout}
-          />
-        )}
-      </Container>
-    </>
+      </main>
+      <NavBar />
+      {isMenuOpen && (
+        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+          <BottomSheetContent
+            onClick={() => {
+              navigate('/profile/edit');
+            }}
+          >
+            설정 및 개인정보
+          </BottomSheetContent>
+          <BottomSheetContent onClick={openModal}>로그아웃</BottomSheetContent>
+        </BottomSheetModal>
+      )}
+      {isModalOpen && (
+        <ConfirmModal
+          title="로그아웃하시겠어요?"
+          confirmInfo="로그아웃"
+          setIsMenuOpen={setIsMenuOpen}
+          setIsModalOpen={setIsModalOpen}
+          onClick={handleLogout}
+        />
+      )}
+    </Container>
   );
 }
