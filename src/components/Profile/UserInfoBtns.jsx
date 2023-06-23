@@ -51,7 +51,9 @@ export default function UserInfoBtns({
           navigate(`/chat/${accountname}`);
         }}
       >
-        <ChatIcon fill="none" stroke="black" alt="채팅버튼" />
+        <ChatIcon fill="none" stroke="black" aria-hidden={true} role="img">
+          <desc id="desc">채팅버튼</desc>
+        </ChatIcon>
       </ProfileButton>
       {getFollow ? (
         <Button onClick={handleUnfollowBtn} className="md" active={false}>
@@ -63,7 +65,9 @@ export default function UserInfoBtns({
         </Button>
       )}
       <ProfileButton>
-        <ShareIcon alt="공유버튼" />
+        <ShareIcon aria-hidden={true} role="img">
+          <desc id="desc">공유버튼</desc>
+        </ShareIcon>
       </ProfileButton>
     </BtnRow>
   );

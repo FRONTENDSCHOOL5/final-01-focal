@@ -20,12 +20,19 @@ const UserInfoRow = styled.div`
   gap: 41px;
 `;
 
-const FollowBtn = styled.button`
+const UserInfoCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const FollowBtn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
 `;
 
 const FollowerNumber = styled.p`
@@ -49,6 +56,7 @@ const UserImage = styled.img`
   width: 110px;
   height: 110px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const UserName = styled.h2`
@@ -125,9 +133,11 @@ export default function ProfileInfo({ userInfo, isUser }) {
           <FollowText>followings</FollowText>
         </FollowBtn>
       </UserInfoRow>
-      <UserName>{username}</UserName>
-      <UserAccount>{accountname}</UserAccount>
-      <UserTitle>{intro}</UserTitle>
+      <UserInfoCol>
+        <UserName>{username}</UserName>
+        <UserAccount>{accountname}</UserAccount>
+        <UserTitle>{intro}</UserTitle>
+      </UserInfoCol>
       {isUser ? (
         <UserInfoBtns
           handleFollowNum={handleFollowNum}
