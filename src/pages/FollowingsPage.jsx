@@ -24,6 +24,18 @@ const Main = styled.main`
   }
 `;
 
+const FollowingNoneWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 108px);
+  letter-spacing: 1.5px;
+
+  & > h3 {
+    font-size: 23px;
+  }
+`;
+
 export default function FollowingsPage() {
   const location = useLocation();
   const accountname = location.state?.accountname;
@@ -38,18 +50,23 @@ export default function FollowingsPage() {
     };
     fetchPosts();
   }, []);
-
   return (
     <>
       <Header type="follow" followText="Followings" />
       <Main>
         <section>
           <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>
-          <ul>
-            {userData.map((user) => (
-              <UserFollowListItem key={user._id} user={user} />
-            ))}
-          </ul>
+          {userData.length > 0 ? (
+            <ul>
+              {userData.map((user) => (
+                <UserFollowListItem key={user._id} user={user} />
+              ))}
+            </ul>
+          ) : (
+            <FollowingNoneWrapper>
+              <h3>내가 팔로우 하는 사람이 없습니다!</h3>
+            </FollowingNoneWrapper>
+          )}
         </section>
       </Main>
     </>
