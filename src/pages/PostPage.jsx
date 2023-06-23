@@ -11,9 +11,13 @@ import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
 
 const Main = styled.main`
+  margin-top: 48px;
+  height: calc(100vh - 108px);
+  overflow: scroll;
+`;
+const CardStyle = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 48px;
   width: 100%;
   padding: 20px 16px;
   border-bottom: 1px solid var(--border-color);
@@ -109,22 +113,24 @@ export default function PostPage() {
     <>
       <Header type="basic" />
       <Main>
-        {!isLoading && (
-          <PostCard
-            post={post}
-            setIsMenuOpen={setIsMenuOpen}
-            setPostId={setPostId}
+        <CardStyle>
+          {!isLoading && (
+            <PostCard
+              post={post}
+              setIsMenuOpen={setIsMenuOpen}
+              setPostId={setPostId}
+            />
+          )}
+        </CardStyle>
+        {comments.length > 0 && (
+          <PostComment
+            comments={comments}
+            postId={postId}
+            onDelete={handleDeleteComment}
           />
         )}
+        <TextInputBox type="comment" onButtonClick={handleCommentButton} />
       </Main>
-      {comments.length > 0 && (
-        <PostComment
-          comments={comments}
-          postId={postId}
-          onDelete={handleDeleteComment}
-        />
-      )}
-      <TextInputBox type="comment" onButtonClick={handleCommentButton} />
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
           {post.author.accountname === accountName ? (
