@@ -38,6 +38,7 @@ const FollowingNoneWrapper = styled.div`
 
 const LogoImg = styled.img`
   width: 150px;
+  margin-bottom: 10px;
   filter: grayscale(90%);
 `;
 
@@ -92,6 +93,7 @@ export default function FollowingsPage() {
                 </>
               ) : (
                 <>
+                  <LogoImg src={logoImg} alt="포칼 로고" />
                   <FollowInfo>{username} 가</FollowInfo>
                   <FollowInfo>팔로우 하는 사람이 없습니다!</FollowInfo>
                 </>
