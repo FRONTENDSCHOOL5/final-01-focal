@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import NavBarItem from './NavBarItem';
-import { ReactComponent as HomeLink } from '../../assets/icons/icon-home.svg';
-import { ReactComponent as ChatLink } from '../../assets/icons/icon-message.svg';
-import { ReactComponent as PostLink } from '../../assets/icons/icon-edit.svg';
-import { ReactComponent as ProfileLink } from '../../assets/icons/icon-user.svg';
-import { useLocation } from 'react-router-dom';
+import { ReactComponent as HomeIcon } from '../../assets/icons/icon-home.svg';
+import { ReactComponent as ChatIcon } from '../../assets/icons/icon-message.svg';
+import { ReactComponent as PostIcon } from '../../assets/icons/icon-edit.svg';
+import { ReactComponent as ProfileIcon } from '../../assets/icons/icon-user.svg';
+import { useRecoilState } from 'recoil';
+import { pathState } from '../../states/PathState';
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -22,7 +23,7 @@ const StyledNav = styled.nav`
   }
 `;
 
-const StyledHomeLink = styled(HomeLink)`
+const StyledHomeLink = styled(HomeIcon)`
   stroke: ${({ pathname }) =>
     pathname === '/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
   fill: ${({ pathname }) =>
@@ -33,14 +34,14 @@ const StyledHomeLink = styled(HomeLink)`
   }
 `;
 
-const StyledChatLink = styled(ChatLink)`
+const StyledChatLink = styled(ChatIcon)`
   stroke: ${({ pathname }) =>
     pathname === '/chat/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
   fill: ${({ pathname }) =>
     pathname === '/chat/' ? 'var(--main-color)' : 'transparent'};
 `;
 
-const StyledProfileLink = styled(ProfileLink)`
+const StyledProfileLink = styled(ProfileIcon)`
   stroke: ${({ pathname }) =>
     pathname === '/profile/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
   fill: ${({ pathname }) =>
@@ -48,28 +49,36 @@ const StyledProfileLink = styled(ProfileLink)`
 `;
 
 export default function NavBar() {
-  const pathname = useLocation().pathname;
+  const [pathname, setPathname] = useRecoilState(pathState);
+
+  const handleClick = (e) => {
+    setPathname(e.currentTarget.pathname);
+  };
 
   return (
     <StyledNav>
       <ul>
         <li>
-          <NavBarItem to="/" description="홈">
+          <NavBarItem to="/" description="홈" onClick={handleClick}>
             <StyledHomeLink pathname={pathname} />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem to="/chat/" description="채팅">
+          <NavBarItem to="/chat/" description="채팅" onClick={handleClick}>
             <StyledChatLink pathname={pathname} />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem to="/post/upload" description="게시물 작성">
-            <PostLink pathname={pathname} />
+          <NavBarItem
+            to="/post/upload"
+            description="게시물 작성"
+            onClick={handleClick}
+          >
+            <PostIcon pathname={pathname} />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem to="/profile/" description="프로필">
+          <NavBarItem to="/profile/" description="프로필" onClick={handleClick}>
             <StyledProfileLink pathname={pathname} />
           </NavBarItem>
         </li>

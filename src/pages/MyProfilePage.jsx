@@ -63,7 +63,12 @@ export default function MyProfilePage() {
 
   return (
     <>
-      <Header type="basic" onClick={onClick} />
+      <Header
+        type="basic"
+        onClick={onClick}
+        backBtnShow={false}
+        ellipsisBtnShow={true}
+      />
       <Container>
         <h1 className="a11y-hidden">나의 프로필 페이지</h1>
         {userData && (

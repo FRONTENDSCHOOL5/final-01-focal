@@ -51,8 +51,10 @@ export default function Header({
   onChange,
   buttonId,
   buttonText,
-  followText,
+  headerText,
   disabled,
+  backBtnShow = true,
+  ellipsisBtnShow = false,
 }) {
   const navigate = useNavigate();
   let headerContent;
@@ -75,12 +77,19 @@ export default function Header({
     case 'basic':
       headerContent = (
         <>
-          <IconButton>
-            <BackButton onClick={goBack} />
-          </IconButton>
-          <IconButton>
-            <MoreButton onClick={onClick} />
-          </IconButton>
+          <div>
+            {backBtnShow && (
+              <IconButton>
+                <BackButton onClick={goBack} />
+              </IconButton>
+            )}
+            {headerText && <h1>{headerText}</h1>}
+          </div>
+          {ellipsisBtnShow && (
+            <IconButton>
+              <MoreButton onClick={onClick} />
+            </IconButton>
+          )}
         </>
       );
       break;
@@ -121,31 +130,6 @@ export default function Header({
           >
             {buttonText}
           </Button>
-        </>
-      );
-      break;
-    case 'follow':
-      headerContent = (
-        <>
-          <div>
-            <IconButton>
-              <BackButton onClick={goBack} />
-            </IconButton>
-            <h1>{followText}</h1>
-          </div>
-        </>
-      );
-      break;
-    case 'chat':
-      headerContent = (
-        <>
-          <IconButton>
-            <BackButton onClick={goBack} />
-          </IconButton>
-          <h2>애월읍 위니브 감귤 농장</h2>
-          <IconButton>
-            <MoreButton onClick={onClick} />
-          </IconButton>
         </>
       );
       break;

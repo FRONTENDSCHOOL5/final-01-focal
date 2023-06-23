@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import IconButton from '../Button/IconButton';
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -19,10 +18,10 @@ const NavDescription = styled.span`
   font-size: 10px;
 `;
 
-export default function NavBarItem({ to, children, description }) {
+export default function NavBarItem({ to, onClick, children, description }) {
   return (
-    <StyledLink to={to}>
-      <IconButton>{children}</IconButton>
+    <StyledLink to={to} onClick={onClick}>
+      {children}
       <NavDescription>{description}</NavDescription>
     </StyledLink>
   );

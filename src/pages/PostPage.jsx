@@ -111,7 +111,7 @@ export default function PostPage() {
 
   return (
     <>
-      <Header type="basic" />
+      <Header type="basic" backBtnShow={true} />
       <Main>
         <CardStyle>
           {!isLoading && (

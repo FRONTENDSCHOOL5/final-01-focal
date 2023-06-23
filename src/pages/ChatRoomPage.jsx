@@ -6,7 +6,7 @@ import TextInputBox from '../components/Input/TextInputBox';
 export default function ChatRoomPage() {
   return (
     <>
-      <Header type="chat" />
+      <Header type="basic" />
       <h2 className="a11y-hidden">대화창</h2>
       <ChatRoom />
       <TextInputBox type="chat" />
