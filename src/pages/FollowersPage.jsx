@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import authInstance from '../api/instance/authInstance';
 import { useState } from 'react';
+import logoImg from '../assets/images/logo.png';
 
 const Main = styled.main`
   width: 100%;
@@ -32,10 +33,15 @@ const FollowingNoneWrapper = styled.div`
   height: calc(100vh - 108px);
   letter-spacing: 1.5px;
   gap: 20px;
+`;
 
-  & > h3 {
-    font-size: 20px;
-  }
+const LogoImg = styled.img`
+  width: 150px;
+  filter: grayscale(90%);
+`;
+
+const FollowInfo = styled.h3`
+  font-size: 22px;
 `;
 
 export default function FollowersPage() {
@@ -70,11 +76,14 @@ export default function FollowersPage() {
           ) : (
             <FollowingNoneWrapper>
               {loginAccountname === accountname ? (
-                <h3>나를 팔로우 하는 사람이 없습니다!</h3>
+                <>
+                  <LogoImg src={logoImg} alt="포칼 로고" />
+                  <FollowInfo>나를 팔로우 하는 사람이 없습니다!</FollowInfo>
+                </>
               ) : (
                 <>
-                  <h3>{username} 를</h3>
-                  <h3>팔로우 하는 사람이 없습니다!</h3>
+                  <FollowInfo>{username} 를</FollowInfo>
+                  <FollowInfo>팔로우 하는 사람이 없습니다!</FollowInfo>
                 </>
               )}
             </FollowingNoneWrapper>

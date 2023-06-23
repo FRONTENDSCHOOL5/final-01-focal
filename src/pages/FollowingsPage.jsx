@@ -4,8 +4,10 @@ import UserFollowListItem from '../components/UserItem/UserFollowListItem';
 import Header from '../components/Header/Header';
 import { useEffect } from 'react';
 import authInstance from '../api/instance/authInstance';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import logoImg from '../assets/images/logo.png';
+import Button from '../components/Button/Button';
 
 const Main = styled.main`
   width: 100%;
@@ -32,10 +34,15 @@ const FollowingNoneWrapper = styled.div`
   height: calc(100vh - 108px);
   letter-spacing: 1.5px;
   gap: 20px;
+`;
 
-  & > h3 {
-    font-size: 20px;
-  }
+const LogoImg = styled.img`
+  width: 150px;
+  filter: grayscale(90%);
+`;
+
+const FollowInfo = styled.h3`
+  font-size: 22px;
 `;
 
 export default function FollowingsPage() {
@@ -44,6 +51,7 @@ export default function FollowingsPage() {
   const username = location.state?.username;
   const [userData, setUserData] = useState([]);
   const loginAccountname = localStorage.getItem('accountname');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -69,11 +77,23 @@ export default function FollowingsPage() {
           ) : (
             <FollowingNoneWrapper>
               {loginAccountname === accountname ? (
-                <h3>내가 팔로우 하는 사람이 없습니다!</h3>
+                <>
+                  <LogoImg src={logoImg} alt="포칼 로고" />
+                  <FollowInfo>유저를 검색해 팔로우 해보세요!</FollowInfo>
+                  <Button
+                    type="button"
+                    className="md"
+                    onClick={() => {
+                      navigate('/search');
+                    }}
+                  >
+                    검색하기
+                  </Button>
+                </>
               ) : (
                 <>
-                  <h3>{username} 가</h3>
-                  <h3>팔로우 하는 사람이 없습니다!</h3>
+                  <FollowInfo>{username} 가</FollowInfo>
+                  <FollowInfo>팔로우 하는 사람이 없습니다!</FollowInfo>
                 </>
               )}
             </FollowingNoneWrapper>
