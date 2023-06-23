@@ -1,18 +1,13 @@
 import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { loginState } from '../states/LoginState';
 import authInstance from '../api/instance/authInstance';
 import Header from '../components/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
 import NavBar from '../components/NavBar/NavBar';
-import BottomSheetModal from '../components/Modal/BottomSheetModal';
-import BottomSheetContent from '../components/Modal/BottomSheetContent';
-import ConfirmModal from '../components/Modal/ConfirmModal';
 
 const Container = styled.main`
   display: flex;
@@ -27,11 +22,6 @@ const Container = styled.main`
 export default function UserProfilePage() {
   const { _id } = useParams();
   const [userData, setUserData] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const navigate = useNavigate();
-  const setIsLogined = useSetRecoilState(loginState);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -47,25 +37,9 @@ export default function UserProfilePage() {
     fetchUserData();
   }, [userData.isfollow]);
 
-  const onClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const openModal = () => {
-    setIsMenuOpen(true);
-    setIsModalOpen(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('accountname');
-    localStorage.removeItem('image');
-    setIsLogined(false);
-  };
-
   return (
     <>
-      <Header type="basic" onClick={onClick} />
+      <Header type="basic" />
       <Container>
         <h1 className="a11y-hidden">나의 프로필 페이지</h1>
         {userData && (
@@ -76,29 +50,6 @@ export default function UserProfilePage() {
           </>
         )}
         <NavBar />
-        {isMenuOpen && (
-          <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
-            <BottomSheetContent
-              onClick={() => {
-                navigate('/profile/edit');
-              }}
-            >
-              설정 및 개인정보
-            </BottomSheetContent>
-            <BottomSheetContent onClick={openModal}>
-              로그아웃
-            </BottomSheetContent>
-          </BottomSheetModal>
-        )}
-        {isModalOpen && (
-          <ConfirmModal
-            title="로그아웃하시겠어요?"
-            confirmInfo="로그아웃"
-            setIsMenuOpen={setIsMenuOpen}
-            setIsModalOpen={setIsModalOpen}
-            onClick={handleLogout}
-          />
-        )}
       </Container>
     </>
   );
