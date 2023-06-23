@@ -19,6 +19,7 @@ const PostsContainer = styled.section`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
   background-color: var(--white);
   border-top: var(--border-color);
 `;
@@ -92,7 +93,7 @@ const PostInfo = styled.h4`
   color: var(--main-text-color);
 `;
 
-export default function ProfilePosts({ accountname, isUser }) {
+export default function ProfilePosts({ accountname }) {
   const [isListView, setIsListView] = useState(true);
   const [posts, setPosts] = useState([]);
   const {
@@ -104,6 +105,8 @@ export default function ProfilePosts({ accountname, isUser }) {
     closeModal,
   } = useModal();
   const [postId, setPostId] = useState(null);
+  
+  const useraccount = localStorage.getItem('accountname');
   const navigate = useNavigate();
 
   const handleListAlign = () => {
@@ -220,7 +223,7 @@ export default function ProfilePosts({ accountname, isUser }) {
             </PostGalleryView>
           )}
         </PostsContainer>
-      ) : isUser ? (
+      ) : accountname !== useraccount ? (
         <NoPostsContainer>
           <PostInfoWrapper>
             <PostInfoImg src={LogoImg} />
@@ -246,7 +249,7 @@ export default function ProfilePosts({ accountname, isUser }) {
       )}
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={closeMenu}>
-          {isUser ? (
+          {accountname !== useraccount ? (
             <BottomSheetContent onClick={handlePostReport}>
               신고
             </BottomSheetContent>
