@@ -9,8 +9,8 @@ import PostCard from '../components/Post/PostCard';
 import BottomSheetModal from '../components/Modal/BottomSheetModal';
 import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
-import logo from '../assets/images/logo.png';
 import useModal from '../hooks/useModal';
+import logo from '../assets/images/logo.png';
 
 const ContentWrapper = styled.main`
   margin: 48px 0 0;
