@@ -105,6 +105,7 @@ export default function ProfileInfo({ userInfo, isUser }) {
             navigate(`/follow/${_id}/follower`, {
               state: {
                 accountname: accountname,
+                username: username,
               },
             });
           }}
@@ -125,6 +126,7 @@ export default function ProfileInfo({ userInfo, isUser }) {
             navigate(`/follow/${_id}/following`, {
               state: {
                 accountname: accountname,
+                username: username,
               },
             });
           }}
