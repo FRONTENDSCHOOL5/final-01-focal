@@ -5,6 +5,7 @@ const ProductItemWrapper = styled.li`
 `;
 
 const ProductImg = styled.img`
+  width: 140px;
   height: 90px;
   min-width: 140px;
   border: 0.5px solid var(--border-color);
