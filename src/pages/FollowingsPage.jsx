@@ -65,7 +65,7 @@ export default function FollowingsPage() {
   }, []);
   return (
     <>
-      <Header type="follow" followText="Followings" />
+      <Header type="basic" headerText="Followings" backBtnShow={true} />
       <Main>
         <section>
           <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>

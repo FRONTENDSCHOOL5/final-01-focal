@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import authInstance from '../api/instance/authInstance';
 import Button from '../components/Button/Button';
 import Header from '../components/Header/Header';
 import NavBar from '../components/NavBar/NavBar';
@@ -8,28 +9,26 @@ import PostCard from '../components/Post/PostCard';
 import BottomSheetModal from '../components/Modal/BottomSheetModal';
 import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
-import authInstance from '../api/instance/authInstance';
 import logo from '../assets/images/logo.png';
 
-const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
-const ContentWrapper = styled.div`
-  flex-grow: 1;
+const ContentWrapper = styled.main`
+  margin: 48px 0 0;
+  height: calc(100vh - 108px);
   overflow-y: auto;
-  padding: 48px 0 60px;
 `;
 
-const Container = styled.div`
+const Container = styled.section`
   display: flex;
+  height: 100%;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: center;
   padding: 16px;
   gap: 20px;
+
+  & > div {
+    height: 100%;
+  }
 `;
 
 const Img = styled.img`
@@ -43,6 +42,7 @@ const Info = styled.h3`
 `;
 
 export default function HomePage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [postDatas, setPostDatas] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [postId, setPostId] = useState(null);
@@ -54,6 +54,7 @@ export default function HomePage() {
       try {
         const res = await authInstance.get('/post/feed');
         setPostDatas(res.data.posts);
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -78,21 +79,25 @@ export default function HomePage() {
   };
 
   return (
-    <PageWrapper>
+    <>
       <Header type="main" />
       <ContentWrapper>
-        <Container>
-          <h2 className="a11y-hidden">Focal 홈 피드</h2>
+        <h2 className="a11y-hidden">Focal 홈 피드</h2>
 
-          {postDatas && postDatas.length > 0 ? (
-            postDatas.map((data) => (
-              <PostCard
-                key={data.id}
-                post={data}
-                setIsMenuOpen={setIsMenuOpen}
-                setPostId={setPostId}
-              />
-            ))
+        <Container>
+          {isLoading ? (
+            <span>로딩중</span>
+          ) : postDatas && postDatas.length > 0 ? (
+            <div>
+              {postDatas.map((data) => (
+                <PostCard
+                  key={data.id}
+                  post={data}
+                  setIsMenuOpen={setIsMenuOpen}
+                  setPostId={setPostId}
+                />
+              ))}
+            </div>
           ) : (
             <>
               <Img src={logo} alt="Focal 로고" />
@@ -111,6 +116,7 @@ export default function HomePage() {
         </Container>
       </ContentWrapper>
       <NavBar />
+
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
           <BottomSheetContent onClick={openModal}>신고</BottomSheetContent>
@@ -125,6 +131,6 @@ export default function HomePage() {
           onClick={handleReport}
         />
       )}
-    </PageWrapper>
+    </>
   );
 }

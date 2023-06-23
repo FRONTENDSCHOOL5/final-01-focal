@@ -19,6 +19,7 @@ import PostUploadPage from '../pages/PostUploadPage';
 import ProductUploadPage from '../pages/ProductUploadPage';
 import ProfileEditPage from '../pages/ProfileEditPage';
 import PostEditPage from '../pages/PostEditPage';
+import ProductEditPage from '../pages/ProductEditPage';
 
 export default function Router() {
   return (
@@ -39,7 +40,7 @@ export default function Router() {
           <Route path="/post/" element={<Outlet />}>
             <Route path=":post_id" element={<PostPage />} />
             <Route path="upload" element={<PostUploadPage />} />
-            <Route path=":post_id/upload" element={<PostEditPage />} />
+            <Route path=":post_id/edit" element={<PostEditPage />} />
           </Route>
           <Route path="/profile/" element={<Outlet />}>
             <Route path="" element={<MyProfilePage />} />
@@ -51,6 +52,10 @@ export default function Router() {
             <Route path="following" element={<FollowingsPage />} />
           </Route>
           <Route path="/product" element={<ProductUploadPage />} />
+          <Route
+            path="/product/:product_id/edit"
+            element={<ProductEditPage />}
+          />
           <Route path="/chat/" element={<Outlet />}>
             <Route path="" element={<ChatListPage />} />
             <Route path=":_id" element={<ChatRoomPage />} />

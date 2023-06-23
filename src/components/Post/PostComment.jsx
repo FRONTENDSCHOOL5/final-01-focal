@@ -1,12 +1,18 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ImageSrc from '../../assets/images/basic-profile-s.png';
 import Btn from '../../assets/icons/icon-more.svg';
+import defaultImage from '../../assets/images/basic-profile-s.png';
+import BottomSheetModal from '../Modal/BottomSheetModal';
+import BottomSheetContent from '../Modal/BottomSheetContent';
+import ConfirmModal from '../Modal/ConfirmModal';
+import authInstance from '../../api/instance/authInstance';
 
 const CommentSection = styled.section`
   max-width: 390px;
   padding: 20px 16px 0;
   margin: 0 auto;
+  margin-bottom: 60px;
 `;
 
 const CommentItem = styled.li`
@@ -73,17 +79,72 @@ const MoreBtn = styled.button`
   background-repeat: no-repeat;
   background-size: contain;
 `;
-const comments = [
-  {
-    id: 1,
-    userName: '재윤',
-    userProfile: ImageSrc,
-    date: '2주',
-    text: '프로젝트가 기대된다.',
-  },
-];
 
-function PostComment() {
+function PostComment({ comments, postId, onDelete }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [author, setAuthor] = useState('');
+  const [commentId, setCommentId] = useState('');
+  const accountName = localStorage.getItem('accountname');
+
+  const timeAgo = (date) => {
+    const currentTime = new Date();
+    const commentDate = new Date(date);
+    const timeDifference = currentTime - commentDate;
+
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
+    const years = Math.floor(days / 365);
+
+    if (seconds === 0) {
+      return '방금';
+    } else if (seconds < 60) {
+      return `${seconds}초 전`;
+    } else if (minutes < 60) {
+      return `${minutes}분 전`;
+    } else if (hours < 24) {
+      return `${hours}시간 전`;
+    } else if (days < 7) {
+      return `${days}일 전`;
+    } else if (weeks < 52) {
+      return `${weeks}주 전`;
+    } else {
+      return `${years}년 전`;
+    }
+  };
+
+  const getImage = (image) => {
+    if (image === 'http://146.56.183.55:5050/Ellipse.png') {
+      return defaultImage;
+    }
+
+    return image;
+  };
+
+  const handleDeleteButton = async () => {
+    try {
+      await authInstance.delete(`/post/${postId}/comments/${commentId}`);
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+      onDelete(commentId);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleReportButton = async () => {
+    try {
+      await authInstance.post(`/post/${postId}/comments/${commentId}/report`);
+      setIsMenuOpen(false);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <CommentSection>
       <h2 className="a11y-hidden">댓글목록</h2>
@@ -92,18 +153,65 @@ function PostComment() {
           <CommentItem key={comment.id}>
             <CommentInfo>
               <ProfileLink to="/">
-                <ProfileImage src={comment.userProfile} alt="사용자이미지" />
+                <ProfileImage
+                  src={getImage(comment.author.image)}
+                  alt="사용자이미지"
+                />
               </ProfileLink>
               <NameLink to="/">
-                <UserName>{comment.userName}</UserName>
+                <UserName>{comment.author.username}</UserName>
               </NameLink>
-              <CommentDate>{comment.date}</CommentDate>
+              <CommentDate>{timeAgo(comment.createdAt)}</CommentDate>
             </CommentInfo>
-            <CommentText>{comment.text}</CommentText>
-            <MoreBtn />
+            <CommentText>{comment.content}</CommentText>
+            <MoreBtn
+              onClick={() => {
+                setIsMenuOpen(true);
+                setAuthor(comment.author.accountname);
+                setCommentId(comment.id);
+              }}
+            />
           </CommentItem>
         ))}
       </ul>
+      {isMenuOpen && (
+        <BottomSheetModal setIsMenuOpen={setIsMenuOpen}>
+          {author === accountName ? (
+            <>
+              <BottomSheetContent
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              >
+                삭제
+              </BottomSheetContent>
+            </>
+          ) : (
+            <BottomSheetContent onClick={() => setIsModalOpen(true)}>
+              신고
+            </BottomSheetContent>
+          )}
+        </BottomSheetModal>
+      )}
+      {isModalOpen ? (
+        author === accountName ? (
+          <ConfirmModal
+            title="댓글을 삭제하시겠어요?"
+            confirmInfo="삭제"
+            setIsMenuOpen={setIsMenuOpen}
+            setIsModalOpen={setIsModalOpen}
+            onClick={handleDeleteButton}
+          />
+        ) : (
+          <ConfirmModal
+            title="신고하시겠어요?"
+            confirmInfo="신고"
+            setIsMenuOpen={setIsMenuOpen}
+            setIsModalOpen={setIsModalOpen}
+            onClick={handleReportButton}
+          />
+        )
+      ) : null}
     </CommentSection>
   );
 }

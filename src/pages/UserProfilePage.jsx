@@ -1,18 +1,13 @@
 import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { loginState } from '../states/LoginState';
 import authInstance from '../api/instance/authInstance';
 import Header from '../components/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
 import NavBar from '../components/NavBar/NavBar';
-import BottomSheetModal from '../components/Modal/BottomSheetModal';
-import BottomSheetContent from '../components/Modal/BottomSheetContent';
-import ConfirmModal from '../components/Modal/ConfirmModal';
 
 const Container = styled.main`
   & > main {
@@ -32,11 +27,6 @@ const Container = styled.main`
 export default function UserProfilePage() {
   const { _id } = useParams();
   const [userData, setUserData] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const navigate = useNavigate();
-  const setIsLogined = useSetRecoilState(loginState);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -51,22 +41,6 @@ export default function UserProfilePage() {
 
     fetchUserData();
   }, [userData.isfollow]);
-
-  const onClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const openModal = () => {
-    setIsMenuOpen(true);
-    setIsModalOpen(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('accountname');
-    localStorage.removeItem('image');
-    setIsLogined(false);
-  };
 
   return (
     <>

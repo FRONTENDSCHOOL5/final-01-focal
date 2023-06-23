@@ -8,7 +8,7 @@ import kakao from '../assets/icons/kakao.svg';
 import google from '../assets/icons/google.svg';
 import facebook from '../assets/icons/facebook.svg';
 
-const Header = styled.header`
+const StyledHeader = styled.header`
   margin-top: 139px;
 
   & > h1 {
@@ -79,12 +79,12 @@ const SnsBtnContainer = styled.div`
 export default function WelcomePage() {
   return (
     <div>
-      <Header>
+      <StyledHeader>
         <h1>
           <span className="a11y-hidden">Focal 로고 버튼</span>
           <img src={Logo} alt="Focal 로고 이미지" />
         </h1>
-      </Header>
+      </StyledHeader>
       <Main>
         <section>
           <h2 className="a11y-hidden">로그인, 회원가입</h2>
