@@ -26,20 +26,24 @@ const Main = styled.main`
 
 const FollowingNoneWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: calc(100vh - 108px);
   letter-spacing: 1.5px;
+  gap: 20px;
 
   & > h3 {
-    font-size: 23px;
+    font-size: 20px;
   }
 `;
 
 export default function FollowersPage() {
   const location = useLocation();
   const accountname = location.state?.accountname;
+  const username = location.state?.username;
   const [userData, setUserData] = useState([]);
+  const loginAccountname = localStorage.getItem('accountname');
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -65,7 +69,14 @@ export default function FollowersPage() {
             </ul>
           ) : (
             <FollowingNoneWrapper>
-              <h3>나를 팔로우 하는 사람이 없습니다!</h3>
+              {loginAccountname === accountname ? (
+                <h3>나를 팔로우 하는 사람이 없습니다!</h3>
+              ) : (
+                <>
+                  <h3>{username} 를</h3>
+                  <h3>팔로우 하는 사람이 없습니다!</h3>
+                </>
+              )}
             </FollowingNoneWrapper>
           )}
         </section>
