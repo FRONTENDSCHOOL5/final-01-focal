@@ -1,11 +1,15 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const ChatItemStyle = styled.li`
   position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  cursor: pointer;
+
+  a {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
 `;
 
 const UserNameStyle = styled.p`
@@ -32,12 +36,19 @@ const UserImageStyle = styled.img`
   border-radius: 50%;
 `;
 
-export default function ChatItem({ imageSrc, username, chatdate }) {
+export default function ChatItem({
+  imageSrc,
+  username,
+  chatdate,
+  accountname,
+}) {
   return (
     <ChatItemStyle>
-      <UserImageStyle src={imageSrc} alt="이미지" />
-      <UserNameStyle>{username}</UserNameStyle>
-      <ChatDateStyle>{chatdate}</ChatDateStyle>
+      <Link to={accountname}>
+        <UserImageStyle src={imageSrc} alt="이미지" />
+        <UserNameStyle>{username}</UserNameStyle>
+        <ChatDateStyle>{chatdate}</ChatDateStyle>
+      </Link>
     </ChatItemStyle>
   );
 }

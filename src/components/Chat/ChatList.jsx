@@ -23,6 +23,7 @@ function ChatList() {
     <ListMainStyle>
       <MessagesListStyle>
         <ChatItem
+          accountname="rhdwn1234"
           imageSrc="https://api.mandarin.weniv.co.kr//1687234600959.png"
           username="행복한 공주"
           chatdate="2023년 6월 6일"
