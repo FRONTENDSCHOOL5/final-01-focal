@@ -29,7 +29,7 @@ export default function ChatRoomPage() {
     <>
       <Header type="basic" ellipsisBtnShow={true} headerText={user?.username} />
       <h2 className="a11y-hidden">대화창</h2>
-      <ChatRoom />
+      <ChatRoom data={user?.username} />
       <TextInputBox type="chat" />
     </>
   );

@@ -29,6 +29,7 @@ const UserImageStyle = styled.img`
   width: 42px;
   height: 42px;
   margin-right: 10px;
+  border-radius: 50%;
 `;
 
 export default function ChatItem({ imageSrc, username, chatdate }) {
