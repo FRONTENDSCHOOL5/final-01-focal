@@ -7,7 +7,7 @@ import authInstance from '../api/instance/authInstance';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Button from '../components/Button/Button';
-import logoImg from '../assets/images/not-found.png';
+import logoImg from '../assets/images/logo.png';
 
 const Main = styled.main`
   width: 100%;
