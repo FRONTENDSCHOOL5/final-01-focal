@@ -79,7 +79,9 @@ export default function TextInputBox({ type, onButtonClick }) {
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
-                handleButtonClick(e.target.value);
+                setTimeout(() => {
+                  handleButtonClick();
+                }, 0);
               }
             }}
             placeholder="댓글 입력하기..."
