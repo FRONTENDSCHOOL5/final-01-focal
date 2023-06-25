@@ -8,6 +8,7 @@ import BottomSheetContent from '../Modal/BottomSheetContent';
 import ConfirmModal from '../Modal/ConfirmModal';
 import authInstance from '../../api/instance/authInstance';
 import useModal from '../../hooks/useModal';
+import { convertTime } from '../../utils/convertTime';
 
 const CommentSection = styled.section`
   max-width: 390px;
@@ -94,35 +95,6 @@ function PostComment({ comments, postId, onDelete }) {
   const [commentId, setCommentId] = useState('');
   const accountName = localStorage.getItem('accountname');
 
-  const timeAgo = (date) => {
-    const currentTime = new Date();
-    const commentDate = new Date(date);
-    const timeDifference = currentTime - commentDate;
-
-    const seconds = Math.floor(timeDifference / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    const weeks = Math.floor(days / 7);
-    const years = Math.floor(days / 365);
-
-    if (seconds === 0) {
-      return '방금';
-    } else if (seconds < 60) {
-      return `${seconds}초 전`;
-    } else if (minutes < 60) {
-      return `${minutes}분 전`;
-    } else if (hours < 24) {
-      return `${hours}시간 전`;
-    } else if (days < 7) {
-      return `${days}일 전`;
-    } else if (weeks < 52) {
-      return `${weeks}주 전`;
-    } else {
-      return `${years}년 전`;
-    }
-  };
-
   const getImage = (image) => {
     if (image === 'http://146.56.183.55:5050/Ellipse.png') {
       return defaultImage;
@@ -168,7 +140,7 @@ function PostComment({ comments, postId, onDelete }) {
               <NameLink to="/">
                 <UserName>{comment.author.username}</UserName>
               </NameLink>
-              <CommentDate>{timeAgo(comment.createdAt)}</CommentDate>
+              <CommentDate>{convertTime(comment.createdAt)}</CommentDate>
             </CommentInfo>
             <CommentText>{comment.content}</CommentText>
             <MoreBtn
