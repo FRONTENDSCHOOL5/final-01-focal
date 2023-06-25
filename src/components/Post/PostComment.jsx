@@ -151,7 +151,6 @@ function PostComment({ comments, postId, onDelete }) {
       console.error(error);
     }
   };
-
   return (
     <CommentSection>
       <h2 className="a11y-hidden">댓글목록</h2>
@@ -159,13 +158,13 @@ function PostComment({ comments, postId, onDelete }) {
         {comments.map((comment) => (
           <CommentItem key={comment.id}>
             <CommentInfo>
-              <ProfileLink to="/">
+              <ProfileLink to={`/profile/${comment.author.accountname}`}>
                 <ProfileImage
                   src={getImage(comment.author.image)}
                   alt="사용자이미지"
                 />
               </ProfileLink>
-              <NameLink to="/">
+              <NameLink to={`/profile/${comment.author.accountname}`}>
                 <UserName>{comment.author.username}</UserName>
               </NameLink>
               <CommentDate>{timeAgo(comment.createdAt)}</CommentDate>
