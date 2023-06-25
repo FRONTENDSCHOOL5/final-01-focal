@@ -76,6 +76,12 @@ export default function TextInputBox({ type, onButtonClick }) {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleButtonClick(e.target.value);
+              }
+            }}
             placeholder="댓글 입력하기..."
             autoComplete="off"
           />
