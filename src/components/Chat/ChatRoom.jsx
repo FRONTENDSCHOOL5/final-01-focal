@@ -31,27 +31,29 @@ const MessageListStyle = styled.div`
   overflow: auto;
 `;
 
-function ChatRoom() {
+function ChatRoom({ data }) {
   return (
     <MainStyle>
       <ChatWrapperStyle>
-        <MessageListStyle>
-          <ChatMessage imgSrc={ImageSrc} time="12:22">
-            <ReceiveText message="옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 악동하다. 대고,못할 넣는 풍부하게 뛰노는 인생의 힘있다." />
-          </ChatMessage>
-          <ChatMessage imgSrc={ImageSrc} time="12:25">
-            <ReceiveText message="안녕하세요. 감귤 사고싶어요요요요요" />
-          </ChatMessage>
-          <ChatMessage imgSrc={ImageSrc} time="12:30">
-            <ReceiveImage src={ImageSrc3} />
-          </ChatMessage>
-          <MyChatMessage time="12:50">
-            <SendText message="네 말씀하세요." />
-          </MyChatMessage>
-          <MyChatMessage time="12:51">
-            <SendImage src={ImageSrc2} />
-          </MyChatMessage>
-        </MessageListStyle>
+        {data === '행복한 공주' && (
+          <MessageListStyle>
+            <ChatMessage imgSrc={ImageSrc} time="12:22">
+              <ReceiveText message="옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 악동하다. 대고,못할 넣는 풍부하게 뛰노는 인생의 힘있다." />
+            </ChatMessage>
+            <ChatMessage imgSrc={ImageSrc} time="12:25">
+              <ReceiveText message="안녕하세요. 감귤 사고싶어요요요요요" />
+            </ChatMessage>
+            <ChatMessage imgSrc={ImageSrc} time="12:30">
+              <ReceiveImage src={ImageSrc3} />
+            </ChatMessage>
+            <MyChatMessage time="12:50">
+              <SendText message="네 말씀하세요." />
+            </MyChatMessage>
+            <MyChatMessage time="12:51">
+              <SendImage src={ImageSrc2} />
+            </MyChatMessage>
+          </MessageListStyle>
+        )}
       </ChatWrapperStyle>
     </MainStyle>
   );

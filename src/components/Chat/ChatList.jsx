@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import ChatItem from './ChatItem';
-import imageSrc from '../../assets/images/basic-profile-s.png';
 
 const ListMainStyle = styled.main`
   margin-top: 48px;
@@ -24,19 +23,10 @@ function ChatList() {
     <ListMainStyle>
       <MessagesListStyle>
         <ChatItem
-          imageSrc={imageSrc}
-          username="김민교"
+          accountname="rhdwn1234"
+          imageSrc="https://api.mandarin.weniv.co.kr//1687234600959.png"
+          username="행복한 공주"
           chatdate="2023년 6월 6일"
-        />
-        <ChatItem
-          imageSrc={imageSrc}
-          username="정유송"
-          chatdate="2023년 6월 8일"
-        />
-        <ChatItem
-          imageSrc={imageSrc}
-          username="신은수"
-          chatdate="2023년 6월 8일"
         />
       </MessagesListStyle>
     </ListMainStyle>
