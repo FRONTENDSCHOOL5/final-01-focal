@@ -18,7 +18,6 @@ const PostsContainer = styled.section`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100%;
   background-color: var(--white);
   border-top: var(--border-color);
 `;
@@ -52,6 +51,7 @@ const PostGalleryView = styled.ul`
   grid-template-columns: 1fr 1fr 1fr;
   max-width: 390px;
   width: 100%;
+  height: 100%;
   padding: 16px 16px 70px;
   gap: 8px;
 `;
@@ -61,6 +61,7 @@ const PostListView = styled.ul`
   flex-direction: column;
   max-width: 390px;
   width: 100%;
+  height: 100%;
   padding-top: 16px;
   gap: 20px;
 `;
