@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import baseInstance from '../../api/instance/baseInstance';
 import defaultImg from '../../assets/images/basic-profile-m.png';
@@ -128,6 +128,12 @@ function PostUpload({
     const newImageList = inputValue.image.filter((item) => item !== clickedSrc);
     setInputValue({ ...inputValue, image: newImageList });
   };
+
+  useEffect(() => {
+    if (inputValue.content) {
+      handleResizeHeight();
+    }
+  }, [inputValue]);
 
   return (
     <>
