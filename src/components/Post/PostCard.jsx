@@ -182,7 +182,7 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
             imageList.map((_, index) => {
               return (
                 <li key={id + index}>
-                  <img src={imageList[currentSlide]} alt="" />
+                  <img src={imageList[currentSlide]} alt="글 이미지" />
                 </li>
               );
             })}

@@ -15,19 +15,17 @@ import ConfirmModal from '../components/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import Loading from '../components/Loading/Loading';
 
-const Container = styled.main`
-  & > main {
-    width: 100%;
-    height: calc(100vh - 108px);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 390px;
-    margin-top: 48px;
-    background-color: #f2f2f2;
-    gap: 6px;
-  }
+const Main = styled.main`
+  width: 100%;
+  max-height: calc(100vh - 108px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 390px;
+  margin-top: 48px;
+  background-color: #f2f2f2;
+  gap: 6px;
 `;
 
 export default function MyProfilePage() {
@@ -73,7 +71,7 @@ export default function MyProfilePage() {
       {isLoading && isProductLoading && isPostLoading ? (
         <Loading />
       ) : (
-        <Container>
+        <Main>
           <Header
             type="basic"
             onClick={openMenu}
@@ -97,7 +95,7 @@ export default function MyProfilePage() {
             )}
           </main>
           <NavBar />
-        </Container>
+        </Main>
       )}
 
       {isMenuOpen && (

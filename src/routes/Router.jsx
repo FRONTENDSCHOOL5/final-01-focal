@@ -51,11 +51,13 @@ export default function Router() {
             <Route path="follower" element={<FollowersPage />} />
             <Route path="following" element={<FollowingsPage />} />
           </Route>
-          <Route path="/product" element={<ProductUploadPage />} />
-          <Route
-            path="/product/:product_id/edit"
-            element={<ProductEditPage />}
-          />
+          <Route path="/product/" element={<Outlet />}>
+            <Route path="" element={<ProductUploadPage />} />
+            <Route
+              path="/product/:product_id/edit"
+              element={<ProductEditPage />}
+            />
+          </Route>
           <Route path="/chat/" element={<Outlet />}>
             <Route path="" element={<ChatListPage />} />
             <Route path=":_id" element={<ChatRoomPage />} />

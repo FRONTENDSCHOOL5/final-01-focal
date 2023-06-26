@@ -30,6 +30,9 @@ const Container = styled.section`
 
   & > div {
     height: 100%;
+    & > article:not(:last-child) {
+      margin-bottom: 40px;
+    }
   }
 `;
 
@@ -96,6 +99,8 @@ export default function HomePage() {
         <h2 className="a11y-hidden">Focal 홈 피드</h2>
 
         <Container>
+          <h3 className="a11y-hidden">내가 팔로우한 사람 글 목록</h3>
+
           {isLoading ? (
             <Loading />
           ) : postDatas && postDatas.length > 0 ? (
