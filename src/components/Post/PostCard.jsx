@@ -224,6 +224,7 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
             }}
           >
             <IconButton>
+              <span className="a11y-hidden">상세 글 정보보기 버튼</span>
               <CommentIcon fill="white" stroke="var(--sub-text-color)" />
             </IconButton>
             <IconText>{commentCount}</IconText>
