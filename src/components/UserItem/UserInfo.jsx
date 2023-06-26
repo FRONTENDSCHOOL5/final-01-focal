@@ -37,13 +37,11 @@ const StyledUserInfo = styled(Link)`
   }
 `;
 
-export default function UserInfo({ user, searchQuery = '' }) {
-  const username = searchQuery
-    ? user.username
-    : user.username.replaceAll(
-        searchQuery,
-        `<span class="keyword">${searchQuery}</span>`,
-      );
+export default function UserInfo({ user, searchQuery = null }) {
+  const searchUserName = user.username.replaceAll(
+    searchQuery,
+    `<span class="keyword">${searchQuery}</span>`,
+  );
 
   return (
     <StyledUserInfo to={`/profile/${user.accountname}`}>
@@ -57,7 +55,11 @@ export default function UserInfo({ user, searchQuery = '' }) {
         alt="유저이미지"
       />
       <div className="userinfo-txt">
-        <strong dangerouslySetInnerHTML={{ __html: username }}></strong>
+        {searchQuery ? (
+          <strong dangerouslySetInnerHTML={{ __html: searchUserName }}></strong>
+        ) : (
+          <strong>{user.username}</strong>
+        )}
         <p>@ {user.accountname}</p>
       </div>
     </StyledUserInfo>
