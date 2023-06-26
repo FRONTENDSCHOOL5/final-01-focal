@@ -33,7 +33,7 @@ const Title = styled.h2`
 const ProductList = styled.ul`
   display: flex;
   gap: 10px;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
 `;
 

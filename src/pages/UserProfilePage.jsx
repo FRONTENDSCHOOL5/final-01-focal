@@ -9,19 +9,17 @@ import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
 import NavBar from '../components/NavBar/NavBar';
 
-const Container = styled.main`
-  & > main {
-    width: 100%;
-    height: calc(100vh - 108px);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 390px;
-    margin-top: 48px;
-    background-color: #f2f2f2;
-    gap: 6px;
-  }
+const Main = styled.main`
+  width: 100%;
+  max-height: calc(100vh - 108px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 390px;
+  margin-top: 48px;
+  background-color: #f2f2f2;
+  gap: 6px;
 `;
 
 export default function UserProfilePage() {
@@ -44,20 +42,18 @@ export default function UserProfilePage() {
 
   return (
     <>
-      <Container>
-        <Header type="basic" />
-        <main>
-          <h1 className="a11y-hidden">나의 프로필 페이지</h1>
-          {userData && (
-            <>
-              <ProfileInfo userInfo={userData} />
-              <ProfileProducts accountname={userData.accountname} />
-              <ProfilePosts accountname={userData.accountname} />
-            </>
-          )}
-        </main>
-        <NavBar />
-      </Container>
+      <Header type="basic" />
+      <Main>
+        <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+        {userData && (
+          <>
+            <ProfileInfo userInfo={userData} />
+            <ProfileProducts accountname={userData.accountname} />
+            <ProfilePosts accountname={userData.accountname} />
+          </>
+        )}
+      </Main>
+      <NavBar />
     </>
   );
 }

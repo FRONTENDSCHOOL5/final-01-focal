@@ -15,19 +15,17 @@ import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 
-const Container = styled.main`
-  & > main {
-    width: 100%;
-    height: calc(100vh - 108px);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 390px;
-    margin-top: 48px;
-    background-color: #f2f2f2;
-    gap: 6px;
-  }
+const Main = styled.main`
+  width: 100%;
+  max-height: calc(100vh - 108px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 390px;
+  margin-top: 48px;
+  background-color: #f2f2f2;
+  gap: 6px;
 `;
 
 export default function MyProfilePage() {
@@ -66,15 +64,15 @@ export default function MyProfilePage() {
 
   return (
     <>
-      <Container>
+      <>
         <Header
           type="basic"
           onClick={openMenu}
           ellipsisBtnShow={true}
           backBtnShow={false}
         />
-        <main>
-          <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+        <Main>
+          <h2 className="a11y-hidden">나의 프로필 페이지</h2>
           {userData && (
             <>
               <ProfileInfo userInfo={userData} />
@@ -82,9 +80,9 @@ export default function MyProfilePage() {
               <ProfilePosts accountname={userData.accountname} />
             </>
           )}
-        </main>
+        </Main>
         <NavBar />
-      </Container>
+      </>
 
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={closeMenu}>

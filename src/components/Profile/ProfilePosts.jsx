@@ -19,7 +19,6 @@ const PostsContainer = styled.section`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100%;
   background-color: var(--white);
   border-top: var(--border-color);
 `;
@@ -53,7 +52,8 @@ const PostGalleryView = styled.ul`
   grid-template-columns: 1fr 1fr 1fr;
   max-width: 390px;
   width: 100%;
-  padding: 16px 16px 70px;
+  height: 100%;
+  padding: 16px;
   gap: 8px;
 `;
 
@@ -76,6 +76,7 @@ const PostInfoWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 35px;
   height: 100%;
   gap: 25px;
 `;
@@ -149,7 +150,7 @@ export default function ProfilePosts({ accountname }) {
     <>
       {posts.length > 0 ? (
         <PostsContainer>
-          <h2 className="a11y-hidden">포스트</h2>
+          <h2 className="a11y-hidden">프로필 포스트</h2>
           <PostAlignWrapper>
             <PostsAlignRow>
               <AlignButton onClick={handleListAlign}>
