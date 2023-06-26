@@ -58,7 +58,7 @@ export default function UserInfo({ user, searchQuery = null }) {
         {searchQuery ? (
           <strong dangerouslySetInnerHTML={{ __html: searchUserName }}></strong>
         ) : (
-          <strong>{user.searchUserName}</strong>
+          <strong>{user.username}</strong>
         )}
         <p>@ {user.accountname}</p>
       </div>
