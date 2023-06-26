@@ -63,9 +63,9 @@ export default function FollowingsPage() {
     <>
       <Header type="basic" headerText="Followings" backBtnShow={true} />(
       <Main>
-        <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>
         {userData.length > 0 ? (
           <section>
+            <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>
             <ul>
               {userData.map((user) => (
                 <UserFollowListItem key={user._id} user={user} />

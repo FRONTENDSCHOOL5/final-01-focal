@@ -106,6 +106,7 @@ export default function ProfileInfo({ userInfo }) {
 
   return (
     <UserCol>
+      <h2 className="a11y-hidden">프로필 정보</h2>
       <UserInfoCol>
         <UserImage
           src={

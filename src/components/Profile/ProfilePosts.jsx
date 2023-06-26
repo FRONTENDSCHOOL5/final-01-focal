@@ -53,7 +53,7 @@ const PostGalleryView = styled.ul`
   max-width: 390px;
   width: 100%;
   height: 100%;
-  padding: 16px 16px 70px;
+  padding: 16px;
   gap: 8px;
 `;
 
@@ -155,7 +155,7 @@ export default function ProfilePosts({ accountname }) {
     <>
       {posts.length > 0 ? (
         <PostsContainer>
-          <h2 className="a11y-hidden">포스트</h2>
+          <h2 className="a11y-hidden">프로필 포스트</h2>
           <PostAlignWrapper>
             <PostsAlignRow>
               <AlignButton onClick={handleListAlign}>
