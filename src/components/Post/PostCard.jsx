@@ -7,6 +7,7 @@ import authInstance from '../../api/instance/authInstance';
 import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
+import { convertTime } from '../../utils/convertTime';
 
 const PostArticle = styled.article`
   position: relative;
@@ -134,14 +135,6 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
   const isProfile = pathname.includes('profile');
   const { post_id: postIdParams } = useParams();
 
-  const date = useMemo(() => {
-    return `
-    ${createdAt.slice(0, 4)}년 
-    ${createdAt.slice(5, 7)}월 
-    ${createdAt.slice(8, 10)}일
-  `;
-  }, [createdAt]);
-
   const imageList = useMemo(() => {
     return image.split(',');
   }, [image]);
@@ -154,7 +147,6 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
       const res = await (likeInfo.liked
         ? authInstance.delete(endpoint)
         : authInstance.post(endpoint));
-      console.log(res);
       setLikeInfo({
         liked: res.data.post.hearted,
         count: res.data.post.heartCount,
@@ -230,7 +222,7 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
             <IconText>{commentCount}</IconText>
           </div>
         </InfoIcons>
-        <time dateTime={createdAt}>{date}</time>
+        <time dateTime={createdAt}>{convertTime(createdAt)}</time>
       </ContentInfo>
       <MoreButton type="button" isProfile={isProfile}>
         <span className="a11y-hidden">더보기 버튼</span>

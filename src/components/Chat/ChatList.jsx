@@ -9,7 +9,7 @@ const ListMainStyle = styled.main`
   overflow-y: scroll;
   min-width: 390px;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 108px);
   background-color: var(--white);
 `;
 
@@ -21,6 +21,7 @@ const MessagesListStyle = styled.ul`
 function ChatList() {
   return (
     <ListMainStyle>
+      <h2 className="a11y-hidden">채팅 목록</h2>
       <MessagesListStyle>
         <ChatItem
           accountname="rhdwn1234"

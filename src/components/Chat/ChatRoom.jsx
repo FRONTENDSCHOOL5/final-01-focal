@@ -35,6 +35,7 @@ function ChatRoom({ data }) {
   return (
     <MainStyle>
       <ChatWrapperStyle>
+        <h2 className="a11y-hidden">채팅방</h2>
         {data === '행복한 공주' && (
           <MessageListStyle>
             <ChatMessage imgSrc={ImageSrc} time="12:22">

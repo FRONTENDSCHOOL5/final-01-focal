@@ -70,7 +70,7 @@ const RadioInputGroupBox = styled.div`
     font-weight: 500;
     font-size: 12px;
     color: var(--sub-text-color);
-    margin-bottom: 10px;
+    margin-bottom: 18px;
   }
 
   div.inputs {
