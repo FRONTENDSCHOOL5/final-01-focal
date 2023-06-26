@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authInstance from '../../api/instance/authInstance';
 import PostCard from '../Post/PostCard';
@@ -90,9 +89,11 @@ const PostInfo = styled.h4`
   color: var(--sub-text-color);
 `;
 
-export default function ProfilePosts({ accountname }) {
+export default function ProfilePosts({ accountname, setIsPostLoading }) {
   const [isListView, setIsListView] = useState(true);
   const [posts, setPosts] = useState([]);
+  const [isData, setIsData] = useState(true);
+  const [postId, setPostId] = useState(null);
   const {
     isMenuOpen,
     isModalOpen,
@@ -101,7 +102,6 @@ export default function ProfilePosts({ accountname }) {
     openModal,
     closeModal,
   } = useModal();
-  const [postId, setPostId] = useState(null);
 
   const useraccount = localStorage.getItem('accountname');
   const navigate = useNavigate();
@@ -110,6 +110,10 @@ export default function ProfilePosts({ accountname }) {
     const fetchPosts = async () => {
       const res = await authInstance.get(`/post/${accountname}/userpost`);
       setPosts(res.data.post);
+      setIsPostLoading(false);
+      if (res.data.post.length === 0) {
+        setIsData(false);
+      }
     };
     fetchPosts();
   }, []);
@@ -127,6 +131,9 @@ export default function ProfilePosts({ accountname }) {
       await authInstance.delete(`/post/${postId}`);
       const res = await authInstance.get(`/post/${accountname}/userpost`);
       setPosts(res.data.post);
+      if (res.data.post.length === 0) {
+        setIsData(false);
+      }
       closeMenu();
       closeModal();
     } catch (err) {
@@ -147,7 +154,7 @@ export default function ProfilePosts({ accountname }) {
 
   return (
     <>
-      {posts.length > 0 ? (
+      {isData ? (
         <PostsContainer>
           <h2 className="a11y-hidden">포스트</h2>
           <PostAlignWrapper>

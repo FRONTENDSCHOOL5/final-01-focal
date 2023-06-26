@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '../states/LoginState';
@@ -14,6 +13,7 @@ import BottomSheetModal from '../components/Modal/BottomSheetModal';
 import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
+import Loading from '../components/Loading/Loading';
 
 const Container = styled.main`
   & > main {
@@ -31,6 +31,9 @@ const Container = styled.main`
 `;
 
 export default function MyProfilePage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isProductLoading, setIsProductLoading] = useState(true);
+  const [isPostLoading, setIsPostLoading] = useState(true);
   const [userData, setUserData] = useState('');
   const {
     isMenuOpen,
@@ -57,6 +60,7 @@ export default function MyProfilePage() {
         const res = await authInstance.get('user/myinfo');
         const { user } = res.data;
         setUserData(user);
+        setIsLoading(false);
       } catch (err) {
         console.error('Error :', err);
       }
@@ -66,25 +70,35 @@ export default function MyProfilePage() {
 
   return (
     <>
-      <Container>
-        <Header
-          type="basic"
-          onClick={openMenu}
-          ellipsisBtnShow={true}
-          backBtnShow={false}
-        />
-        <main>
-          <h1 className="a11y-hidden">나의 프로필 페이지</h1>
-          {userData && (
-            <>
-              <ProfileInfo userInfo={userData} />
-              <ProfileProducts accountname={userData.accountname} />
-              <ProfilePosts accountname={userData.accountname} />
-            </>
-          )}
-        </main>
-        <NavBar />
-      </Container>
+      {isLoading && isProductLoading && isPostLoading ? (
+        <Loading />
+      ) : (
+        <Container>
+          <Header
+            type="basic"
+            onClick={openMenu}
+            ellipsisBtnShow={true}
+            backBtnShow={false}
+          />
+          <main>
+            <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+            {userData && (
+              <>
+                <ProfileInfo userInfo={userData} />
+                <ProfileProducts
+                  accountname={userData.accountname}
+                  setIsProductLoading={setIsProductLoading}
+                />
+                <ProfilePosts
+                  accountname={userData.accountname}
+                  setIsPostLoading={setIsPostLoading}
+                />
+              </>
+            )}
+          </main>
+          <NavBar />
+        </Container>
+      )}
 
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={closeMenu}>
