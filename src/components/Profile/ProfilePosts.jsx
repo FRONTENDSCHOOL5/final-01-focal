@@ -65,6 +65,9 @@ const PostListView = styled.ul`
   height: 100%;
   padding-top: 16px;
   gap: 20px;
+  & > li {
+    margin-bottom: 12px;
+  }
 `;
 
 const NoPostsContainer = styled.div`
@@ -78,6 +81,7 @@ const PostInfoWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 35px;
   height: 100%;
   gap: 25px;
 `;
