@@ -67,8 +67,8 @@ const PostListView = styled.ul`
 `;
 
 const NoPostsContainer = styled.div`
-  height: 100%;
   width: 100%;
+  height: 100%;
   background-color: var(--white);
 `;
 
@@ -78,19 +78,17 @@ const PostInfoWrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-  gap: 18px;
+  gap: 25px;
 `;
 
 const PostInfoImg = styled.img`
-  height: 50px;
+  width: 100px;
+  filter: grayscale(90%);
 `;
 
 const PostInfo = styled.h4`
-  font-size: 18px;
-  letter-spacing: 1.5px;
-  font-weight: bold;
-  padding-bottom: 10px;
-  color: var(--main-text-color);
+  font-size: 14px;
+  color: var(--sub-text-color);
 `;
 
 export default function ProfilePosts({ accountname }) {
@@ -105,9 +103,17 @@ export default function ProfilePosts({ accountname }) {
     closeModal,
   } = useModal();
   const [postId, setPostId] = useState(null);
-  
+
   const useraccount = localStorage.getItem('accountname');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = await authInstance.get(`/post/${accountname}/userpost`);
+      setPosts(res.data.post);
+    };
+    fetchPosts();
+  }, []);
 
   const handleListAlign = () => {
     setIsListView(true);
@@ -139,14 +145,6 @@ export default function ProfilePosts({ accountname }) {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await authInstance.get(`/post/${accountname}/userpost`);
-      setPosts(res.data.post);
-    };
-    fetchPosts();
-  }, []);
 
   return (
     <>
@@ -233,9 +231,7 @@ export default function ProfilePosts({ accountname }) {
       ) : (
         <NoPostsContainer>
           <PostInfoWrapper>
-            <PostInfoImg src={LogoImg} />
             <PostInfo>게시글을 작성해 보세요!</PostInfo>
-
             <Button
               onClick={() => {
                 navigate(`/post/upload`);

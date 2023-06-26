@@ -1,11 +1,10 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import UserFollowListItem from '../components/UserItem/UserFollowListItem';
 import Header from '../components/Header/Header';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import authInstance from '../api/instance/authInstance';
-import { useState } from 'react';
 import logoImg from '../assets/images/logo.png';
 
 const Main = styled.main`
@@ -15,9 +14,7 @@ const Main = styled.main`
   margin-top: 48px;
 
   & > section {
-    max-width: 358px;
-    width: calc(100% - 16px * 2);
-    margin: 24px auto;
+    padding: 24px 16px;
 
     & > ul li:not(:last-child) {
       margin-bottom: 16px;
@@ -25,30 +22,28 @@ const Main = styled.main`
   }
 `;
 
-const FollowingNoneWrapper = styled.div`
+const FollowingNoneWrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 108px);
-  letter-spacing: 1.5px;
-  gap: 20px;
+  height: calc(100vh - 150px);
+  gap: 25px;
 `;
 
 const LogoImg = styled.img`
   width: 150px;
-  margin-bottom: 10px;
   filter: grayscale(90%);
 `;
 
 const FollowInfo = styled.h3`
-  font-size: 22px;
+  font-size: 14px;
+  color: var(--sub-text-color);
 `;
 
 export default function FollowersPage() {
   const location = useLocation();
   const accountname = location.state?.accountname;
-  const username = location.state?.username;
   const [userData, setUserData] = useState([]);
   const loginAccountname = localStorage.getItem('accountname');
 
@@ -64,33 +59,35 @@ export default function FollowersPage() {
 
   return (
     <>
-      <Header type="basic" headerText="Followers" backBtnShow={true} />{' '}
+      <Header type="basic" headerText="Followers" backBtnShow={true} />
+
       <Main>
-        <section>
-          <h2 className="a11y-hidden">나를 팔로우하는 사람 리스트</h2>
-          {userData.length > 0 ? (
+        <h2 className="a11y-hidden">나를 팔로우하는 유저 리스트</h2>
+        {userData.length > 0 ? (
+          <section>
             <ul>
               {userData.map((user) => (
                 <UserFollowListItem key={user._id} user={user} />
               ))}
             </ul>
-          ) : (
-            <FollowingNoneWrapper>
-              {loginAccountname === accountname ? (
-                <>
-                  <LogoImg src={logoImg} alt="포칼 로고" />
-                  <FollowInfo>나를 팔로우 하는 사람이 없습니다!</FollowInfo>
-                </>
-              ) : (
-                <>
-                  <LogoImg src={logoImg} alt="포칼 로고" />
-                  <FollowInfo>{username} 를</FollowInfo>
-                  <FollowInfo>팔로우 하는 사람이 없습니다!</FollowInfo>
-                </>
-              )}
-            </FollowingNoneWrapper>
-          )}
-        </section>
+          </section>
+        ) : (
+          <FollowingNoneWrapper>
+            {loginAccountname === accountname ? (
+              <>
+                <LogoImg src={logoImg} alt="포칼 로고" />
+                <FollowInfo>나를 팔로우하는 유저가 없습니다</FollowInfo>
+              </>
+            ) : (
+              <>
+                <LogoImg src={logoImg} alt="포칼 로고" />
+                <FollowInfo>
+                  @{accountname}님을 팔로우하는 유저가 없습니다
+                </FollowInfo>
+              </>
+            )}
+          </FollowingNoneWrapper>
+        )}
       </Main>
     </>
   );
