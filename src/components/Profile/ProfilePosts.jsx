@@ -61,9 +61,8 @@ const PostListView = styled.ul`
   display: flex;
   flex-direction: column;
   max-width: 390px;
-  width: 100%;
-  padding-top: 16px;
-  gap: 20px;
+  padding: 48px 0;
+  gap: 65px;
 `;
 
 const NoPostsContainer = styled.div`
@@ -254,7 +253,7 @@ export default function ProfilePosts({ accountname }) {
               <BottomSheetContent onClick={openModal}>삭제</BottomSheetContent>
               <BottomSheetContent
                 onClick={() => {
-                  navigate(`/post/${postId}/upload`);
+                  navigate(`/post/${postId}/edit`);
                 }}
               >
                 수정
