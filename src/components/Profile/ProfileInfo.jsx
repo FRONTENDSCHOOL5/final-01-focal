@@ -15,41 +15,12 @@ const UserCol = styled.section`
   border-bottom: 0.5px solid var(--border-color);
 `;
 
-const UserInfoRow = styled.div`
-  display: flex;
-  gap: 41px;
-`;
-
 const UserInfoCol = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const FollowBtn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-`;
-
-const FollowerNumber = styled.p`
-  font-size: 18px;
-  font-weight: 700;
-`;
-
-const FollowText = styled.p`
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--sub-text-color);
-`;
-
-const FollowingNumber = styled.p`
-  color: var(--sub-text-color);
-  font-size: 18px;
-  font-weight: 700;
+  gap: 5px;
 `;
 
 const UserImage = styled.img`
@@ -76,6 +47,41 @@ const UserTitle = styled.h3`
   margin: 16px 0 24px;
 `;
 
+const FollowBtn = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  &.follower {
+    top: 45px;
+    left: -10px;
+  }
+  &.following {
+    top: 45px;
+    right: -10px;
+  }
+`;
+
+const FollowerNumber = styled.p`
+  font-size: 18px;
+  font-weight: 700;
+`;
+
+const FollowText = styled.p`
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--sub-text-color);
+`;
+
+const FollowingNumber = styled.p`
+  color: var(--sub-text-color);
+  font-size: 18px;
+  font-weight: 700;
+`;
+
 export default function ProfileInfo({ userInfo }) {
   const {
     _id,
@@ -100,7 +106,28 @@ export default function ProfileInfo({ userInfo }) {
 
   return (
     <UserCol>
-      <UserInfoRow>
+      <UserInfoCol>
+        <UserImage
+          src={
+            image === 'http://146.56.183.55:5050/Ellipse.png'
+              ? defaultImg
+              : image.replaceAll('mandarin.api', 'api.mandarin')
+          }
+          alt="프로필 이미지"
+        />
+        <UserName>{username}</UserName>
+        <UserAccount>@ {accountname}</UserAccount>
+        <UserTitle>{intro}</UserTitle>
+        {useraccount !== accountname ? (
+          <UserInfoBtns
+            handleFollowNum={handleFollowNum}
+            isfollow={isfollow}
+            accountname={accountname}
+          />
+        ) : (
+          <MyInfoBtns />
+        )}
+
         <FollowBtn
           onClick={() => {
             navigate(`/follow/${_id}/follower`, {
@@ -110,18 +137,11 @@ export default function ProfileInfo({ userInfo }) {
               },
             });
           }}
+          className="follower"
         >
           <FollowerNumber>{followerNum}</FollowerNumber>
           <FollowText>followers</FollowText>
         </FollowBtn>
-        <UserImage
-          src={
-            image === 'http://146.56.183.55:5050/Ellipse.png'
-              ? defaultImg
-              : image.replaceAll('mandarin.api', 'api.mandarin')
-          }
-          alt="프로필 이미지"
-        />
         <FollowBtn
           onClick={() => {
             navigate(`/follow/${_id}/following`, {
@@ -131,25 +151,12 @@ export default function ProfileInfo({ userInfo }) {
               },
             });
           }}
+          className="following"
         >
           <FollowingNumber>{followingCount}</FollowingNumber>
           <FollowText>followings</FollowText>
         </FollowBtn>
-      </UserInfoRow>
-      <UserInfoCol>
-        <UserName>{username}</UserName>
-        <UserAccount>{accountname}</UserAccount>
-        <UserTitle>{intro}</UserTitle>
       </UserInfoCol>
-      {useraccount !== accountname ? (
-        <UserInfoBtns
-          handleFollowNum={handleFollowNum}
-          isfollow={isfollow}
-          accountname={accountname}
-        />
-      ) : (
-        <MyInfoBtns />
-      )}
     </UserCol>
   );
 }
