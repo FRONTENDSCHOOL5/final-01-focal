@@ -142,6 +142,9 @@ function PostUpload({
       <PostWriteArticle>
         <h3 className="a11y-hidden">게시글 작성</h3>
         <PostForm onSubmit={handleFormSubmit} id="post">
+          <label htmlFor="content" className="a11y-hidden">
+            글 작성
+          </label>
           <textarea
             ref={textarea}
             className="post-input"
@@ -170,7 +173,8 @@ function PostUpload({
               );
             })}
           </ImageBox>
-          <label className="upload-photo-btn">
+          <label className="upload-photo-btn" htmlFor="image">
+            <span className="a11y-hidden">사진업로드 버튼</span>
             <input
               id="image"
               onChange={handleValueChange}
