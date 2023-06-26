@@ -71,14 +71,14 @@ export default function MyProfilePage() {
       {isLoading && isProductLoading && isPostLoading ? (
         <Loading />
       ) : (
-        <Main>
+        <>
           <Header
             type="basic"
             onClick={openMenu}
             ellipsisBtnShow={true}
             backBtnShow={false}
           />
-          <main>
+          <Main>
             <h1 className="a11y-hidden">나의 프로필 페이지</h1>
             {userData && (
               <>
@@ -93,9 +93,9 @@ export default function MyProfilePage() {
                 />
               </>
             )}
-          </main>
+          </Main>
           <NavBar />
-        </Main>
+        </>
       )}
 
       {isMenuOpen && (

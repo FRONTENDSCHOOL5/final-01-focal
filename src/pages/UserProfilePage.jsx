@@ -49,9 +49,9 @@ export default function UserProfilePage() {
       {isLoading && isProductLoading && isPostLoading ? (
         <Loading />
       ) : (
-        <Main>
+        <>
           <Header type="basic" />
-          <main>
+          <Main>
             <h1 className="a11y-hidden">나의 프로필 페이지</h1>
             {userData && (
               <>
@@ -66,9 +66,9 @@ export default function UserProfilePage() {
                 />
               </>
             )}
-          </main>
+          </Main>
           <NavBar />
-        </Main>
+        </>
       )}
     </>
   );

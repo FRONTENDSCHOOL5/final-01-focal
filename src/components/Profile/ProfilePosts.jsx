@@ -64,9 +64,9 @@ const PostListView = styled.ul`
   gap: 65px;
 `;
 
-const NoPostsContainer = styled.div`
+const NoPostsContainer = styled.section`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 300px);
   background-color: var(--white);
 `;
 
