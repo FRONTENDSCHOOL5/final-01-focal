@@ -133,15 +133,11 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const isProfile = pathname.includes('profile');
-<<<<<<< HEAD
   const { post_id: postIdParams } = useParams();
 
   const imageList = useMemo(() => {
     return image.split(',');
   }, [image]);
-=======
-  const imageList = image.split(',');
->>>>>>> eca290abf59baf3ff7d00c0ba84754c5bba4d6ec
 
   const handleLike = async () => {
     try {
