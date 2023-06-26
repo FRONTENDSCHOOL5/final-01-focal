@@ -12,7 +12,7 @@ import NavBar from '../components/NavBar/NavBar';
 const Container = styled.main`
   & > main {
     width: 100%;
-    height: calc(100vh - 108px);
+    max-height: calc(100vh - 108px);
     overflow-y: auto;
     display: flex;
     flex-direction: column;

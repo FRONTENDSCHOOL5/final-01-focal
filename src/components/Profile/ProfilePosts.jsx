@@ -66,7 +66,7 @@ const PostListView = styled.ul`
   padding-top: 16px;
   gap: 20px;
   & > li {
-    margin-bottom: 12px;
+    padding-bottom: 12px;
   }
 `;
 
@@ -259,7 +259,7 @@ export default function ProfilePosts({ accountname }) {
               <BottomSheetContent onClick={openModal}>삭제</BottomSheetContent>
               <BottomSheetContent
                 onClick={() => {
-                  navigate(`/post/${postId}/upload`);
+                  navigate(`/post/${postId}/edit`);
                 }}
               >
                 수정
