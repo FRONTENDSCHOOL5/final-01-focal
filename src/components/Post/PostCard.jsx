@@ -1,33 +1,44 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import UserInfo from '../UserItem/UserInfo';
 import IconButton from '../Button/IconButton';
 import authInstance from '../../api/instance/authInstance';
 import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
+import { convertTime } from '../../utils/convertTime';
 
 const PostArticle = styled.article`
   position: relative;
-  width: 390px;
-  padding: 5px 20px;
+  width: 358px;
 `;
 
 const PostContent = styled.section`
-  margin: 12px 0;
+  margin: ${({ isProfile }) => (!isProfile ? '12px 0' : '0 0 12px 0')};
   cursor: pointer;
   position: relative;
 
   p {
+    width: 100%;
     font-size: 14px;
     line-height: 18px;
     margin-bottom: 12px;
+    word-break: break-all;
+    &.post-preview {
+      overflow: hidden;
+      white-space: normal;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
   }
 
   img {
+    vertical-align: top;
     width: 100%;
-    aspect-ratio: 390/293;
+    aspect-ratio: 304/228;
     object-fit: cover;
     border-radius: 10px;
   }
@@ -94,10 +105,10 @@ const IconText = styled.span`
   margin: 0 18px 0 6px;
 `;
 
-const StyledIconButton = styled.button`
+const MoreButton = styled.button`
   position: absolute;
-  top: 5px;
-  right: 15px;
+  top: ${({ isProfile }) => (!isProfile ? '5px' : '-30px')};
+  right: 0px;
   padding: 0;
 `;
 
@@ -117,17 +128,17 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
     liked: hearted,
     count: heartCount,
   });
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const isProfile = pathname.includes('profile');
+  const { post_id: postIdParams } = useParams();
 
-  const date = `
-    ${createdAt.slice(0, 4)}년 
-    ${createdAt.slice(5, 7)}월 
-    ${createdAt.slice(8, 10)}일
-  `;
-  const imageList = image.split(',');
+  const imageList = useMemo(() => {
+    return image.split(',');
+  }, [image]);
+
   const handleLike = async () => {
     try {
       const endpoint = likeInfo.liked
@@ -136,7 +147,6 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
       const res = await (likeInfo.liked
         ? authInstance.delete(endpoint)
         : authInstance.post(endpoint));
-      console.log(res);
       setLikeInfo({
         liked: res.data.post.hearted,
         count: res.data.post.heartCount,
@@ -145,7 +155,6 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
       console.log(err);
     }
   };
-  const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleSlideChange = (index) => {
     setCurrentSlide(index);
@@ -158,19 +167,22 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
 
   return (
     <PostArticle>
+      <h3 className="a11y-hidden">포스트</h3>
       {!isProfile ? <UserInfo user={author} /> : null}
       <PostContent
+        isProfile={isProfile}
         onClick={() => {
           navigate(`/post/${id}`);
         }}
       >
-        <p>{content}</p>
+        <h4 className="a11y-hidden">포스트 내용</h4>
+        <p className={!postIdParams ? 'post-preview' : null}>{content}</p>
         <ImageCarousel currentSlide={currentSlide}>
           {image &&
             imageList.map((_, index) => {
               return (
                 <li key={id + index}>
-                  <img src={imageList[currentSlide]} alt="" />
+                  <img src={imageList[currentSlide]} alt="글 이미지" />
                 </li>
               );
             })}
@@ -191,8 +203,10 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
         )}
       </PostContent>
       <ContentInfo>
+        <h4 className="a11y-hidden"> 좋아요 갯수, 댓글 갯수 및 게시글 날짜</h4>
         <InfoIcons>
           <IconButton>
+            <span className="a11y-hidden">좋아요 버튼</span>
             <StyledHeartIcon onClick={handleLike} $liked={likeInfo.liked} />
           </IconButton>
           <IconText>{likeInfo.count}</IconText>
@@ -202,16 +216,18 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
             }}
           >
             <IconButton>
+              <span className="a11y-hidden">상세 글 정보보기 버튼</span>
               <CommentIcon fill="white" stroke="var(--sub-text-color)" />
             </IconButton>
             <IconText>{commentCount}</IconText>
           </div>
         </InfoIcons>
-        <time dateTime={createdAt}>{date}</time>
+        <time dateTime={createdAt}>{convertTime(createdAt)}</time>
       </ContentInfo>
-      <StyledIconButton>
+      <MoreButton type="button" isProfile={isProfile}>
+        <span className="a11y-hidden">더보기 버튼</span>
         <MoreIcon onClick={handleMenu} />
-      </StyledIconButton>
+      </MoreButton>
     </PostArticle>
   );
 }

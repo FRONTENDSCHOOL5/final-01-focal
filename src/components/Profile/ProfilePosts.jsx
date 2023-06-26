@@ -61,13 +61,8 @@ const PostListView = styled.ul`
   display: flex;
   flex-direction: column;
   max-width: 390px;
-  width: 100%;
-  height: 100%;
-  padding-top: 16px;
-  gap: 20px;
-  & > li {
-    padding-bottom: 12px;
-  }
+  padding: 48px 0;
+  gap: 65px;
 `;
 
 const NoPostsContainer = styled.div`

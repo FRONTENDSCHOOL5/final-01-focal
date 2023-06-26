@@ -66,7 +66,7 @@ export default function TextInputBox({ type, onButtonClick }) {
       inputContent = (
         <>
           <StyledLabel htmlFor="image">
-            <img src={profileImage} alt="" />
+            <img id="image" src={profileImage} alt="프로필 이미지" />
           </StyledLabel>
           <label htmlFor="comment" className="a11y-hidden">
             댓글 입력
@@ -76,6 +76,14 @@ export default function TextInputBox({ type, onButtonClick }) {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                setTimeout(() => {
+                  handleButtonClick();
+                }, 0);
+              }
+            }}
             placeholder="댓글 입력하기..."
             autoComplete="off"
           />
@@ -94,7 +102,7 @@ export default function TextInputBox({ type, onButtonClick }) {
       inputContent = (
         <>
           <StyledLabel htmlFor="image">
-            <img src={imageUpload} alt="" />
+            <img src={imageUpload} alt="이미지 업로드 버튼" />
           </StyledLabel>
           <input
             type="file"

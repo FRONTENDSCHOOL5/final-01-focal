@@ -34,6 +34,7 @@ export default function ProfileImageUploader({ value, handleChange }) {
   return (
     <>
       <StyledLabel htmlFor="image">
+        <span className="a11y-hidden">이미지 업로드</span>
         <img
           src={
             !value || value === 'http://146.56.183.55:5050/Ellipse.png'

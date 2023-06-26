@@ -146,7 +146,7 @@ export default function PostPage() {
             <>
               {' '}
               <BottomSheetContent
-                onClick={() => navigate(`/post/${postId}/upload`)}
+                onClick={() => navigate(`/post/${postId}/edit`)}
               >
                 수정
               </BottomSheetContent>

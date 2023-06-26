@@ -17,7 +17,6 @@ export default function ProductUploadPage() {
       if (productResponse.status !== 200) {
         throw new Error('파일 업로드 에러');
       }
-      console.log('상품 업로드 성공');
     } catch (error) {
       console.error(error);
     }
