@@ -58,12 +58,6 @@ export default function Header({
 }) {
   const navigate = useNavigate();
   let headerContent;
-  const scrollToTop = () => {
-    window.scroll({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
 
   const goBack = () => {
     navigate(-1);
@@ -96,7 +90,7 @@ export default function Header({
     case 'main':
       headerContent = (
         <>
-          <Logo onClick={scrollToTop}>
+          <Logo onClick={onClick}>
             <img src={logo} alt="Focal 로고" />
           </Logo>
           <IconButton>

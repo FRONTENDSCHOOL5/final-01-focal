@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import authInstance from '../api/instance/authInstance';
@@ -55,6 +55,7 @@ export default function HomePage() {
   } = useModal();
   const [postId, setPostId] = useState(null);
   const navigate = useNavigate();
+  const contentRef = useRef(null);
 
   useEffect(() => {
     const getPost = async () => {
@@ -80,10 +81,17 @@ export default function HomePage() {
     }
   };
 
+  const scrollToTop = () => {
+    contentRef.current.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <>
-      <Header type="main" />
-      <ContentWrapper>
+      <Header type="main" onClick={scrollToTop} />
+      <ContentWrapper ref={contentRef}>
         <h2 className="a11y-hidden">Focal 홈 피드</h2>
 
         <Container>
