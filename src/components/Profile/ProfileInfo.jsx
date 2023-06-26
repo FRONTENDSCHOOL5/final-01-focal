@@ -56,12 +56,12 @@ const FollowBtn = styled.div`
   gap: 10px;
   cursor: pointer;
   &.follower {
-    top: 45px;
-    left: -10px;
+    top: 46px;
+    left: -90px;
   }
   &.following {
-    top: 45px;
-    right: -10px;
+    top: 46px;
+    right: -90px;
   }
 `;
 
@@ -118,16 +118,6 @@ export default function ProfileInfo({ userInfo }) {
         <UserName>{username}</UserName>
         <UserAccount>@ {accountname}</UserAccount>
         <UserTitle>{intro}</UserTitle>
-        {useraccount !== accountname ? (
-          <UserInfoBtns
-            handleFollowNum={handleFollowNum}
-            isfollow={isfollow}
-            accountname={accountname}
-          />
-        ) : (
-          <MyInfoBtns />
-        )}
-
         <FollowBtn
           onClick={() => {
             navigate(`/follow/${_id}/follower`, {
@@ -157,6 +147,15 @@ export default function ProfileInfo({ userInfo }) {
           <FollowText>followings</FollowText>
         </FollowBtn>
       </UserInfoCol>
+      {useraccount !== accountname ? (
+        <UserInfoBtns
+          handleFollowNum={handleFollowNum}
+          isfollow={isfollow}
+          accountname={accountname}
+        />
+      ) : (
+        <MyInfoBtns />
+      )}
     </UserCol>
   );
 }
