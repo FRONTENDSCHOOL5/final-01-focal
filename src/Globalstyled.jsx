@@ -18,6 +18,7 @@ export const GlobalStyle = createGlobalStyle`
     --white: #fff;
     --light-gray: #c4c4c4;
     --red: #eb5757;
+    overflow: none;
   }
 
   * {
