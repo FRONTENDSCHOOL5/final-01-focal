@@ -1,5 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const slideUpAnimation = keyframes`
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
 
 const BottomSheetSection = styled.section`
   position: fixed;
@@ -16,6 +25,7 @@ const BottomSheet = styled.ul`
   padding: 36px 26px 16px;
   background-color: var(--white);
   border-radius: 10px 10px 0 0;
+  animation: ${slideUpAnimation} 0.3s ease-in-out;
 
   &::before {
     position: absolute;
