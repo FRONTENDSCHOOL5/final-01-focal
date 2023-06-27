@@ -5,7 +5,8 @@ import { ReactComponent as HomeIcon } from '../../assets/icons/icon-home.svg';
 import { ReactComponent as ChatIcon } from '../../assets/icons/icon-message.svg';
 import { ReactComponent as PostIcon } from '../../assets/icons/icon-edit.svg';
 import { ReactComponent as ProfileIcon } from '../../assets/icons/icon-user.svg';
-import { useLocation } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { pathState } from '../../states/PathState';
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -23,7 +24,11 @@ const StyledNav = styled.nav`
 `;
 
 export default function NavBar() {
-  const location = useLocation();
+  const [pathname, setPathname] = useRecoilState(pathState);
+
+  const handleClick = (e) => {
+    setPathname(e.currentTarget.pathname);
+  };
 
   return (
     <StyledNav>
@@ -32,7 +37,8 @@ export default function NavBar() {
           <NavBarItem
             to="/"
             description="홈"
-            isActive={location.pathname === '/'}
+            isActive={pathname === '/'}
+            onClick={handleClick}
           >
             <HomeIcon />
           </NavBarItem>
@@ -41,13 +47,18 @@ export default function NavBar() {
           <NavBarItem
             to="/chat/"
             description="채팅"
-            isActive={location.pathname === '/chat/'}
+            isActive={pathname === '/chat/'}
+            onClick={handleClick}
           >
             <ChatIcon />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem to="/post/upload" description="게시물 작성">
+          <NavBarItem
+            to="/post/upload"
+            description="게시물 작성"
+            onClick={handleClick}
+          >
             <PostIcon />
           </NavBarItem>
         </li>
@@ -55,7 +66,8 @@ export default function NavBar() {
           <NavBarItem
             to="/profile/"
             description="프로필"
-            isActive={location.pathname === '/profile/'}
+            isActive={pathname === '/profile/'}
+            onClick={handleClick}
           >
             <ProfileIcon />
           </NavBarItem>
