@@ -5,8 +5,7 @@ import { ReactComponent as HomeIcon } from '../../assets/icons/icon-home.svg';
 import { ReactComponent as ChatIcon } from '../../assets/icons/icon-message.svg';
 import { ReactComponent as PostIcon } from '../../assets/icons/icon-edit.svg';
 import { ReactComponent as ProfileIcon } from '../../assets/icons/icon-user.svg';
-import { useRecoilState } from 'recoil';
-import { pathState } from '../../states/PathState';
+import { useLocation } from 'react-router-dom';
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -23,63 +22,42 @@ const StyledNav = styled.nav`
   }
 `;
 
-const StyledHomeLink = styled(HomeIcon)`
-  stroke: ${({ pathname }) =>
-    pathname === '/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
-  fill: ${({ pathname }) =>
-    pathname === '/' ? 'var(--main-color)' : 'transparent'};
-
-  path:nth-child(2) {
-    stroke-width: ${({ pathname }) => (pathname === '/' ? '0.5' : '2')};
-  }
-`;
-
-const StyledChatLink = styled(ChatIcon)`
-  stroke: ${({ pathname }) =>
-    pathname === '/chat/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
-  fill: ${({ pathname }) =>
-    pathname === '/chat/' ? 'var(--main-color)' : 'transparent'};
-`;
-
-const StyledProfileLink = styled(ProfileIcon)`
-  stroke: ${({ pathname }) =>
-    pathname === '/profile/' ? 'var(--main-color)' : 'var(--sub-text-color)'};
-  fill: ${({ pathname }) =>
-    pathname === '/profile/' ? 'var(--main-color)' : 'transparent'};
-`;
-
 export default function NavBar() {
-  const [pathname, setPathname] = useRecoilState(pathState);
-
-  const handleClick = (e) => {
-    setPathname(e.currentTarget.pathname);
-  };
+  const location = useLocation();
 
   return (
     <StyledNav>
       <ul>
         <li>
-          <NavBarItem to="/" description="홈" onClick={handleClick}>
-            <StyledHomeLink pathname={pathname} />
-          </NavBarItem>
-        </li>
-        <li>
-          <NavBarItem to="/chat/" description="채팅" onClick={handleClick}>
-            <StyledChatLink pathname={pathname} />
+          <NavBarItem
+            to="/"
+            description="홈"
+            isActive={location.pathname === '/'}
+          >
+            <HomeIcon />
           </NavBarItem>
         </li>
         <li>
           <NavBarItem
-            to="/post/upload"
-            description="게시물 작성"
-            onClick={handleClick}
+            to="/chat/"
+            description="채팅"
+            isActive={location.pathname === '/chat/'}
           >
-            <PostIcon pathname={pathname} />
+            <ChatIcon />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem to="/profile/" description="프로필" onClick={handleClick}>
-            <StyledProfileLink pathname={pathname} />
+          <NavBarItem to="/post/upload" description="게시물 작성">
+            <PostIcon />
+          </NavBarItem>
+        </li>
+        <li>
+          <NavBarItem
+            to="/profile/"
+            description="프로필"
+            isActive={location.pathname === '/profile/'}
+          >
+            <ProfileIcon />
           </NavBarItem>
         </li>
       </ul>
