@@ -1,21 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/main-logo.png';
+import Logo from '../assets/images/logo.png';
 import emailIcon from '../assets/icons/email.svg';
 import signupIcon from '../assets/icons/icon-user-yellow.svg';
 import kakao from '../assets/icons/kakao.svg';
 import google from '../assets/icons/google.svg';
 import facebook from '../assets/icons/facebook.svg';
 
-const StyledHeader = styled.header`
-  margin-top: 139px;
+const Container = styled.div`
+  height: 100vh;
+`;
 
+const StyledHeader = styled.header`
+  height: 70%;
+  display: flex;
+  align-items: center;
   & > h1 {
-    margin: 0 auto;
-    max-width: 284px;
     width: calc(100% - 54px * 2);
+    max-width: 284px;
+    margin: 0 auto;
     & > img {
+      margin-left: -8px;
       width: 100%;
     }
   }
@@ -27,7 +33,7 @@ const Main = styled.main`
   width: 100%;
   padding: 50px 0 82px;
   background-color: var(--main-color);
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 14px 14px 0px 0px;
 
   & > section {
     display: flex;
@@ -41,19 +47,19 @@ const Main = styled.main`
 
 const StyledLink = styled(Link)`
   width: 100%;
-  padding: 13px 0;
-  border-radius: 44px;
+  padding: 18px 0;
+  border-radius: 4px;
   text-align: center;
   color: var(--sub-text-color);
   font-weight: 400;
   font-size: 14px;
 
   &:first-of-type {
-    margin-bottom: 7px;
+    margin-bottom: 18px;
     background: var(--white) url(${emailIcon}) no-repeat 18px center / 24px;
   }
   &:last-of-type {
-    margin-bottom: 45px;
+    margin-bottom: 35px;
     background: var(--white) url(${signupIcon}) no-repeat 18px center / 24px;
   }
 `;
@@ -63,8 +69,8 @@ const SnsBtnContainer = styled.div`
   display: flex;
 
   & > button {
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     background-color: var(--white);
     display: flex;
@@ -78,7 +84,7 @@ const SnsBtnContainer = styled.div`
 
 export default function WelcomePage() {
   return (
-    <div>
+    <Container>
       <StyledHeader>
         <h1>
           <span className="a11y-hidden">Focal 로고 버튼</span>
@@ -103,6 +109,6 @@ export default function WelcomePage() {
           </SnsBtnContainer>
         </section>
       </Main>
-    </div>
+    </Container>
   );
 }
