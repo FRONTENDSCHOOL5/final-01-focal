@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import authInstance from '../../api/instance/authInstance';
 import ProductItem from './ProductItem';
 import ProductCard from '../Product/ProductCard';
 import ConfirmModal from '../Modal/ConfirmModal';
-import { useNavigate } from 'react-router-dom';
 import useModal from '../../hooks/useModal';
 
 const ProductsCol = styled.section`
@@ -37,7 +36,7 @@ const ProductList = styled.ul`
   overflow-y: hidden;
 `;
 
-export default function ProfileProducts({ accountname }) {
+export default function ProfileProducts({ accountname, setIsProductLoading }) {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const {
@@ -56,6 +55,7 @@ export default function ProfileProducts({ accountname }) {
       try {
         const res = await authInstance.get(`/product/${accountname}`);
         setProducts(res.data.product);
+        setIsProductLoading(false);
       } catch (error) {
         console.error('Error :', error);
       }
@@ -91,7 +91,7 @@ export default function ProfileProducts({ accountname }) {
 
   return (
     <>
-      {products.length > 0 && (
+      {products.length > 0 ? (
         <ProductsCol>
           <ProductsWrapper>
             <Title>판매 중인 상품</Title>
@@ -108,25 +108,25 @@ export default function ProfileProducts({ accountname }) {
               ))}
             </ProductList>
           </ProductsWrapper>
-          {isMenuOpen && (
-            <ProductCard
-              product={selectedProduct}
-              setIsMenuOpen={closeMenu}
-              handleDelete={openModal}
-              handleUpdate={handleProductUpdate}
-              isCurrentUser={isCurrentUser}
-            />
-          )}
-          {isCurrentUser && isModalOpen && (
-            <ConfirmModal
-              title="상품을 삭제할까요?"
-              confirmInfo="삭제"
-              onClick={deleteProduct}
-              setIsMenuOpen={closeMenu}
-              setIsModalOpen={closeModal}
-            />
-          )}
         </ProductsCol>
+      ) : null}
+      {isMenuOpen && (
+        <ProductCard
+          product={selectedProduct}
+          setIsMenuOpen={closeMenu}
+          handleDelete={openModal}
+          handleUpdate={handleProductUpdate}
+          isCurrentUser={isCurrentUser}
+        />
+      )}
+      {isCurrentUser && isModalOpen && (
+        <ConfirmModal
+          title="상품을 삭제할까요?"
+          confirmInfo="삭제"
+          onClick={deleteProduct}
+          setIsMenuOpen={closeMenu}
+          setIsModalOpen={closeModal}
+        />
       )}
     </>
   );

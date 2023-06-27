@@ -11,6 +11,7 @@ import BottomSheetContent from '../components/Modal/BottomSheetContent';
 import ConfirmModal from '../components/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
+import Loading from '../components/Loading/Loading';
 
 const ContentWrapper = styled.main`
   margin: 48px 0 0;
@@ -101,7 +102,7 @@ export default function HomePage() {
           <h3 className="a11y-hidden">내가 팔로우한 사람 글 목록</h3>
 
           {isLoading ? (
-            <span>로딩중</span>
+            <Loading />
           ) : postDatas && postDatas.length > 0 ? (
             <div>
               {postDatas.map((data) => (
