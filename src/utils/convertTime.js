@@ -1,7 +1,11 @@
 export const convertTime = (date) => {
   const currentTime = new Date();
   const commentDate = new Date(date);
-  const timeDifference = currentTime - commentDate;
+  let timeDifference = currentTime - commentDate;
+
+  if (timeDifference < 0) {
+    timeDifference = 0;
+  }
 
   const seconds = Math.floor(timeDifference / 1000);
   const minutes = Math.floor(seconds / 60);
