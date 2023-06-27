@@ -1,10 +1,19 @@
 # 📷 Focal
 
-> 'Focal' 필름카메라 사진 공유 및 카메라/필름 판매 소셜네트워크 서비스입니다.
+> 'Focal'은 필름카메라 사진 공유 및 필름/필름카메라 판매 소셜네트워크 서비스입니다.
 
 <div align="center">
 <img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F05a1d614-5c54-484f-a165-dac0b7a97b23%2FUntitled.png?id=f64b9b27-93a4-46ff-9302-fbf324b06b95&table=block&spaceId=a1bc3b9a-06c1-4aa7-9991-a5d845402d7b&width=2000&userId=327fb725-6b42-4232-b202-2ebd6005fbf4&cache=v2"   />
 </div>
+</br>
+
+## 🔗: [Focal 체험하러가기](https://myfocal.netlify.app/)
+```
+테스트 계정
+아이디: ilovefilm@focal.com 
+비밀번호: 123456
+```
+
 </br>
 </br>
 
