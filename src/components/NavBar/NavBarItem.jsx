@@ -44,7 +44,6 @@ export default function NavBarItem({
   description,
   isActive,
 }) {
-  console.log(isActive);
   return (
     <StyledLink to={to} onClick={onClick} $isactive={isActive}>
       {children}
