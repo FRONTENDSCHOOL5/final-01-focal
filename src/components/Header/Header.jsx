@@ -74,6 +74,7 @@ export default function Header({
           <div>
             {backBtnShow && (
               <IconButton>
+                <span className="a11y-hidden">뒤로가기 버튼</span>
                 <BackButton onClick={goBack} />
               </IconButton>
             )}
@@ -81,6 +82,7 @@ export default function Header({
           </div>
           {ellipsisBtnShow && (
             <IconButton>
+              <span className="a11y-hidden">더보기 버튼</span>
               <MoreButton onClick={onClick} />
             </IconButton>
           )}
@@ -94,6 +96,7 @@ export default function Header({
             <img src={logo} alt="Focal 로고" />
           </Logo>
           <IconButton>
+            <span className="a11y-hidden">검색버튼</span>
             <SearchButton onClick={goSearchPage} />
           </IconButton>
         </>
@@ -103,6 +106,7 @@ export default function Header({
       headerContent = (
         <>
           <IconButton>
+            <span className="a11y-hidden">뒤로가기 버튼</span>
             <BackButton onClick={goBack} />
           </IconButton>
           <SearchInput onChange={onChange} />
@@ -114,6 +118,7 @@ export default function Header({
       headerContent = (
         <>
           <IconButton>
+            <span className="a11y-hidden">뒤로가기 버튼</span>
             <BackButton onClick={goBack} />
           </IconButton>
           <Button
