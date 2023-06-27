@@ -32,15 +32,21 @@
 - 유저의 프로필에 들어갔을 경우 판매하고 있는 상품을 확인할 수 있다.
   </br>
   </br>
-
+## 👪: 역할분담
+<div align="center">
+    <img src="https://file.notion.so/f/s/0d02e068-62a2-4707-991a-06df27ffff31/Untitled.png?id=45de0b55-ba2e-4789-afac-3e1abcb283a3&table=block&spaceId=a1bc3b9a-06c1-4aa7-9991-a5d845402d7b&expirationTimestamp=1687935363369&signature=amzdeh1SrHRR1gTFQiBnKQr2hXZ8kjh60F4I3RAeyV4&downloadName=Untitled.png" />
+</div>
+ </br>
+</br>
+  
 ## 🎥: 시연영상
 
 <br/>
 <br/>
 
 ## ⚙️: 기술 스택
-
- <table>
+<div align="center">
+   <table>
         <tr>
           <td align="center">사용 기술</td>
           <td>
@@ -99,6 +105,7 @@
           </td>
         </tr>
       </table>
+</div>
 
 <br />
 <br />
@@ -178,10 +185,8 @@
     </tr>
   </table>
 </div>
-
 <br />
 <br />
 
 ## ℹ️: 추가정보
-
 - [프로젝트 컨벤션](https://tropical-tithonia-35b.notion.site/102bdc1bd4e44b20ac298376f3e4ddf0?pvs=4)
