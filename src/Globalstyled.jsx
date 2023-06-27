@@ -18,7 +18,9 @@ export const GlobalStyle = createGlobalStyle`
     --white: #fff;
     --light-gray: #c4c4c4;
     --red: #eb5757;
-    overflow: none;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
   }
 
   * {
