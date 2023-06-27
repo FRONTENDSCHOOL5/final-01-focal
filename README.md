@@ -104,79 +104,80 @@
 <br />
 
 ## 🙋: 멤버구성
-
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/uussong">
-        <img
-          src="https://cdn.discordapp.com/attachments/1111526943091851394/1123107455262543922/KakaoTalk_20230226_005938642_1.png"
-          width="100px;"
-          alt=""
-        />
+<div align="center">
+    <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/uussong">
+          <img
+            src="https://cdn.discordapp.com/attachments/1111526943091851394/1123107455262543922/KakaoTalk_20230226_005938642_1.png"
+            width="200px;"
+            alt=""
+          />
+          <br />
+          <sub>
+            <b>정유송</b>
+          </sub>
+        </a>
         <br />
         <sub>
-          <b>정유송</b>
+          <b>팀장</b>
         </sub>
-      </a>
-      <br />
-      <sub>
-        <b>팀장</b>
-      </sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/kimmingyo8">
-        <img
-          src="https://cdn.discordapp.com/attachments/1111526943091851394/1123117899779948635/KakaoTalk_20230627_135656743.jpg"
-          width="100px;"
-          alt=""
-        />
+      </td>
+      <td align="center">
+        <a href="https://github.com/kimmingyo8">
+          <img
+            src="https://cdn.discordapp.com/attachments/1111526943091851394/1123117899779948635/KakaoTalk_20230627_135656743.jpg"
+            width="200px;"
+            alt=""
+          />
+          <br />
+          <sub>
+            <b>김민교</b>
+          </sub>
+        </a>
         <br />
         <sub>
-          <b>김민교</b>
+          <b>팀원</b>
         </sub>
-      </a>
-      <br />
-      <sub>
-        <b>팀원</b>
-      </sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/vacation0706">
-        <img
-          src="https://avatars.githubusercontent.com/u/117337499?v=4"
-          width="100px;"
-          alt=""
-        />
+      </td>
+      <td align="center">
+        <a href="https://github.com/vacation0706">
+          <img
+            src="https://avatars.githubusercontent.com/u/117337499?v=4"
+            width="200px;"
+            alt=""
+          />
+          <br />
+          <sub>
+            <b>성재윤</b>
+          </sub>
+        </a>
         <br />
         <sub>
-          <b>성재윤</b>
+          <b>팀원</b>
         </sub>
-      </a>
-      <br />
-      <sub>
-        <b>팀원</b>
-      </sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/ShinEun9">
-        <img
-          src="https://avatars.githubusercontent.com/u/75666099?v=4"
-          width="100px;"
-          alt=""
-        />
+      </td>
+      <td align="center">
+        <a href="https://github.com/ShinEun9">
+          <img
+            src="https://avatars.githubusercontent.com/u/75666099?v=4"
+            width="200px;"
+            alt=""
+          />
+          <br />
+          <sub>
+            <b>신은수</b>
+          </sub>
+        </a>
         <br />
         <sub>
-          <b>신은수</b>
+          <b>팀원</b>
         </sub>
-      </a>
-      <br />
-      <sub>
-        <b>팀원</b>
-      </sub>
-    </td>
-  </tr>
-</table>
+      </td>
+    </tr>
+  </table>
+</div>
 
 <br />
 <br />
