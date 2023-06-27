@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const StyledLink = styled(Link)`
@@ -12,15 +12,41 @@ const StyledLink = styled(Link)`
   font-size: 10px;
   line-height: 14px;
   color: #767676;
+
+  ${({ $isactive }) =>
+    $isactive
+      ? css`
+          stroke: var(--main-color);
+          fill: var(--main-color);
+
+          path:nth-child(2) {
+            stroke-width: 0.5;
+          }
+        `
+      : css`
+          stroke: var(--sub-text-color);
+          fill: var(--white);
+
+          path:nth-child(2) {
+            stroke-width: 2;
+          }
+        `}
 `;
 
 const NavDescription = styled.span`
   font-size: 10px;
 `;
 
-export default function NavBarItem({ to, onClick, children, description }) {
+export default function NavBarItem({
+  to,
+  onClick,
+  children,
+  description,
+  isActive,
+}) {
+  console.log(isActive);
   return (
-    <StyledLink to={to} onClick={onClick}>
+    <StyledLink to={to} onClick={onClick} $isactive={isActive}>
       {children}
       <NavDescription>{description}</NavDescription>
     </StyledLink>
