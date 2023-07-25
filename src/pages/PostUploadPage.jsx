@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
 import authInstance from '../api/instance/authInstance';
 import { useNavigate } from 'react-router-dom';

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import baseInstance from '../../api/instance/baseInstance';
-import TextInput from '../Input/TextInput';
-import Button from '../Button/Button';
+import TextInput from '../Common/Input/TextInput';
+import Button from '../Common/Button/Button';
 
 const Form = styled.form`
   & > div:first-child {

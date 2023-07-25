@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import UserInfo from './UserInfo';
-import Button from '../Button/Button';
+import UserInfo from '../Common/UserInfo/UserInfo';
+import Button from '../Common/Button/Button';
 import authInstance from '../../api/instance/authInstance';
 
 const StyledLi = styled.li`

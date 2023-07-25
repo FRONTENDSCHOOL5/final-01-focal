@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import ChatRoom from '../components/Chat/ChatRoom';
-import TextInputBox from '../components/Input/TextInputBox';
+import TextInputBox from '../components/Common/Input/TextInputBox';
 import authInstance from '../api/instance/authInstance';
 import useModal from '../hooks/useModal';
-import BottomSheetModal from '../components/Modal/BottomSheetModal';
-import BottomSheetContent from '../components/Modal/BottomSheetContent';
-import ConfirmModal from '../components/Modal/ConfirmModal';
+import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
+import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
+import ConfirmModal from '../layouts/Modal/ConfirmModal';
 
 export default function ChatRoomPage() {
   const { _id } = useParams();

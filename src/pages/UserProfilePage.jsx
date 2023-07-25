@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import authInstance from '../api/instance/authInstance';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
-import NavBar from '../components/NavBar/NavBar';
-import Loading from '../components/Loading/Loading';
+import NavBar from '../layouts/NavBar/NavBar';
+import Loading from '../layouts/Loading/Loading';
 
 const Main = styled.main`
   width: 100%;

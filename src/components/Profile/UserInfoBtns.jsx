@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import { useState } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import authInstance from '../../api/instance/authInstance';
-import Button from '../Button/Button';
+import Button from '../Common/Button/Button';
 import { ReactComponent as ShareIcon } from '../../assets/icons/icon-share.svg';
 import { ReactComponent as ChatIcon } from '../../assets/icons/icon-message.svg';
-import { useNavigate } from 'react-router-dom';
 
 const BtnRow = styled.div`
   display: flex;

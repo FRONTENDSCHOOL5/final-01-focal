@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ImageUpload from './ImageUpload';
-import TextInput from '../Input/TextInput';
 import baseInstance from '../../api/instance/baseInstance';
-import RadioInput, { RadioInputGroup } from '../Input/RadioInput';
+import ImageUpload from './ImageUpload';
+import TextInput from '../Common/Input/TextInput';
+import RadioInput, { RadioInputGroup } from '../Common/Input/RadioInput';
 
 const ProductMainStyle = styled.main`
   margin-top: 48px;

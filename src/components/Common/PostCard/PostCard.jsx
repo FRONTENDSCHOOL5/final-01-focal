@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import UserInfo from '../UserItem/UserInfo';
+import UserInfo from '../UserInfo/UserInfo';
 import IconButton from '../Button/IconButton';
-import authInstance from '../../api/instance/authInstance';
-import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
-import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
-import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
-import { convertTime } from '../../utils/convertTime';
+import authInstance from '../../../api/instance/authInstance';
+import { ReactComponent as HeartIcon } from '../../../assets/icons/icon-heart.svg';
+import { ReactComponent as CommentIcon } from '../../../assets/icons/icon-message-small.svg';
+import { ReactComponent as MoreIcon } from '../../../assets/icons/icon-more-small.svg';
+import { convertTime } from '../../../utils/convertTime';
 
 const PostArticle = styled.article`
   position: relative;

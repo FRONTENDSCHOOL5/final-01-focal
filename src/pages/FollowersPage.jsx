@@ -2,11 +2,11 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
-import UserFollowListItem from '../components/UserItem/UserFollowListItem';
-import Header from '../components/Header/Header';
+import UserFollowListItem from '../components/Follow/UserFollowListItem';
+import Header from '../layouts/Header/Header';
 import authInstance from '../api/instance/authInstance';
 import logoImg from '../assets/images/logo.png';
-import Loading from '../components/Loading/Loading';
+import Loading from '../layouts/Loading/Loading';
 
 const Main = styled.main`
   width: 100%;

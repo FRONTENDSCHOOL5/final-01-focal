@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import TitleHeader from '../components/Header/TitleHeader';
+import TitleHeader from '../layouts/Header/TitleHeader';
 import LoginForm from '../components/Login/LoginForm';
 
 const Main = styled.main`

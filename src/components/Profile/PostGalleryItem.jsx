@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import multipleImg from '../../assets/icons/icon-multiple.svg';
 import { useNavigate } from 'react-router-dom';
+import multipleImg from '../../assets/icons/icon-multiple.svg';
 
 const GalleryListItem = styled.li`
   position: relative;

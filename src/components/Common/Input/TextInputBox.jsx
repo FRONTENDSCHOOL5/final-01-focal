@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import profile from '../../assets/images/basic-profile-s.png';
-import imageUpload from '../../assets/images/image-upload.png';
+import profile from '../../../assets/images/basic-profile-s.png';
+import imageUpload from '../../../assets/images/image-upload.png';
 
 const InputBox = styled.form`
   position: fixed;

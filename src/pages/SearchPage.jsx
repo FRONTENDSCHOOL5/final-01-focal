@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import authInstance from '../api/instance/authInstance';
-import Header from '../components/Header/Header';
-import UserSearchListItem from '../components/UserItem/UserSearchListItem';
-import NavBar from '../components/NavBar/NavBar';
+import Header from '../layouts/Header/Header';
+import UserSearchListItem from '../components/Search/UserSearchListItem';
+import NavBar from '../layouts/NavBar/NavBar';
 
 const Main = styled.main`
   width: 100%;

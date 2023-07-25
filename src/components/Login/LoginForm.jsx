@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import TextInput from '../Input/TextInput';
-import Button from '../Button/Button';
+import TextInput from '../Common/Input/TextInput';
+import Button from '../Common/Button/Button';
 import baseInstance from '../../api/instance/baseInstance';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '../../states/LoginState';

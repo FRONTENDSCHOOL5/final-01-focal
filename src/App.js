@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import { GlobalStyle } from './Globalstyled';
 import Router from './routes/Router';
-import Splash from './components/Splash/Splash';
+import Splash from './layouts/Splash/Splash';
 
 function App() {
   const [show, setShow] = useState(true);
