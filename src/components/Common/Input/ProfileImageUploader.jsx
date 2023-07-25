@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import defaultImg from '../../assets/images/basic-profile.png';
-import fileUploadImg from '../../assets/images/profile-upload.png';
+import defaultImg from '../../../assets/images/basic-profile.png';
+import fileUploadImg from '../../../assets/images/profile-upload.png';
 
 const StyledLabel = styled.label`
   display: block;

@@ -4,16 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '../states/LoginState';
 import authInstance from '../api/instance/authInstance';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
-import NavBar from '../components/NavBar/NavBar';
-import BottomSheetModal from '../components/Modal/BottomSheetModal';
-import BottomSheetContent from '../components/Modal/BottomSheetContent';
-import ConfirmModal from '../components/Modal/ConfirmModal';
+import NavBar from '../layouts/NavBar/NavBar';
+import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
+import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
+import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
-import Loading from '../components/Loading/Loading';
+import Loading from '../layouts/Loading/Loading';
 
 const Main = styled.main`
   width: 100%;

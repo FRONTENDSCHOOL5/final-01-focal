@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import authInstance from '../../api/instance/authInstance';
 import ProductItem from './ProductItem';
 import ProductCard from '../Product/ProductCard';
-import ConfirmModal from '../Modal/ConfirmModal';
+import ConfirmModal from '../../layouts/Modal/ConfirmModal';
 import useModal from '../../hooks/useModal';
 
 const ProductsCol = styled.section`

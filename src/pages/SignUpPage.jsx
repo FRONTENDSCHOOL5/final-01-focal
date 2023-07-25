@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import TitleHeader from '../components/Header/TitleHeader';
+import TitleHeader from '../layouts/Header/TitleHeader';
 import SignUpForm from '../components/SignUp/SignUpForm';
-import ProfileForm from '../components/SignUp/ProfileForm';
+import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
 
 const Main = styled.main`

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/Header/Header';
-import PostCard from '../components/Post/PostCard';
+import Header from '../layouts/Header/Header';
+import PostCard from '../components/Common/PostCard/PostCard';
 import PostComment from '../components/Post/PostComment';
-import TextInputBox from '../components/Input/TextInputBox';
+import TextInputBox from '../components/Common/Input/TextInputBox';
 import authInstance from '../api/instance/authInstance';
-import BottomSheetModal from '../components/Modal/BottomSheetModal';
-import BottomSheetContent from '../components/Modal/BottomSheetContent';
-import ConfirmModal from '../components/Modal/ConfirmModal';
+import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
+import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
+import ConfirmModal from '../layouts//Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 
 const Main = styled.main`

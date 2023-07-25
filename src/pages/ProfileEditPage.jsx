@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header/Header';
-import ProfileForm from '../components/SignUp/ProfileForm';
+import Header from '../layouts/Header/Header';
+import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
 import authInstance from '../api/instance/authInstance';
 import { useNavigate } from 'react-router-dom';

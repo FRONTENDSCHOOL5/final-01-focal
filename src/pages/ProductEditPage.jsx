@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import ProductUpload from '../components/Product/ProductUpload';
 import authInstance from '../api/instance/authInstance';
 import { useParams } from 'react-router-dom';
