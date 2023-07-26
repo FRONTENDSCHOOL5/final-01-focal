@@ -140,15 +140,11 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
   }, [image]);
 
   const handleLike = async () => {
-    try {
-      const { liked, count } = await like(id, likeInfo.liked);
-      setLikeInfo({
-        liked: liked,
-        count: count,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    const { liked, count } = await like(id, likeInfo.liked);
+    setLikeInfo({
+      liked: liked,
+      count: count,
+    });
   };
 
   const handleSlideChange = (index) => {
