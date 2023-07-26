@@ -7,3 +7,11 @@ export const deletePost = async (postId) => {
     console.error(error);
   }
 };
+
+export const reportPost = async (postId) => {
+  try {
+    await authInstance.post(`/post/${postId}/report`);
+  } catch (error) {
+    console.error(error);
+  }
+};

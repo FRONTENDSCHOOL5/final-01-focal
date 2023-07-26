@@ -12,6 +12,7 @@ import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
 import Loading from '../layouts/Loading/Loading';
+import { reportPost } from '../api/apis/post';
 
 const ContentWrapper = styled.main`
   margin: 48px 0 0;
@@ -77,7 +78,7 @@ export default function HomePage() {
   const handleReport = async (e) => {
     e.stopPropagation();
     try {
-      await authInstance.post(`/post/${postId}/report`);
+      await reportPost(postId);
       closeMenu();
       closeModal();
     } catch (err) {
