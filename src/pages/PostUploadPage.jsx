@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Header from '../layouts/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
-import authInstance from '../api/instance/authInstance';
+// import authInstance from '../api/instance/authInstance';
 import { useNavigate } from 'react-router-dom';
+import { createPost } from '../api/apis/post';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
@@ -30,12 +31,7 @@ export default function PostUploadPage() {
     }
 
     try {
-      await authInstance.post('/post', {
-        post: {
-          content,
-          image: image.join(),
-        },
-      });
+      await createPost(content, image);
       navigate('/profile/');
     } catch (err) {
       console.log(err);
