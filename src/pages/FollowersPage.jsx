@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import UserFollowListItem from '../components/Follow/UserFollowListItem';
 import Header from '../layouts/Header/Header';
-import authInstance from '../api/instance/authInstance';
 import logoImg from '../assets/images/logo.png';
 import Loading from '../layouts/Loading/Loading';
+import { followerAPI } from '../api/apis/follower';
 
 const Main = styled.main`
   width: 100%;
@@ -50,14 +50,10 @@ export default function FollowersPage() {
   const loginAccountname = localStorage.getItem('accountname');
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await authInstance.get(
-        `/profile/${accountname}/follower?limit=1000&skip=0`,
-      );
-      setUserData(res.data);
+    followerAPI(accountname).then((res) => {
+      setUserData(res);
       setIsLoading(false);
-    };
-    fetchPosts();
+    });
   }, []);
 
   return (

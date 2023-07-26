@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import UserInfo from '../Common/UserInfo/UserInfo';
 import Button from '../Common/Button/Button';
-import authInstance from '../../api/instance/authInstance';
+import { followAPI } from '../../api/apis/follow';
+import { unfollowAPI } from '../../api/apis/unfollow';
 
 const StyledLi = styled.li`
   display: flex;
@@ -14,14 +15,12 @@ export default function UserFollowListItem({ user }) {
   const accoutName = localStorage.getItem('accountname');
 
   const handleFollowBtn = () => {
-    authInstance.post(`/profile/${user.accountname}/follow`, {
-      profile: { isfollow: isClicked },
-    });
+    followAPI(user.accountname, isClicked);
     setIsClicked(!isClicked);
   };
 
   const handleCancelBtn = () => {
-    authInstance.delete(`/profile/${user.accountname}/unfollow`);
+    unfollowAPI(user.accountname);
     setIsClicked(!isClicked);
   };
 

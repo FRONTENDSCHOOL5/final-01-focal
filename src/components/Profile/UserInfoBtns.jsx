@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import authInstance from '../../api/instance/authInstance';
 import Button from '../Common/Button/Button';
 import { ReactComponent as ShareIcon } from '../../assets/icons/icon-share.svg';
 import { ReactComponent as ChatIcon } from '../../assets/icons/icon-message.svg';
+import { followAPI } from '../../api/apis/follow';
+import { unfollowAPI } from '../../api/apis/unfollow';
 
 const BtnRow = styled.div`
   display: flex;
@@ -24,22 +25,20 @@ const ProfileButton = styled.button.attrs({ type: 'button' })`
 
 export default function UserInfoBtns({
   handleFollowNum,
-  isfollow,
+  isFollow,
   accountname,
 }) {
-  const [getFollow, setGetFollow] = useState(isfollow);
+  const [getFollow, setGetFollow] = useState(isFollow);
   const navigate = useNavigate();
 
   const handleFollowBtn = () => {
-    authInstance.post(`/profile/${accountname}/follow`, {
-      profile: { isfollow: isfollow },
-    });
+    followAPI(accountname, isFollow);
     setGetFollow(!getFollow);
     handleFollowNum(getFollow);
   };
 
   const handleUnfollowBtn = () => {
-    authInstance.delete(`/profile/${accountname}/unfollow`);
+    unfollowAPI(accountname);
     setGetFollow(!getFollow);
     handleFollowNum(getFollow);
   };

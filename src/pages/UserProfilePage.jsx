@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import authInstance from '../api/instance/authInstance';
+import { profileAPI } from '../api/apis/profile';
 import Header from '../layouts/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
 import NavBar from '../layouts/NavBar/NavBar';
 import Loading from '../layouts/Loading/Loading';
+import { useParams } from 'react-router-dom';
 
 const Main = styled.main`
   width: 100%;
@@ -26,23 +26,16 @@ export default function UserProfilePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isProductLoading, setIsProductLoading] = useState(true);
   const [isPostLoading, setIsPostLoading] = useState(true);
-  const { _id } = useParams();
   const [userData, setUserData] = useState('');
+  const { _id } = useParams();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res = await authInstance.get(`profile/${_id}`);
-        const { profile } = res.data;
-        setUserData(profile);
-        setIsLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchUserData();
-  }, [userData.isfollow]);
+    profileAPI(_id).then((res) => {
+      const { profile } = res;
+      setUserData(profile);
+      setIsLoading(false);
+    });
+  }, []);
 
   return (
     <>
