@@ -10,6 +10,7 @@ import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts//Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
+import { deletePost } from '../api/apis/post';
 
 const Main = styled.main`
   margin-top: 48px;
@@ -44,7 +45,7 @@ export default function PostPage() {
 
   const handleDeleteButton = async () => {
     try {
-      await authInstance.delete(`/post/${postId}`);
+      await deletePost(postId);
       navigate('/profile');
     } catch (error) {
       console.error(error);
