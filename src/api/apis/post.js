@@ -13,6 +13,19 @@ export const createPost = async (content, image) => {
   }
 };
 
+export const editPost = async (postId, content, image) => {
+  try {
+    await authInstance.put(`/post/${postId}`, {
+      post: {
+        content,
+        image: image.join(),
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const deletePost = async (postId) => {
   try {
     await authInstance.delete(`/post/${postId}`);

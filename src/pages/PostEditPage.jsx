@@ -4,6 +4,7 @@ import Header from '../layouts/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import authInstance from '../api/instance/authInstance';
+import { editPost } from '../api/apis/post';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
@@ -46,12 +47,7 @@ export default function PostEditPage() {
     }
 
     try {
-      await authInstance.put(`/post/${post_id}`, {
-        post: {
-          content,
-          image: image.join(),
-        },
-      });
+      await editPost(post_id, content, image);
       navigate('/profile/');
     } catch (err) {
       console.log(err);
