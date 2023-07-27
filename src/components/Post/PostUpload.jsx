@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import baseInstance from '../../api/instance/baseInstance';
 import defaultImg from '../../assets/images/basic-profile-m.png';
 import delteBtn from '../../assets/icons/delete.svg';
 import postImgUploadBtn from '../../assets/images/image-upload.png';
+import { getMultiImageSrc } from '../../api/apis/image';
 
 const UserImageStyle = styled.img`
   width: 42px;
@@ -102,25 +102,16 @@ function PostUpload({
   };
 
   const getImagesSrc = async (files) => {
-    let formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('image', files[i]);
+    const imageList = [];
+    const data = await getMultiImageSrc(files);
+    for (let i = 0; i < data.length; i++) {
+      imageList.push(`${process.env.REACT_APP_BASE_URL}${data[i].filename}`);
     }
 
-    try {
-      const res = await baseInstance.post('/image/uploadfiles', formData);
-      const { data } = res;
-      const imageList = [];
-      for (let i = 0; i < data.length; i++) {
-        imageList.push(`${process.env.REACT_APP_BASE_URL}${data[i].filename}`);
-      }
-      setInputValue({
-        ...inputValue,
-        image: [...inputValue.image, ...imageList],
-      });
-    } catch (err) {
-      alert(err);
-    }
+    setInputValue({
+      ...inputValue,
+      image: [...inputValue.image, ...imageList],
+    });
   };
 
   const handleDeleteBtnClick = (e) => {
