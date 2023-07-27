@@ -5,7 +5,9 @@ import TitleHeader from '../layouts/Header/TitleHeader';
 import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
+import { getImageSrcAPI } from '../api/apis/image';
 import { signupAPI } from '../api/apis/user';
+
 
 const Main = styled.main`
   width: 100%;
@@ -35,33 +37,16 @@ export default function SignupPage() {
   const [inputValue, setInputValue] = useState(initialValue);
   const [showSecondPage, setShowSecondPage] = useState(false);
 
-  const getImageSrc = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const res = await baseInstance.post('/image/uploadfile', formData);
-      const { status } = res;
-      if (status !== 200) throw new Error('에러');
-      if (status === 200) {
-        const {
-          data: { filename },
-        } = res;
-        setInputValue({
-          ...inputValue,
-          image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
-        });
-      }
-    } catch (err) {
-      alert(err);
-    }
-  };
-
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === 'image') {
       const { files } = e.target;
-      getImageSrc(files[0]);
+      getImageSrcAPI(files[0]).then(({ filename }) => {
+        setInputValue({
+          ...inputValue,
+          image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
+        });
+      });
     } else {
       setInputValue({ ...inputValue, [id]: value });
     }
