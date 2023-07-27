@@ -4,7 +4,7 @@ import TextInput from '../Common/Input/TextInput';
 import Button from '../Common/Button/Button';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '../../states/LoginState';
-import { login } from '../../api/apis/user';
+import { loginAPI } from '../../api/apis/user';
 
 const Form = styled.form`
   margin-bottom: 20px;
@@ -36,7 +36,7 @@ export default function LoginForm() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    login(inputValue).then(({ user, message }) => {
+    loginAPI(inputValue).then(({ user, message }) => {
       if (!user) {
         setError(message);
       } else {

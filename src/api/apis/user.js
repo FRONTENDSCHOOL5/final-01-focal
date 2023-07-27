@@ -1,7 +1,7 @@
 import authInstance from '../instance/authInstance';
 import baseInstance from '../instance/baseInstance';
 
-export const login = async (inputValue) => {
+export const loginAPI = async (inputValue) => {
   try {
     const res = await baseInstance.post('/user/login', {
       user: inputValue,
@@ -17,7 +17,7 @@ export const login = async (inputValue) => {
   }
 };
 
-export const emailValid = async (email) => {
+export const emailValidAPI = async (email) => {
   try {
     const res = await baseInstance.post('/user/emailvalid', {
       user: { email },
@@ -33,7 +33,7 @@ export const emailValid = async (email) => {
   }
 };
 
-export const accountnameValid = async (accountname) => {
+export const accountnameValidAPI = async (accountname) => {
   try {
     const res = await baseInstance.post('/user/accountnamevalid', {
       user: { accountname },
@@ -49,7 +49,7 @@ export const accountnameValid = async (accountname) => {
   }
 };
 
-export const signup = async (inputValue) => {
+export const signupAPI = async (inputValue) => {
   try {
     const res = await baseInstance.post('/user', {
       user: inputValue,
@@ -72,7 +72,7 @@ export const signup = async (inputValue) => {
   }
 };
 
-export const getMyInfo = async () => {
+export const getMyInfoAPI = async () => {
   try {
     const {
       data: { user },
@@ -84,7 +84,7 @@ export const getMyInfo = async () => {
   }
 };
 
-export const editMyInfo = async (inputValue) => {
+export const editMyInfoAPI = async (inputValue) => {
   try {
     const {
       data: {
@@ -110,7 +110,7 @@ export const editMyInfo = async (inputValue) => {
   }
 };
 
-export const searchUser = async (inputValue) => {
+export const searchUserAPI = async (inputValue) => {
   try {
     const res = await authInstance.get(
       `/user/searchuser/?keyword=${inputValue}`,

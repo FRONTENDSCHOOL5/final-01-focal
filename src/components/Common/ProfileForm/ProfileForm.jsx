@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '../Button/Button';
 import TextInput from '../Input/TextInput';
 import ProfileImageUploader from '../Input/ProfileImageUploader';
-import { accountnameValid } from '../../../api/apis/user';
+import { accountnameValidAPI } from '../../../api/apis/user';
 
 const Form = styled.form`
   & > div:not(:last-child) {
@@ -74,7 +74,7 @@ export default function ProfileForm({
         accountnameError: '영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.',
       });
     else {
-      accountnameValid(accountname).then(({ message }) => {
+      accountnameValidAPI(accountname).then(({ message }) => {
         if (message === '사용 가능한 계정ID 입니다.')
           setError({ ...error, accountnameError: '' });
         else setError({ ...error, accountnameError: message });

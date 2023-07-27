@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Header from '../layouts/Header/Header';
 import UserSearchListItem from '../components/Search/UserSearchListItem';
 import NavBar from '../layouts/NavBar/NavBar';
-import { searchUser } from '../api/apis/user';
+import { searchUserAPI } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -25,7 +25,7 @@ export default function SearchPage() {
 
   const getData = async () => {
     if (inputValue) {
-      const { data } = await searchUser(inputValue);
+      const { data } = await searchUserAPI(inputValue);
       setUsers(data);
     } else {
       setUsers([]);

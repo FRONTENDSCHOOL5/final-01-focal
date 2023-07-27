@@ -5,7 +5,7 @@ import TitleHeader from '../layouts/Header/TitleHeader';
 import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
-import { signup } from '../api/apis/user';
+import { signupAPI } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -70,7 +70,7 @@ export default function SignupPage() {
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
 
-    signup(inputValue)
+    signupAPI(inputValue)
       .then(({ message }) => {
         if (message === '회원가입 성공') {
           alert('Welcome to Focal!');

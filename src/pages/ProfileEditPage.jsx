@@ -4,7 +4,7 @@ import Header from '../layouts/Header/Header';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
 import { useNavigate } from 'react-router-dom';
-import { editMyInfo, getMyInfo } from '../api/apis/user';
+import { editMyInfoAPI, getMyInfoAPI } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -61,7 +61,7 @@ export default function ProfileEditPage() {
 
   const handleProfileFormSubmit = async (e) => {
     e.preventDefault();
-    editMyInfo(inputValue).then(({ accountname, image }) => {
+    editMyInfoAPI(inputValue).then(({ accountname, image }) => {
       localStorage.setItem('accountname', accountname);
       localStorage.setItem('image', image);
       navigate('/profile');
@@ -70,7 +70,7 @@ export default function ProfileEditPage() {
 
   useEffect(() => {
     const getData = async () => {
-      const { image, username, accountname, intro } = await getMyInfo();
+      const { image, username, accountname, intro } = await getMyInfoAPI();
       setInputValue({ image, username, accountname, intro });
     };
     getData();

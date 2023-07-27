@@ -13,7 +13,7 @@ import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import Loading from '../layouts/Loading/Loading';
-import { getMyInfo } from '../api/apis/user';
+import { getMyInfoAPI } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -55,7 +55,7 @@ export default function MyProfilePage() {
   useEffect(() => {
     const fetchUserData = async () => {
       const getData = async () => {
-        const user = await getMyInfo();
+        const user = await getMyInfoAPI();
         setUserData(user);
         setIsLoading(false);
       };

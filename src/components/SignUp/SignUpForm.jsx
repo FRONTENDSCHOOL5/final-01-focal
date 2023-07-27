@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import TextInput from '../Common/Input/TextInput';
 import Button from '../Common/Button/Button';
-import { emailValid } from '../../api/apis/user';
+import { emailValidAPI } from '../../api/apis/user';
 
 const Form = styled.form`
   & > div:first-child {
@@ -34,7 +34,7 @@ export default function SignUpForm({
     if (!emailRegex.test(email)) {
       setError({ ...error, emailError: '올바르지 않은 이메일 형식입니다.' });
     } else {
-      emailValid(email).then(({ message }) => {
+      emailValidAPI(email).then(({ message }) => {
         if (message === '사용 가능한 이메일 입니다.')
           setError({ ...error, emailError: '' });
         else setError({ ...error, emailError: message });

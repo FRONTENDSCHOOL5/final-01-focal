@@ -7,7 +7,7 @@ import useModal from '../hooks/useModal';
 import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts/Modal/ConfirmModal';
-import { searchUser } from '../api/apis/user';
+import { searchUserAPI } from '../api/apis/user';
 
 export default function ChatRoomPage() {
   const { _id } = useParams();
@@ -24,7 +24,7 @@ export default function ChatRoomPage() {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const { data } = await searchUser(_id);
+      const { data } = await searchUserAPI(_id);
       const findUser = data.find((user) => user.accountname === _id);
       setUser(findUser);
     };
