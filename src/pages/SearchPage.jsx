@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import authInstance from '../api/instance/authInstance';
 import Header from '../layouts/Header/Header';
 import UserSearchListItem from '../components/Search/UserSearchListItem';
 import NavBar from '../layouts/NavBar/NavBar';
+import { searchUserAPI } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -25,15 +25,8 @@ export default function SearchPage() {
 
   const getData = async () => {
     if (inputValue) {
-      try {
-        const res = await authInstance.get(
-          `/user/searchuser/?keyword=${inputValue}`,
-        );
-        const { data } = res;
-        setUsers(data);
-      } catch (err) {
-        console.log(err);
-      }
+      const { data } = await searchUserAPI(inputValue);
+      setUsers(data);
     } else {
       setUsers([]);
     }
