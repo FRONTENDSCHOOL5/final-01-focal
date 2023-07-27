@@ -29,16 +29,15 @@ export default function SignUpForm({
   });
   const [disabled, setDisabled] = useState(true);
 
-  const emailValidate = () => {
+  const emailValidate = async () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (!emailRegex.test(email)) {
       setError({ ...error, emailError: '올바르지 않은 이메일 형식입니다.' });
     } else {
-      emailValidAPI(email).then(({ message }) => {
-        if (message === '사용 가능한 이메일 입니다.')
-          setError({ ...error, emailError: '' });
-        else setError({ ...error, emailError: message });
-      });
+      const { message } = await emailValidAPI(email).then;
+      if (message === '사용 가능한 이메일 입니다.')
+        setError({ ...error, emailError: '' });
+      else setError({ ...error, emailError: message });
     }
   };
 

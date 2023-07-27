@@ -67,21 +67,19 @@ export default function SignupPage() {
     }
   };
 
-  const handleSignUpSubmit = (e) => {
+  const handleSignUpSubmit = async (e) => {
     e.preventDefault();
-
-    signupAPI(inputValue)
-      .then(({ message }) => {
-        if (message === '회원가입 성공') {
-          alert('Welcome to Focal!');
-          navigate('/login');
-        }
-      })
-      .catch((err) => {
-        alert(err + ' 다시 입력해주세요');
-        setShowSecondPage(false);
-        setInputValue(initialValue);
-      });
+    try {
+      const { message } = await signupAPI(inputValue);
+      if (message === '회원가입 성공') {
+        alert('Welcome to Focal!');
+        navigate('/login');
+      }
+    } catch (err) {
+      alert(err + ' 다시 입력해주세요');
+      setShowSecondPage(false);
+      setInputValue(initialValue);
+    }
   };
 
   return (

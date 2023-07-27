@@ -59,13 +59,12 @@ export default function ProfileEditPage() {
     }
   };
 
-  const handleProfileFormSubmit = (e) => {
+  const handleProfileFormSubmit = async (e) => {
     e.preventDefault();
-    editMyInfoAPI(inputValue).then(({ accountname, image }) => {
-      localStorage.setItem('accountname', accountname);
-      localStorage.setItem('image', image);
-      navigate('/profile');
-    });
+    const { accountname, image } = await editMyInfoAPI(inputValue);
+    localStorage.setItem('accountname', accountname);
+    localStorage.setItem('image', image);
+    navigate('/profile');
   };
 
   useEffect(() => {

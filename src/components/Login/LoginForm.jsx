@@ -33,20 +33,19 @@ export default function LoginForm() {
     setInputValue({ ...inputValue, [id]: value });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    loginAPI(inputValue).then(({ user, message }) => {
-      if (!user) {
-        setError(message);
-      } else {
-        setError('');
-        localStorage.setItem('accountname', user.accountname);
-        localStorage.setItem('image', user.image);
-        localStorage.setItem('token', user.token);
-        setIsLogined(true);
-      }
-    });
+    const { user, message } = await loginAPI(inputValue);
+    if (!user) {
+      setError(message);
+    } else {
+      setError('');
+      localStorage.setItem('accountname', user.accountname);
+      localStorage.setItem('image', user.image);
+      localStorage.setItem('token', user.token);
+      setIsLogined(true);
+    }
   };
 
   useEffect(() => {
