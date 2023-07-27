@@ -63,8 +63,12 @@ export default function HomePage() {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    feedAPI().then((res) => setPostDatas(res.data.posts));
-    setIsLoading(false);
+    const getPost = async () => {
+      const res = await feedAPI();
+      setPostDatas(res.data.posts);
+      setIsLoading(false);
+    };
+    getPost();
   }, []);
 
   const handleReport = async (e) => {

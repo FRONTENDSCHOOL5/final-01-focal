@@ -23,15 +23,14 @@ export default function PostEditPage() {
   const [inputValue, setInputValue] = useState({ content: '', image: [] });
 
   useEffect(() => {
-    postDetailAPI(post_id).then((res) => {
+    const getData = async () => {
       const {
         data: { post },
-      } = res;
-      setInputValue({
-        content: post.content,
-        image: post.image.split(','),
-      });
-    });
+      } = await postDetailAPI(post_id);
+
+      setInputValue({ content: post.content, image: post.image.split(',') });
+    };
+    getData();
   }, []);
 
   const handleFormSubmit = async (e) => {
