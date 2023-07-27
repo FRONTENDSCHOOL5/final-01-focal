@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import UserInfo from '../UserInfo/UserInfo';
 import IconButton from '../Button/IconButton';
-import authInstance from '../../../api/instance/authInstance';
+import { likeAPI } from '../../../api/apis/like';
 import { ReactComponent as HeartIcon } from '../../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../../assets/icons/icon-more-small.svg';
@@ -140,20 +140,11 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
   }, [image]);
 
   const handleLike = async () => {
-    try {
-      const endpoint = likeInfo.liked
-        ? `/post/${id}/unheart`
-        : `/post/${id}/heart`;
-      const res = await (likeInfo.liked
-        ? authInstance.delete(endpoint)
-        : authInstance.post(endpoint));
-      setLikeInfo({
-        liked: res.data.post.hearted,
-        count: res.data.post.heartCount,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    const { liked, count } = await likeAPI(id, likeInfo.liked);
+    setLikeInfo({
+      liked: liked,
+      count: count,
+    });
   };
 
   const handleSlideChange = (index) => {
