@@ -1,6 +1,6 @@
 import authInstance from '../instance/authInstance';
 
-export const like = async (id, liked) => {
+export const likeAPI = async (id, liked) => {
   try {
     const endpoint = liked ? `/post/${id}/unheart` : `/post/${id}/heart`;
     const res = await (liked

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import UserInfo from '../UserInfo/UserInfo';
 import IconButton from '../Button/IconButton';
-import { like } from '../../../api/apis/like';
+import { likeAPI } from '../../../api/apis/like';
 import { ReactComponent as HeartIcon } from '../../../assets/icons/icon-heart.svg';
 import { ReactComponent as CommentIcon } from '../../../assets/icons/icon-message-small.svg';
 import { ReactComponent as MoreIcon } from '../../../assets/icons/icon-more-small.svg';
@@ -140,7 +140,7 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
   }, [image]);
 
   const handleLike = async () => {
-    const { liked, count } = await like(id, likeInfo.liked);
+    const { liked, count } = await likeAPI(id, likeInfo.liked);
     setLikeInfo({
       liked: liked,
       count: count,
