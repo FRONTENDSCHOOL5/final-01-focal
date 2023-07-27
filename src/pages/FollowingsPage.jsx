@@ -7,7 +7,7 @@ import Header from '../layouts/Header/Header';
 import Button from '../components/Common/Button/Button';
 import Loading from '../layouts/Loading/Loading';
 import logoImg from '../assets/images/logo.png';
-import { followingAPI } from '../api/apis/following';
+import { followingAPI } from '../api/apis/follow';
 
 const Main = styled.main`
   width: 100%;

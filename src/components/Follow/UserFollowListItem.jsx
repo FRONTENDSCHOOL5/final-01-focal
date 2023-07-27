@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import UserInfo from '../Common/UserInfo/UserInfo';
 import Button from '../Common/Button/Button';
 import { followAPI } from '../../api/apis/follow';
-import { unfollowAPI } from '../../api/apis/unfollow';
+import { unfollowAPI } from '../../api/apis/follow';
 
 const StyledLi = styled.li`
   display: flex;

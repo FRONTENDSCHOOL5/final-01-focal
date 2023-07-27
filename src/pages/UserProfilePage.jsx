@@ -44,7 +44,9 @@ export default function UserProfilePage() {
         <>
           <Header type="basic" />
           <Main>
-            <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+            <h1 className="a11y-hidden">
+              ${userData.accountname}의 프로필 페이지
+            </h1>
             {userData && (
               <>
                 <ProfileInfo userInfo={userData} />

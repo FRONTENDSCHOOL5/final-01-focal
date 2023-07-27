@@ -6,7 +6,7 @@ import UserFollowListItem from '../components/Follow/UserFollowListItem';
 import Header from '../layouts/Header/Header';
 import logoImg from '../assets/images/logo.png';
 import Loading from '../layouts/Loading/Loading';
-import { followerAPI } from '../api/apis/follower';
+import { followerAPI } from '../api/apis/follow';
 
 const Main = styled.main`
   width: 100%;

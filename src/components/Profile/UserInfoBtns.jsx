@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Common/Button/Button';
 import { ReactComponent as ShareIcon } from '../../assets/icons/icon-share.svg';
 import { ReactComponent as ChatIcon } from '../../assets/icons/icon-message.svg';
-import { followAPI } from '../../api/apis/follow';
-import { unfollowAPI } from '../../api/apis/unfollow';
+import { followAPI, unfollowAPI } from '../../api/apis/follow';
 
 const BtnRow = styled.div`
   display: flex;
@@ -25,14 +24,14 @@ const ProfileButton = styled.button.attrs({ type: 'button' })`
 
 export default function UserInfoBtns({
   handleFollowNum,
-  isFollow,
+  isfollow,
   accountname,
 }) {
-  const [getFollow, setGetFollow] = useState(isFollow);
+  const [getFollow, setGetFollow] = useState(isfollow);
   const navigate = useNavigate();
 
   const handleFollowBtn = () => {
-    followAPI(accountname, isFollow);
+    followAPI(accountname, isfollow);
     setGetFollow(!getFollow);
     handleFollowNum(getFollow);
   };
