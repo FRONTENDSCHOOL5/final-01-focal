@@ -66,11 +66,11 @@ export default function PostPage() {
     setIsLoading(true);
 
     try {
-      postDetailAPI(postId).then((response) => {
-        setPost(response.data.post);
+      const response = await postDetailAPI(postId);
+      setPost(response.data.post);
 
-        if (response.data.post.commentCount === 0) return;
-      });
+      if (response.data.post.commentCount === 0) return;
+
       const commentResponse = await authInstance.get(
         `/post/${postId}/comments`,
       );

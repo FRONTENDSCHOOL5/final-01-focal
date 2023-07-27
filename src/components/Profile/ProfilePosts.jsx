@@ -109,7 +109,7 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    userpostAPI(useraccount).then((res) => {
+    userpostAPI(accountname).then((res) => {
       const data = res.data.post;
       setPosts(data);
       setIsPostLoading(false);
