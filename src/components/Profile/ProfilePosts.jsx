@@ -12,7 +12,7 @@ import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-
 import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
 import useModal from '../../hooks/useModal';
 import LogoImg from '../../assets/images/logo.png';
-import { deletePost, reportPost } from '../../api/apis/post';
+import { deletePostAPI, reportPostAPI } from '../../api/apis/post';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -130,7 +130,7 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
 
   const handlePostDelete = async () => {
     try {
-      await deletePost(postId);
+      await deletePostAPI(postId);
       const res = await authInstance.get(`/post/${accountname}/userpost`);
       setPosts(res.data.post);
       if (res.data.post.length === 0) {
@@ -144,7 +144,7 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
   };
 
   const handlePostReport = async () => {
-    await reportPost(postId);
+    await reportPostAPI(postId);
     alert('신고되었습니다.');
     closeMenu();
     closeModal();

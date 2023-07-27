@@ -1,6 +1,6 @@
 import authInstance from '../instance/authInstance';
 
-export const createPost = async (content, image) => {
+export const createPostAPI = async (content, image) => {
   try {
     await authInstance.post('/post', {
       post: {
@@ -13,7 +13,7 @@ export const createPost = async (content, image) => {
   }
 };
 
-export const editPost = async (postId, content, image) => {
+export const editPostAPI = async (postId, content, image) => {
   try {
     await authInstance.put(`/post/${postId}`, {
       post: {
@@ -26,7 +26,7 @@ export const editPost = async (postId, content, image) => {
   }
 };
 
-export const deletePost = async (postId) => {
+export const deletePostAPI = async (postId) => {
   try {
     await authInstance.delete(`/post/${postId}`);
   } catch (error) {
@@ -34,7 +34,7 @@ export const deletePost = async (postId) => {
   }
 };
 
-export const reportPost = async (postId) => {
+export const reportPostAPI = async (postId) => {
   try {
     await authInstance.post(`/post/${postId}/report`);
   } catch (error) {

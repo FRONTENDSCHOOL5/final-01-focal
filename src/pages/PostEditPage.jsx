@@ -4,7 +4,7 @@ import Header from '../layouts/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import authInstance from '../api/instance/authInstance';
-import { editPost } from '../api/apis/post';
+import { editPostAPI } from '../api/apis/post';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
@@ -45,7 +45,7 @@ export default function PostEditPage() {
       alert('한개이상의 이미지를 첨부해주세요');
       return;
     }
-    await editPost(post_id, content, image);
+    await editPostAPI(post_id, content, image);
     navigate('/profile/');
   };
 

@@ -10,7 +10,7 @@ import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts//Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
-import { deletePost, reportPost } from '../api/apis/post';
+import { deletePostAPI, reportPostAPI } from '../api/apis/post';
 
 const Main = styled.main`
   margin-top: 48px;
@@ -44,12 +44,12 @@ export default function PostPage() {
   } = useModal();
 
   const handleDeleteButton = async () => {
-    await deletePost(postId);
+    await deletePostAPI(postId);
     navigate('/profile');
   };
 
   const handleReportButton = async () => {
-    await reportPost(postId);
+    await reportPostAPI(postId);
     closeMenu();
     closeModal();
   };
