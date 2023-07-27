@@ -31,8 +31,7 @@ export default function UserProfilePage() {
 
   useEffect(() => {
     profileAPI(_id).then((res) => {
-      const { profile } = res;
-      setUserData(profile);
+      setUserData(res);
       setIsLoading(false);
     });
   }, []);
