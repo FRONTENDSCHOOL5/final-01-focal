@@ -4,7 +4,7 @@ import Header from '../layouts/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import authInstance from '../api/instance/authInstance';
-import { postDetailAPI } from '../api/apis/postDetail';
+import { postDetailAPI } from '../api/apis/post';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
