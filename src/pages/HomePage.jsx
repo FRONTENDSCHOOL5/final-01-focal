@@ -77,13 +77,9 @@ export default function HomePage() {
 
   const handleReport = async (e) => {
     e.stopPropagation();
-    try {
-      await reportPost(postId);
-      closeMenu();
-      closeModal();
-    } catch (err) {
-      console.log(err);
-    }
+    await reportPost(postId);
+    closeMenu();
+    closeModal();
   };
 
   const scrollToTop = () => {

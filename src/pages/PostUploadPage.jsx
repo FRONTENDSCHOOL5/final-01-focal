@@ -30,12 +30,8 @@ export default function PostUploadPage() {
       return;
     }
 
-    try {
-      await createPost(content, image);
-      navigate('/profile/');
-    } catch (err) {
-      console.log(err);
-    }
+    await createPost(content, image);
+    navigate('/profile/');
   };
 
   return (

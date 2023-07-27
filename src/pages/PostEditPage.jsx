@@ -45,13 +45,8 @@ export default function PostEditPage() {
       alert('한개이상의 이미지를 첨부해주세요');
       return;
     }
-
-    try {
-      await editPost(post_id, content, image);
-      navigate('/profile/');
-    } catch (err) {
-      console.log(err);
-    }
+    await editPost(post_id, content, image);
+    navigate('/profile/');
   };
 
   return (

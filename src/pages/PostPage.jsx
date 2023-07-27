@@ -44,22 +44,14 @@ export default function PostPage() {
   } = useModal();
 
   const handleDeleteButton = async () => {
-    try {
-      await deletePost(postId);
-      navigate('/profile');
-    } catch (error) {
-      console.error(error);
-    }
+    await deletePost(postId);
+    navigate('/profile');
   };
 
   const handleReportButton = async () => {
-    try {
-      await reportPost(postId);
-      closeMenu();
-      closeModal();
-    } catch (error) {
-      console.error(error);
-    }
+    await reportPost(postId);
+    closeMenu();
+    closeModal();
   };
 
   const getPost = async () => {

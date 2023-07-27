@@ -144,14 +144,10 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
   };
 
   const handlePostReport = async () => {
-    try {
-      await reportPost(postId);
-      alert('신고되었습니다.');
-      closeMenu();
-      closeModal();
-    } catch (err) {
-      console.log(err);
-    }
+    await reportPost(postId);
+    alert('신고되었습니다.');
+    closeMenu();
+    closeModal();
   };
 
   return (
