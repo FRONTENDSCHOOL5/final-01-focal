@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import authInstance from '../api/instance/authInstance';
 import Button from '../components/Common/Button/Button';
 import Header from '../layouts/Header/Header';
 import NavBar from '../layouts/NavBar/NavBar';
@@ -12,6 +11,7 @@ import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
 import Loading from '../layouts/Loading/Loading';
+import { reportPostAPI } from '../api/apis/post';
 import { feedAPI } from '../api/apis/post';
 
 const ContentWrapper = styled.main`
@@ -73,13 +73,9 @@ export default function HomePage() {
 
   const handleReport = async (e) => {
     e.stopPropagation();
-    try {
-      await authInstance.post(`/post/${postId}/report`);
-      closeMenu();
-      closeModal();
-    } catch (err) {
-      console.log(err);
-    }
+    await reportPostAPI(postId);
+    closeMenu();
+    closeModal();
   };
 
   const scrollToTop = () => {

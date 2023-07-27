@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import authInstance from '../../api/instance/authInstance';
 import PostCard from '../Common/PostCard/PostCard';
 import PostGalleryItem from './PostGalleryItem';
 import BottomSheetModal from '../../layouts/Modal/BottomSheetModal';
@@ -12,6 +11,7 @@ import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-
 import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
 import useModal from '../../hooks/useModal';
 import LogoImg from '../../assets/images/logo.png';
+import { deletePostAPI, reportPostAPI } from '../../api/apis/post';
 import { userpostAPI } from '../../api/apis/post';
 
 const PostsContainer = styled.section`
@@ -129,7 +129,7 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
   };
 
   const handlePostDelete = async () => {
-    await authInstance.delete(`/post/${postId}`);
+    await deletePostAPI(postId);
     const res = await userpostAPI(accountname);
     setPosts(res.data.post);
     if (res.data.post.length === 0) {
@@ -140,14 +140,10 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
   };
 
   const handlePostReport = async () => {
-    try {
-      await authInstance.post(`/post/${postId}/report`);
-      alert('신고되었습니다.');
-      closeMenu();
-      closeModal();
-    } catch (err) {
-      console.log(err);
-    }
+    await reportPostAPI(postId);
+    alert('신고되었습니다.');
+    closeMenu();
+    closeModal();
   };
 
   return (
