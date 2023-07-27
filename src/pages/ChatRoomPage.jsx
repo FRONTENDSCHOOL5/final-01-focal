@@ -3,11 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../layouts/Header/Header';
 import ChatRoom from '../components/Chat/ChatRoom';
 import TextInputBox from '../components/Common/Input/TextInputBox';
-import authInstance from '../api/instance/authInstance';
 import useModal from '../hooks/useModal';
 import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts/Modal/ConfirmModal';
+import { searchUserAPI } from '../api/apis/user';
 
 export default function ChatRoomPage() {
   const { _id } = useParams();
@@ -22,19 +22,13 @@ export default function ChatRoomPage() {
   } = useModal();
   const navigate = useNavigate();
 
-  const getUserInfo = async () => {
-    try {
-      const response = await authInstance.get(
-        `/user/searchuser/?keyword=${_id}`,
-      );
-      const findUser = response.data.find((user) => user.accountname === _id);
-      setUser(findUser);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    const getUserInfo = async () => {
+      const { data } = await searchUserAPI(_id);
+      const findUser = data.find((user) => user.accountname === _id);
+      setUser(findUser);
+    };
+
     getUserInfo();
   }, [_id]);
 
