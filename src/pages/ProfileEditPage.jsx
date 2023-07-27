@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../layouts/Header/Header';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
-import baseInstance from '../api/instance/baseInstance';
 import authInstance from '../api/instance/authInstance';
 import { useNavigate } from 'react-router-dom';
+import { getImageSrc } from '../api/apis/image';
 
 const Main = styled.main`
   width: 100%;
@@ -36,29 +36,16 @@ export default function ProfileEditPage() {
     image: '',
   });
 
-  const getImageSrc = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const res = await baseInstance.post('/image/uploadfile', formData);
-      const {
-        data: { filename },
-      } = res;
-      setInputValue({
-        ...inputValue,
-        image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
-      });
-    } catch (err) {
-      alert(err);
-    }
-  };
-
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === 'image') {
       const { files } = e.target;
-      getImageSrc(files[0]);
+      getImageSrc(files[0]).then(({ filename }) => {
+        setInputValue({
+          ...inputValue,
+          image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
+        });
+      });
     } else {
       setInputValue({ ...inputValue, [id]: value });
     }

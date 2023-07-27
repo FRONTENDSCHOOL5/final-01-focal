@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import baseInstance from '../../api/instance/baseInstance';
 import ImageUpload from './ImageUpload';
 import TextInput from '../Common/Input/TextInput';
 import RadioInput, { RadioInputGroup } from '../Common/Input/RadioInput';
+import { getImageSrc } from '../../api/apis/image';
 
 const ProductMainStyle = styled.main`
   margin-top: 48px;
@@ -102,44 +102,29 @@ function ProductUpload({
 
   const handleImageSubmit = async (e) => {
     e.preventDefault();
-    try {
-      let itemImage = inputValue.itemImage;
+    let itemImage = inputValue.itemImage;
 
-      if (image) {
-        const imageFormData = new FormData();
-        imageFormData.append('image', image);
-
-        const imageResponse = await baseInstance.post(
-          '/image/uploadfile',
-          imageFormData,
-        );
-
-        if (imageResponse.status !== 200) {
-          throw new Error('이미지 파일 업로드 에러');
-        }
-
-        itemImage = `${process.env.REACT_APP_BASE_URL}${imageResponse.data.filename}`;
-      }
-
-      const productData = {
-        product: {
-          itemName: name || inputValue.itemName,
-          price: Number(price) || inputValue.price,
-          link: itemType || inputValue.itemType,
-          itemImage: itemImage,
-        },
-      };
-
-      if (isEditMode) {
-        await handleEditSubmit(productData);
-      } else {
-        await handleSubmit(productData);
-      }
-
-      navigate('/profile');
-    } catch (error) {
-      console.error(error);
+    if (image) {
+      const { filename } = await getImageSrc(image);
+      itemImage = `${process.env.REACT_APP_BASE_URL}${filename}`;
     }
+
+    const productData = {
+      product: {
+        itemName: name || inputValue.itemName,
+        price: Number(price) || inputValue.price,
+        link: itemType || inputValue.itemType,
+        itemImage: itemImage,
+      },
+    };
+
+    if (isEditMode) {
+      await handleEditSubmit(productData);
+    } else {
+      await handleSubmit(productData);
+    }
+
+    navigate('/profile');
   };
 
   const isSaveButtonDisabled =
