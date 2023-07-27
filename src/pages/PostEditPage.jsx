@@ -4,6 +4,7 @@ import Header from '../layouts/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import authInstance from '../api/instance/authInstance';
+import { postDetailAPI } from '../api/apis/post';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
@@ -23,15 +24,11 @@ export default function PostEditPage() {
 
   useEffect(() => {
     const getData = async () => {
-      try {
-        const {
-          data: { post },
-        } = await authInstance.get(`/post/${post_id}`);
+      const {
+        data: { post },
+      } = await postDetailAPI(post_id);
 
-        setInputValue({ content: post.content, image: post.image.split(',') });
-      } catch (err) {
-        console.log(err);
-      }
+      setInputValue({ content: post.content, image: post.image.split(',') });
     };
     getData();
   }, []);
