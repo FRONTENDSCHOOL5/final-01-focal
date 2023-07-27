@@ -10,6 +10,7 @@ import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts//Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
+import { postDetailAPI } from '../api/apis/postDetail';
 
 const Main = styled.main`
   margin-top: 48px;
@@ -65,11 +66,11 @@ export default function PostPage() {
     setIsLoading(true);
 
     try {
-      const response = await authInstance.get(`/post/${postId}`);
-      setPost(response.data.post);
+      postDetailAPI(postId).then((response) => {
+        setPost(response.data.post);
 
-      if (response.data.post.commentCount === 0) return;
-
+        if (response.data.post.commentCount === 0) return;
+      });
       const commentResponse = await authInstance.get(
         `/post/${postId}/comments`,
       );
