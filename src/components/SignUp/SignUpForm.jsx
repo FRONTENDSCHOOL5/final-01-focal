@@ -29,7 +29,7 @@ export default function SignUpForm({
   });
   const [disabled, setDisabled] = useState(true);
 
-  const emailValidate = async () => {
+  const emailValidate = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (!emailRegex.test(email)) {
       setError({ ...error, emailError: '올바르지 않은 이메일 형식입니다.' });

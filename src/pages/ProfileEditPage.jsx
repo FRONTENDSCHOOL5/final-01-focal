@@ -59,7 +59,7 @@ export default function ProfileEditPage() {
     }
   };
 
-  const handleProfileFormSubmit = async (e) => {
+  const handleProfileFormSubmit = (e) => {
     e.preventDefault();
     editMyInfoAPI(inputValue).then(({ accountname, image }) => {
       localStorage.setItem('accountname', accountname);

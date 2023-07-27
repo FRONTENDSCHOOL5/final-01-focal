@@ -67,7 +67,7 @@ export default function SignupPage() {
     }
   };
 
-  const handleSignUpSubmit = async (e) => {
+  const handleSignUpSubmit = (e) => {
     e.preventDefault();
 
     signupAPI(inputValue)
