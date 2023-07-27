@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '../states/LoginState';
-import authInstance from '../api/instance/authInstance';
 import Header from '../layouts/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
@@ -14,6 +13,7 @@ import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import Loading from '../layouts/Loading/Loading';
+import { getMyInfo } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -54,14 +54,12 @@ export default function MyProfilePage() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      try {
-        const res = await authInstance.get('user/myinfo');
-        const { user } = res.data;
+      const getData = async () => {
+        const user = await getMyInfo();
         setUserData(user);
         setIsLoading(false);
-      } catch (err) {
-        console.error('Error :', err);
-      }
+      };
+      getData();
     };
     fetchUserData();
   }, []);
