@@ -12,6 +12,7 @@ import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-
 import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
 import useModal from '../../hooks/useModal';
 import LogoImg from '../../assets/images/logo.png';
+import { userpostAPI } from '../../api/apis/post';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -109,7 +110,7 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await authInstance.get(`/post/${accountname}/userpost`);
+      const res = await userpostAPI(accountname);
       setPosts(res.data.post);
       setIsPostLoading(false);
       if (res.data.post.length === 0) {
@@ -128,18 +129,14 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
   };
 
   const handlePostDelete = async () => {
-    try {
-      await authInstance.delete(`/post/${postId}`);
-      const res = await authInstance.get(`/post/${accountname}/userpost`);
-      setPosts(res.data.post);
-      if (res.data.post.length === 0) {
-        setIsData(false);
-      }
-      closeMenu();
-      closeModal();
-    } catch (err) {
-      console.log(err);
+    await authInstance.delete(`/post/${postId}`);
+    const res = await userpostAPI(accountname);
+    setPosts(res.data.post);
+    if (res.data.post.length === 0) {
+      setIsData(false);
     }
+    closeMenu();
+    closeModal();
   };
 
   const handlePostReport = async () => {

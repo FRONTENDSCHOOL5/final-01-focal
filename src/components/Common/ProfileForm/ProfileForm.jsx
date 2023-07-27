@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '../Button/Button';
 import TextInput from '../Input/TextInput';
 import ProfileImageUploader from '../Input/ProfileImageUploader';
-import baseInstance from '../../../api/instance/baseInstance';
+import { accountnameValidAPI } from '../../../api/apis/user';
 
 const Form = styled.form`
   & > div:not(:last-child) {
@@ -43,26 +43,10 @@ export default function ProfileForm({
         accountnameError: '영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.',
       });
     else {
-      try {
-        const res = await baseInstance.post('/user/accountnamevalid', {
-          user: { accountname },
-        });
-        const {
-          data: { message },
-          status,
-        } = res;
-
-        if (status !== 200) throw new Error('네트워크 오류');
-        if (status === 200) {
-          if (message === '사용 가능한 계정ID 입니다.')
-            setError({ ...error, accountnameError: '' });
-          else if (message === '이미 가입된 계정ID 입니다.')
-            setError({ ...error, accountnameError: message });
-          else throw new Error(message);
-        }
-      } catch (err) {
-        alert(err);
-      }
+      const { message } = await accountnameValidAPI(accountname);
+      if (message === '사용 가능한 계정ID 입니다.')
+        setError({ ...error, accountnameError: '' });
+      else setError({ ...error, accountnameError: message });
     }
   };
 

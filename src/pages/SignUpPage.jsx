@@ -6,6 +6,8 @@ import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
 import { getImageSrcAPI } from '../api/apis/image';
+import { signupAPI } from '../api/apis/user';
+
 
 const Main = styled.main`
   width: 100%;
@@ -21,16 +23,18 @@ const Main = styled.main`
   }
 `;
 
+const initialValue = {
+  email: '',
+  password: '',
+  username: '',
+  accountname: '',
+  intro: '',
+  image: '',
+};
+
 export default function SignupPage() {
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    email: '',
-    password: '',
-    username: '',
-    accountname: '',
-    intro: '',
-    image: '',
-  });
+  const [inputValue, setInputValue] = useState(initialValue);
   const [showSecondPage, setShowSecondPage] = useState(false);
 
   const handleInputChange = (e) => {
@@ -50,23 +54,16 @@ export default function SignupPage() {
 
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await baseInstance.post('/user', { user: inputValue });
-      const { status } = res;
-      if (status !== 200) throw new Error('네트워크 에러');
-      else {
-        const {
-          data: { message },
-        } = res;
-        if (message !== '회원가입 성공') throw new Error(message);
-        else {
-          alert('Welcome to Focal!');
-          navigate('/login');
-        }
+      const { message } = await signupAPI(inputValue);
+      if (message === '회원가입 성공') {
+        alert('Welcome to Focal!');
+        navigate('/login');
       }
     } catch (err) {
-      alert(err);
+      alert(err + ' 다시 입력해주세요');
+      setShowSecondPage(false);
+      setInputValue(initialValue);
     }
   };
 
