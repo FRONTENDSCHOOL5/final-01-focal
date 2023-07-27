@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import Header from '../layouts/Header/Header';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
-import authInstance from '../api/instance/authInstance';
 import { useNavigate } from 'react-router-dom';
+import { editMyInfo, getMyInfo } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -22,12 +22,7 @@ const Main = styled.main`
   }
 `;
 
-const getAccountName = () => {
-  return localStorage.getItem('accountname');
-};
-
 export default function ProfileEditPage() {
-  const [accountParams] = useState(getAccountName);
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     username: '',
@@ -66,28 +61,16 @@ export default function ProfileEditPage() {
 
   const handleProfileFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const {
-        data: {
-          user: { accountname, image },
-        },
-      } = await authInstance.put('/user', { user: inputValue });
+    editMyInfo(inputValue).then(({ accountname, image }) => {
       localStorage.setItem('accountname', accountname);
       localStorage.setItem('image', image);
       navigate('/profile');
-    } catch (err) {
-      console.log(err);
-    }
+    });
   };
 
   useEffect(() => {
     const getData = async () => {
-      const {
-        data: {
-          profile: { image, username, accountname, intro },
-        },
-      } = await authInstance.get(`/profile/${accountParams}`);
-
+      const { image, username, accountname, intro } = await getMyInfo();
       setInputValue({ image, username, accountname, intro });
     };
     getData();

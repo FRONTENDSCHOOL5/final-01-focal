@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import baseInstance from '../../api/instance/baseInstance';
 import TextInput from '../Common/Input/TextInput';
 import Button from '../Common/Button/Button';
+import { emailValid } from '../../api/apis/user';
 
 const Form = styled.form`
   & > div:first-child {
@@ -34,22 +34,11 @@ export default function SignUpForm({
     if (!emailRegex.test(email)) {
       setError({ ...error, emailError: '올바르지 않은 이메일 형식입니다.' });
     } else {
-      try {
-        const res = await baseInstance.post('/user/emailvalid', {
-          user: { email },
-        });
-        const {
-          status,
-          data: { message },
-        } = res;
-
-        if (status !== 200) throw new Error('잘못된 접근입니다.');
+      emailValid(email).then(({ message }) => {
         if (message === '사용 가능한 이메일 입니다.')
           setError({ ...error, emailError: '' });
         else setError({ ...error, emailError: message });
-      } catch (err) {
-        console.log(err);
-      }
+      });
     }
   };
 
