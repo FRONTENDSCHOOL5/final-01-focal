@@ -12,7 +12,7 @@ import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
 import Loading from '../layouts/Loading/Loading';
-import { feedAPI } from '../api/apis/feed';
+import { feedAPI } from '../api/apis/post';
 
 const ContentWrapper = styled.main`
   margin: 48px 0 0;

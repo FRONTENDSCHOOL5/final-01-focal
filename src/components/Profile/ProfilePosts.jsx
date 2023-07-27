@@ -12,7 +12,7 @@ import { ReactComponent as PostGalleryIcon } from '../../assets/icons/icon-post-
 import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-list.svg';
 import useModal from '../../hooks/useModal';
 import LogoImg from '../../assets/images/logo.png';
-import { userpostAPI } from '../../api/apis/userpost';
+import { userpostAPI } from '../../api/apis/post';
 
 const PostsContainer = styled.section`
   display: flex;
