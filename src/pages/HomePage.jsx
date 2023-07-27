@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import authInstance from '../api/instance/authInstance';
 import Button from '../components/Common/Button/Button';
 import Header from '../layouts/Header/Header';
 import NavBar from '../layouts/NavBar/NavBar';
@@ -13,6 +12,7 @@ import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
 import Loading from '../layouts/Loading/Loading';
 import { reportPostAPI } from '../api/apis/post';
+import { feedAPI } from '../api/apis/post';
 
 const ContentWrapper = styled.main`
   margin: 48px 0 0;
@@ -64,13 +64,9 @@ export default function HomePage() {
 
   useEffect(() => {
     const getPost = async () => {
-      try {
-        const res = await authInstance.get('/post/feed');
-        setPostDatas(res.data.posts);
-        setIsLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
+      const res = await feedAPI();
+      setPostDatas(res.data.posts);
+      setIsLoading(false);
     };
     getPost();
   }, []);

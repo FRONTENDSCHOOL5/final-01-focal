@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import authInstance from '../../api/instance/authInstance';
 import PostCard from '../Common/PostCard/PostCard';
 import PostGalleryItem from './PostGalleryItem';
 import BottomSheetModal from '../../layouts/Modal/BottomSheetModal';
@@ -13,6 +12,7 @@ import { ReactComponent as PostListIcon } from '../../assets/icons/icon-post-lis
 import useModal from '../../hooks/useModal';
 import LogoImg from '../../assets/images/logo.png';
 import { deletePostAPI, reportPostAPI } from '../../api/apis/post';
+import { userpostAPI } from '../../api/apis/post';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -110,7 +110,7 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await authInstance.get(`/post/${accountname}/userpost`);
+      const res = await userpostAPI(accountname);
       setPosts(res.data.post);
       setIsPostLoading(false);
       if (res.data.post.length === 0) {
@@ -129,18 +129,14 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
   };
 
   const handlePostDelete = async () => {
-    try {
-      await deletePostAPI(postId);
-      const res = await authInstance.get(`/post/${accountname}/userpost`);
-      setPosts(res.data.post);
-      if (res.data.post.length === 0) {
-        setIsData(false);
-      }
-      closeMenu();
-      closeModal();
-    } catch (err) {
-      console.log(err);
+    await deletePostAPI(postId);
+    const res = await userpostAPI(accountname);
+    setPosts(res.data.post);
+    if (res.data.post.length === 0) {
+      setIsData(false);
     }
+    closeMenu();
+    closeModal();
   };
 
   const handlePostReport = async () => {
