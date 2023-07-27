@@ -5,7 +5,7 @@ import TitleHeader from '../layouts/Header/TitleHeader';
 import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import baseInstance from '../api/instance/baseInstance';
-import { getImageSrc } from '../api/apis/image';
+import { getImageSrcAPI } from '../api/apis/image';
 
 const Main = styled.main`
   width: 100%;
@@ -37,7 +37,7 @@ export default function SignupPage() {
     const { id, value } = e.target;
     if (id === 'image') {
       const { files } = e.target;
-      getImageSrc(files[0]).then(({ filename }) => {
+      getImageSrcAPI(files[0]).then(({ filename }) => {
         setInputValue({
           ...inputValue,
           image: `${process.env.REACT_APP_BASE_URL}/${filename}`,

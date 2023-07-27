@@ -4,7 +4,7 @@ import Header from '../layouts/Header/Header';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import authInstance from '../api/instance/authInstance';
 import { useNavigate } from 'react-router-dom';
-import { getImageSrc } from '../api/apis/image';
+import { getImageSrcAPI } from '../api/apis/image';
 
 const Main = styled.main`
   width: 100%;
@@ -40,7 +40,7 @@ export default function ProfileEditPage() {
     const { id, value } = e.target;
     if (id === 'image') {
       const { files } = e.target;
-      getImageSrc(files[0]).then(({ filename }) => {
+      getImageSrcAPI(files[0]).then(({ filename }) => {
         setInputValue({
           ...inputValue,
           image: `${process.env.REACT_APP_BASE_URL}/${filename}`,

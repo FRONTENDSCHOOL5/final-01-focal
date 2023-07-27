@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ImageUpload from './ImageUpload';
 import TextInput from '../Common/Input/TextInput';
 import RadioInput, { RadioInputGroup } from '../Common/Input/RadioInput';
-import { getImageSrc } from '../../api/apis/image';
+import { getImageSrcAPI } from '../../api/apis/image';
 
 const ProductMainStyle = styled.main`
   margin-top: 48px;
@@ -105,7 +105,7 @@ function ProductUpload({
     let itemImage = inputValue.itemImage;
 
     if (image) {
-      const { filename } = await getImageSrc(image);
+      const { filename } = await getImageSrcAPI(image);
       itemImage = `${process.env.REACT_APP_BASE_URL}${filename}`;
     }
 

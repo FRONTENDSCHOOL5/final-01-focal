@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import defaultImg from '../../assets/images/basic-profile-m.png';
 import delteBtn from '../../assets/icons/delete.svg';
 import postImgUploadBtn from '../../assets/images/image-upload.png';
-import { getMultiImageSrc } from '../../api/apis/image';
+import { getMultiImageSrcAPI } from '../../api/apis/image';
 
 const UserImageStyle = styled.img`
   width: 42px;
@@ -103,7 +103,7 @@ function PostUpload({
 
   const getImagesSrc = async (files) => {
     const imageList = [];
-    const data = await getMultiImageSrc(files);
+    const data = await getMultiImageSrcAPI(files);
     for (let i = 0; i < data.length; i++) {
       imageList.push(`${process.env.REACT_APP_BASE_URL}${data[i].filename}`);
     }

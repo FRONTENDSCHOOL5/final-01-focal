@@ -1,6 +1,6 @@
 import baseInstance from '../instance/baseInstance';
 
-export const getImageSrc = async (file) => {
+export const getImageSrcAPI = async (file) => {
   const formData = new FormData();
   formData.append('image', file);
 
@@ -16,7 +16,7 @@ export const getImageSrc = async (file) => {
   }
 };
 
-export const getMultiImageSrc = async (files) => {
+export const getMultiImageSrcAPI = async (files) => {
   let formData = new FormData();
   for (let i = 0; i < files.length; i++) {
     formData.append('image', files[i]);
