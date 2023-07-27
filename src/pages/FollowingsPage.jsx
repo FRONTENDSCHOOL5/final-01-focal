@@ -52,10 +52,12 @@ export default function FollowingsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    followingAPI(accountname).then((res) => {
+    const fetchPosts = async () => {
+      const res = await followingAPI(accountname);
       setUserData(res);
       setIsLoading(false);
-    });
+    };
+    fetchPosts();
   }, []);
   return (
     <>

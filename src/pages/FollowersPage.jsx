@@ -50,10 +50,12 @@ export default function FollowersPage() {
   const loginAccountname = localStorage.getItem('accountname');
 
   useEffect(() => {
-    followerAPI(accountname).then((res) => {
+    const fetchPosts = async () => {
+      const res = await followerAPI(accountname);
       setUserData(res);
       setIsLoading(false);
-    });
+    };
+    fetchPosts();
   }, []);
 
   return (

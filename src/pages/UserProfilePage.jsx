@@ -30,10 +30,12 @@ export default function UserProfilePage() {
   const { _id } = useParams();
 
   useEffect(() => {
-    profileAPI(_id).then((res) => {
+    const fetchUserData = async () => {
+      const res = await profileAPI(_id);
       setUserData(res);
       setIsLoading(false);
-    });
+    };
+    fetchUserData();
   }, []);
 
   return (
