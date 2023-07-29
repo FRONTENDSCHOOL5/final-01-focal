@@ -13,3 +13,17 @@ export const getCommentListAPI = async (postId) => {
     console.log(error);
   }
 };
+
+export const createPostCommentAPI = async (inputText, postId) => {
+  try {
+    const response = await authInstance.post(`/post/${postId}/comments`, {
+      comment: {
+        content: inputText,
+      },
+    });
+
+    return response.data.comment;
+  } catch (error) {
+    console.log(error);
+  }
+};
