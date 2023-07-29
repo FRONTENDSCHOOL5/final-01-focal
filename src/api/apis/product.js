@@ -19,3 +19,11 @@ export const getProductListAPI = async (accountname) => {
     console.log(error);
   }
 };
+
+export const deleteProductAPI = async (productId) => {
+  try {
+    await authInstance.delete(`/product/${productId}`);
+  } catch (error) {
+    console.log(error);
+  }
+};

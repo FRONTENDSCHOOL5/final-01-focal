@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import authInstance from '../../api/instance/authInstance';
 import ProductItem from './ProductItem';
 import ProductCard from '../Product/ProductCard';
 import ConfirmModal from '../../layouts/Modal/ConfirmModal';
 import useModal from '../../hooks/useModal';
-import { getProductListAPI } from '../../api/apis/product';
+import { getProductListAPI, deleteProductAPI } from '../../api/apis/product';
 
 const ProductsCol = styled.section`
   display: flex;
@@ -61,17 +60,13 @@ export default function ProfileProducts({ accountname, setIsProductLoading }) {
   }, []);
 
   const deleteProduct = async () => {
-    try {
-      await authInstance.delete(`/product/${selectedProduct.id}`);
-      closeMenu();
-      closeModal();
+    await deleteProductAPI(selectedProduct.id);
+    closeMenu();
+    closeModal();
 
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== selectedProduct.id),
-      );
-    } catch (err) {
-      console.error('Error :', err);
-    }
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== selectedProduct.id),
+    );
   };
 
   const getProductIndex = (index) => {
