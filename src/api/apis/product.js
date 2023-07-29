@@ -27,3 +27,13 @@ export const deleteProductAPI = async (productId) => {
     console.log(error);
   }
 };
+
+export const getProductDetailAPI = async (productId) => {
+  try {
+    const response = await authInstance.get(`/product/detail/${productId}`);
+
+    return response.data.product;
+  } catch (error) {
+    console.log(error);
+  }
+};

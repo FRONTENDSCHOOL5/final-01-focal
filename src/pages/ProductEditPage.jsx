@@ -3,6 +3,7 @@ import Header from '../layouts/Header/Header';
 import ProductUpload from '../components/Product/ProductUpload';
 import authInstance from '../api/instance/authInstance';
 import { useParams } from 'react-router-dom';
+import { getProductDetailAPI } from '../api/apis/product';
 
 export default function ProductEditPage() {
   const { product_id } = useParams();
@@ -15,20 +16,14 @@ export default function ProductEditPage() {
 
   useEffect(() => {
     const getData = async () => {
-      try {
-        const {
-          data: { product },
-        } = await authInstance.get(`/product/detail/${product_id}`);
+      const product = await getProductDetailAPI(product_id);
 
-        setInputValue({
-          itemImage: product.itemImage,
-          itemType: product.link,
-          itemName: product.itemName,
-          price: product.price,
-        });
-      } catch (err) {
-        console.error(err);
-      }
+      setInputValue({
+        itemImage: product.itemImage,
+        itemType: product.link,
+        itemName: product.itemName,
+        price: product.price,
+      });
     };
     getData();
   }, []);
