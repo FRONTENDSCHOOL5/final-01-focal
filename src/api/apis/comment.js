@@ -35,3 +35,11 @@ export const deleteCommentAPI = async (postId, commentId) => {
     console.log(error);
   }
 };
+
+export const reportCommentAPI = async (postId, commentId) => {
+  try {
+    await authInstance.post(`/post/${postId}/comments/${commentId}/report`);
+  } catch (error) {
+    console.log(error);
+  }
+};

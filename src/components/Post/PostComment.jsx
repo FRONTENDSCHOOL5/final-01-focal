@@ -6,10 +6,9 @@ import defaultImage from '../../assets/images/basic-profile-s.png';
 import BottomSheetModal from '../../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../../layouts/Modal/ConfirmModal';
-import authInstance from '../../api/instance/authInstance';
 import useModal from '../../hooks/useModal';
 import { convertTime } from '../../utils/convertTime';
-import { deleteCommentAPI } from '../../api/apis/comment';
+import { deleteCommentAPI, reportCommentAPI } from '../../api/apis/comment';
 
 const CommentSection = styled.section`
   max-width: 390px;
@@ -112,14 +111,11 @@ function PostComment({ comments, postId, onDelete }) {
   };
 
   const handleReportButton = async () => {
-    try {
-      await authInstance.post(`/post/${postId}/comments/${commentId}/report`);
-      closeMenu();
-      closeModal();
-    } catch (error) {
-      console.error(error);
-    }
+    await reportCommentAPI(postId, commentId);
+    closeMenu();
+    closeModal();
   };
+
   return (
     <CommentSection>
       <h2 className="a11y-hidden">댓글목록</h2>
