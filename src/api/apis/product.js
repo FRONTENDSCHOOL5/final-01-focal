@@ -9,3 +9,13 @@ export const createProductAPI = async (productData) => {
     console.log(error);
   }
 };
+
+export const getProductListAPI = async (accountname) => {
+  try {
+    const response = await authInstance.get(`/product/${accountname}`);
+
+    return response.data.product;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -4,10 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import TitleHeader from '../layouts/Header/TitleHeader';
 import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
-import baseInstance from '../api/instance/baseInstance';
 import { getImageSrcAPI } from '../api/apis/image';
 import { signupAPI } from '../api/apis/user';
-
 
 const Main = styled.main`
   width: 100%;

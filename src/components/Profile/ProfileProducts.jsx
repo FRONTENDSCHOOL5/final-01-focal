@@ -6,6 +6,7 @@ import ProductItem from './ProductItem';
 import ProductCard from '../Product/ProductCard';
 import ConfirmModal from '../../layouts/Modal/ConfirmModal';
 import useModal from '../../hooks/useModal';
+import { getProductListAPI } from '../../api/apis/product';
 
 const ProductsCol = styled.section`
   display: flex;
@@ -52,13 +53,9 @@ export default function ProfileProducts({ accountname, setIsProductLoading }) {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      try {
-        const res = await authInstance.get(`/product/${accountname}`);
-        setProducts(res.data.product);
-        setIsProductLoading(false);
-      } catch (error) {
-        console.error('Error :', error);
-      }
+      const products = await getProductListAPI(accountname);
+      setProducts(products);
+      setIsProductLoading(false);
     };
     fetchProducts();
   }, []);
