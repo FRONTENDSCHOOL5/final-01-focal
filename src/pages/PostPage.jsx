@@ -12,6 +12,7 @@ import ConfirmModal from '../layouts//Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import { deletePostAPI, reportPostAPI } from '../api/apis/post';
 import { postDetailAPI } from '../api/apis/post';
+import { getCommentListAPI } from '../api/apis/comment';
 
 const Main = styled.main`
   margin-top: 48px;
@@ -64,15 +65,8 @@ export default function PostPage() {
 
       if (response.data.post.commentCount === 0) return;
 
-      const commentResponse = await authInstance.get(
-        `/post/${postId}/comments`,
-      );
-
-      const sortedComments = commentResponse.data.comments.sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
-      );
-
-      setComments(sortedComments);
+      const comments = await getCommentListAPI(postId);
+      setComments(comments);
     } catch (error) {
       console.error(error);
     } finally {
