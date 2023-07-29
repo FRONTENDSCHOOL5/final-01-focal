@@ -27,3 +27,11 @@ export const createPostCommentAPI = async (inputText, postId) => {
     console.log(error);
   }
 };
+
+export const deleteCommentAPI = async (postId, commentId) => {
+  try {
+    await authInstance.delete(`/post/${postId}/comments/${commentId}`);
+  } catch (error) {
+    console.log(error);
+  }
+};

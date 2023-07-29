@@ -9,6 +9,7 @@ import ConfirmModal from '../../layouts/Modal/ConfirmModal';
 import authInstance from '../../api/instance/authInstance';
 import useModal from '../../hooks/useModal';
 import { convertTime } from '../../utils/convertTime';
+import { deleteCommentAPI } from '../../api/apis/comment';
 
 const CommentSection = styled.section`
   max-width: 390px;
@@ -104,14 +105,10 @@ function PostComment({ comments, postId, onDelete }) {
   };
 
   const handleDeleteButton = async () => {
-    try {
-      await authInstance.delete(`/post/${postId}/comments/${commentId}`);
-      closeMenu();
-      closeModal();
-      onDelete(commentId);
-    } catch (error) {
-      console.error(error);
-    }
+    await deleteCommentAPI(postId, commentId);
+    closeMenu();
+    closeModal();
+    onDelete(commentId);
   };
 
   const handleReportButton = async () => {
