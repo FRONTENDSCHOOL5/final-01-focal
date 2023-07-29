@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Header from '../layouts/Header/Header';
 import ProductUpload from '../components/Product/ProductUpload';
-import authInstance from '../api/instance/authInstance';
-import { useParams } from 'react-router-dom';
-import { getProductDetailAPI } from '../api/apis/product';
+import { getProductDetailAPI, editProductAPI } from '../api/apis/product';
 
 export default function ProductEditPage() {
   const { product_id } = useParams();
@@ -29,18 +28,7 @@ export default function ProductEditPage() {
   }, []);
 
   const handleEditSubmit = async (productData) => {
-    try {
-      const productResponse = await authInstance.put(
-        `/product/${product_id}`,
-        productData,
-      );
-
-      if (productResponse.status !== 200) {
-        throw new Error('파일 업로드 에러');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    await editProductAPI(product_id, productData);
   };
 
   return (

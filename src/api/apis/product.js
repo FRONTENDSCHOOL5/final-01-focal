@@ -37,3 +37,16 @@ export const getProductDetailAPI = async (productId) => {
     console.log(error);
   }
 };
+
+export const editProductAPI = async (productId, productData) => {
+  try {
+    const response = await authInstance.put(
+      `/product/${productId}`,
+      productData,
+    );
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
