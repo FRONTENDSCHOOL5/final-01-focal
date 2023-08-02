@@ -5,13 +5,13 @@ import Header from '../layouts/Header/Header';
 import PostCard from '../components/Common/PostCard/PostCard';
 import PostComment from '../components/Post/PostComment';
 import TextInputBox from '../components/Common/Input/TextInputBox';
-import authInstance from '../api/instance/authInstance';
 import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts//Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import { deletePostAPI, reportPostAPI } from '../api/apis/post';
 import { postDetailAPI } from '../api/apis/post';
+import { getCommentListAPI, createPostCommentAPI } from '../api/apis/comment';
 
 const Main = styled.main`
   margin-top: 48px;
@@ -64,15 +64,8 @@ export default function PostPage() {
 
       if (response.data.post.commentCount === 0) return;
 
-      const commentResponse = await authInstance.get(
-        `/post/${postId}/comments`,
-      );
-
-      const sortedComments = commentResponse.data.comments.sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
-      );
-
-      setComments(sortedComments);
+      const comments = await getCommentListAPI(postId);
+      setComments(comments);
     } catch (error) {
       console.error(error);
     } finally {
@@ -81,21 +74,12 @@ export default function PostPage() {
   };
 
   const handleCommentButton = async (inputText) => {
-    try {
-      const response = await authInstance.post(`/post/${postId}/comments`, {
-        comment: {
-          content: inputText,
-        },
-      });
-      const newComment = response.data.comment;
-      setComments([...comments, newComment]);
-      setPost((prev) => ({
-        ...prev,
-        commentCount: prev.commentCount + 1,
-      }));
-    } catch (error) {
-      console.error(error);
-    }
+    const newComment = await createPostCommentAPI(inputText, postId);
+    setComments([...comments, newComment]);
+    setPost((prev) => ({
+      ...prev,
+      commentCount: prev.commentCount + 1,
+    }));
   };
 
   const handleDeleteComment = (commentId) => {
