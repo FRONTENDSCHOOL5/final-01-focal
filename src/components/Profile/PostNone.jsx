@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import LogoImg from '../../assets/images/logo.png';
 import Button from '../Common/Button/Button';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const NoPostsContainer = styled.section`
   width: 100%;
@@ -29,35 +29,34 @@ const PostInfo = styled.h4`
   color: var(--sub-text-color);
 `;
 
-const PostNone = ({accountname}) => {
+export default function PostNone({ accountname }) {
   const navigate = useNavigate();
   const useraccount = localStorage.getItem('accountname');
 
   return (
     <>
-    {accountname !== useraccount ? (
-      <NoPostsContainer>
-        <PostInfoWrapper>
-          <PostInfoImg src={LogoImg} />
-          <PostInfo>아직 게시글이 없습니다!</PostInfo>
-        </PostInfoWrapper>
-      </NoPostsContainer>
-    ) : (
-      <NoPostsContainer>
-        <PostInfoWrapper>
-          <PostInfo>게시글을 작성해 보세요!</PostInfo>
-          <Button
-            onClick={() => {
-              navigate(`/post/upload`);
-            }}
-            className="md"
-          >
-            작성하러 가기
-          </Button>
-        </PostInfoWrapper>
-      </NoPostsContainer>
-    )}</>
-  )
+      {accountname !== useraccount ? (
+        <NoPostsContainer>
+          <PostInfoWrapper>
+            <PostInfoImg src={LogoImg} />
+            <PostInfo>아직 게시글이 없습니다!</PostInfo>
+          </PostInfoWrapper>
+        </NoPostsContainer>
+      ) : (
+        <NoPostsContainer>
+          <PostInfoWrapper>
+            <PostInfo>게시글을 작성해 보세요!</PostInfo>
+            <Button
+              onClick={() => {
+                navigate(`/post/upload`);
+              }}
+              className="md"
+            >
+              작성하러 가기
+            </Button>
+          </PostInfoWrapper>
+        </NoPostsContainer>
+      )}
+    </>
+  );
 }
-
-export default PostNone

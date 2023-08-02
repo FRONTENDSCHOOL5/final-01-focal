@@ -18,11 +18,11 @@ const AlignButton = styled.button.attrs({ type: 'button' })`
   height: 26px;
 `;
 
-const PostAlignButtons = ({
+export default function PostAlignButtons({
   isListView,
   handleListAlign,
   handleGalleryAlign,
-}) => {
+}) {
   return (
     <PostsAlignRow>
       <AlignButton onClick={handleListAlign}>
@@ -69,6 +69,4 @@ const PostAlignButtons = ({
       </AlignButton>
     </PostsAlignRow>
   );
-};
-
-export default PostAlignButtons;
+}
