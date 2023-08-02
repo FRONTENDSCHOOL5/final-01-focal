@@ -18,6 +18,7 @@ const PostContent = styled.section`
   margin: ${({ isProfile }) => (!isProfile ? '12px 0' : '0 0 12px 0')};
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 
   p {
     width: 100%;
@@ -46,7 +47,8 @@ const PostContent = styled.section`
 
 const ImageCarousel = styled.ul`
   display: flex;
-  overflow: hidden;
+  transition: transform 0.3s ease;
+  transform: ${({ currentSlide }) => `translateX(-${currentSlide * 100}%)`};
 
   li {
     flex: 0 0 100%;
@@ -170,10 +172,10 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
         <p className={!postIdParams ? 'post-preview' : null}>{content}</p>
         <ImageCarousel currentSlide={currentSlide}>
           {image &&
-            imageList.map((_, index) => {
+            imageList.map((image, index) => {
               return (
                 <li key={id + index}>
-                  <img src={imageList[currentSlide]} alt="글 이미지" />
+                  <img src={image} alt={`이미지 ${index + 1}`} />
                 </li>
               );
             })}
