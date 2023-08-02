@@ -69,12 +69,14 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
       const res = await userpostAPI(accountname);
       setPosts(res.data.post);
       setIsPostLoading(false);
-      if (res.data.post.length === 0) {
-        setIsPostNone(true);
-      }
+      getPostNone(res.data.post.length);
     };
     fetchPosts();
   }, []);
+
+  const getPostNone = (postLength) => {
+    postLength === 0 && setIsPostNone(true);
+  };
 
   const handleListAlign = () => {
     setIsListView(true);
@@ -88,9 +90,7 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
     await deletePostAPI(postId);
     const res = await userpostAPI(accountname);
     setPosts(res.data.post);
-    if (res.data.post.length === 0) {
-      setIsPostNone(true);
-    }
+    getPostNone(res.data.post.length);
     closeMenu();
     closeModal();
   };
