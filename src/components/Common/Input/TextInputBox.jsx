@@ -77,6 +77,7 @@ export default function TextInputBox({ type, onButtonClick }) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => {
+              if (inputValue === '') return;
               if (e.key === 'Enter') {
                 e.preventDefault();
                 setTimeout(() => {
@@ -118,6 +119,15 @@ export default function TextInputBox({ type, onButtonClick }) {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (inputValue === '') return;
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                setTimeout(() => {
+                  handleButtonClick();
+                }, 0);
+              }
+            }}
           />
           <StyledButton type="submit" isActive={isActive} disabled={!isActive}>
             전송
