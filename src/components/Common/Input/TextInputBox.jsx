@@ -128,6 +128,7 @@ export default function TextInputBox({ type, onButtonClick }) {
                 }, 0);
               }
             }}
+            autoComplete="off"
           />
           <StyledButton type="submit" isActive={isActive} disabled={!isActive}>
             전송
