@@ -190,6 +190,7 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
                   e.stopPropagation();
                   handleSlideChange(index);
                 }}
+                aria-label={`이미지 ${index + 1}`}
               />
             ))}
           </ImageCarouselButtons>
