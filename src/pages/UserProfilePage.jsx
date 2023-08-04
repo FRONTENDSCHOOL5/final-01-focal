@@ -38,34 +38,27 @@ export default function UserProfilePage() {
     fetchUserData();
   }, []);
 
+  if (isLoading && isProductLoading && isPostLoading) return <Loading />;
   return (
     <>
-      {isLoading && isProductLoading && isPostLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <Header type="basic" />
-          <Main>
-            <h1 className="a11y-hidden">
-              ${userData.accountname}의 프로필 페이지
-            </h1>
-            {userData && (
-              <>
-                <ProfileInfo userInfo={userData} />
-                <ProfileProducts
-                  accountname={userData.accountname}
-                  setIsProductLoading={setIsProductLoading}
-                />
-                <ProfilePosts
-                  accountname={userData.accountname}
-                  setIsPostLoading={setIsPostLoading}
-                />
-              </>
-            )}
-          </Main>
-          <NavBar />
-        </>
-      )}
+      <Header type="basic" />
+      <Main>
+        <h1 className="a11y-hidden">${userData.accountname}의 프로필 페이지</h1>
+        {userData && (
+          <>
+            <ProfileInfo userInfo={userData} />
+            <ProfileProducts
+              accountname={userData.accountname}
+              setIsProductLoading={setIsProductLoading}
+            />
+            <ProfilePosts
+              accountname={userData.accountname}
+              setIsPostLoading={setIsPostLoading}
+            />
+          </>
+        )}
+      </Main>
+      <NavBar />
     </>
   );
 }
