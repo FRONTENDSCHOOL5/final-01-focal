@@ -1,25 +1,10 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import TitleHeader from '../layouts/Header/TitleHeader';
+import BasicLayout from '../layouts/Layout/BasicLayout';
 import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import { getImageSrcAPI } from '../api/apis/image';
 import { signupAPI } from '../api/apis/user';
-
-const Main = styled.main`
-  width: 100%;
-  & > section {
-    max-width: 322px;
-    width: calc(100% - 34px * 2);
-    margin: 0 auto;
-
-    & > button {
-      display: block;
-      margin: 30px auto 0;
-    }
-  }
-`;
 
 const initialValue = {
   email: '',
@@ -31,22 +16,20 @@ const initialValue = {
 };
 
 export default function SignupPage() {
-  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState(initialValue);
-  const [showSecondPage, setShowSecondPage] = useState(false);
+  const [step, setStep] = useState('이메일,비밀번호');
+  const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const { id, value } = e.target;
-    if (id === 'image') {
+    if (id !== 'image') setInputValue({ ...inputValue, [id]: value });
+    else {
       const { files } = e.target;
-      getImageSrcAPI(files[0]).then(({ filename }) => {
-        setInputValue({
-          ...inputValue,
-          image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
-        });
+      const { filename } = await getImageSrcAPI(files[0]);
+      setInputValue({
+        ...inputValue,
+        image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
       });
-    } else {
-      setInputValue({ ...inputValue, [id]: value });
     }
   };
 
@@ -60,48 +43,41 @@ export default function SignupPage() {
       }
     } catch (err) {
       alert(err + ' 다시 입력해주세요');
-      setShowSecondPage(false);
-      setInputValue(initialValue);
+      setStep('이메일,비밀번호');
     }
   };
 
   return (
     <>
-      {!showSecondPage ? (
-        <>
-          <TitleHeader>이메일로 회원가입</TitleHeader>
-          <Main>
-            <section>
-              <h2 className="a11y-hidden">이메일, 비밀번호 입력</h2>
-              <SignUpForm
-                handleClickButton={() => {
-                  setShowSecondPage(true);
-                }}
-                inputValue={inputValue}
-                handleChange={handleInputChange}
-              />
-            </section>
-          </Main>
-        </>
-      ) : (
-        <>
-          <TitleHeader subText="나중에 언제든지 변경할 수 있습니다.">
-            프로필 설정
-          </TitleHeader>
-          <Main>
-            <section>
-              <h2 className="a11y-hidden">
-                사용자이름, 계정ID, 소개 작성 컨테이너
-              </h2>
-              <ProfileForm
-                type="signup"
-                inputValue={inputValue}
-                handleChange={handleInputChange}
-                handleSubmit={handleSignUpSubmit}
-              />
-            </section>
-          </Main>
-        </>
+      {step === '이메일,비밀번호' && (
+        <BasicLayout
+          headerProps={{ title: '이메일로 회원가입' }}
+          description={'이메일, 비밀번호 입력'}
+        >
+          <SignUpForm
+            handleClickButton={() => {
+              setStep('프로필설정');
+            }}
+            inputValue={inputValue}
+            handleChange={handleInputChange}
+          />
+        </BasicLayout>
+      )}
+      {step === '프로필설정' && (
+        <BasicLayout
+          headerProps={{
+            title: '이메일로 회원가입',
+            subText: '나중에 언제든지 변경할 수 있습니다.',
+          }}
+          description={'이메일, 비밀번호 입력'}
+        >
+          <ProfileForm
+            type="signup"
+            inputValue={inputValue}
+            handleChange={handleInputChange}
+            handleSubmit={handleSignUpSubmit}
+          />
+        </BasicLayout>
       )}
     </>
   );
