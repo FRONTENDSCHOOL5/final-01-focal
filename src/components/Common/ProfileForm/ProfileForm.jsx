@@ -4,6 +4,8 @@ import Button from '../Button/Button';
 import TextInput from '../Input/TextInput';
 import ProfileImageUploader from '../Input/ProfileImageUploader';
 import { accountnameValidAPI } from '../../../api/apis/user';
+import { accountnameRegex, validateMessage } from '../../SignUp/validate';
+import { useDebounce } from '../../../hooks/useDebounce';
 
 const Form = styled.form`
   & > div:not(:last-child) {
@@ -23,40 +25,49 @@ export default function ProfileForm({
   handleSubmit,
   formId,
 }) {
-  const [disabled, setDisabled] = useState(true);
-  const [error, setError] = useState({
-    usernameError: null,
-    accountnameError: null,
-  });
+  const debouncedValue = useDebounce(accountname);
 
-  const usernameValidate = () => {
-    if (username.length < 2 || username.length > 10)
-      setError({ ...error, usernameError: '2자~10자 이내여야 합니다' });
-    else setError({ ...error, usernameError: '' });
-  };
+  const [usernameError, setUsernameError] = useState(null);
+  const [accountnameError, setAccountnameError] = useState(null);
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
-  const accountnameValidate = async () => {
-    const accountnameRegex = /^[a-zA-Z0-9._]+$/;
-    if (!accountnameRegex.test(accountname))
-      setError({
-        ...error,
-        accountnameError: '영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.',
-      });
-    else {
-      const { message } = await accountnameValidAPI(accountname);
-      if (message === '사용 가능한 계정ID 입니다.')
-        setError({ ...error, accountnameError: '' });
-      else setError({ ...error, accountnameError: message });
+  const validateUsername = () => {
+    if (!username) {
+      setUsernameError(null);
+    } else {
+      if (username.length >= 2 && username.length <= 10) {
+        setUsernameError('');
+      } else setUsernameError(validateMessage.usernameLength);
     }
   };
 
+  const validateAccountname = async () => {
+    if (!accountnameRegex.test(accountname)) {
+      setAccountnameError(validateMessage.accountnamePatterMiss);
+      return;
+    }
+
+    const { message } = await accountnameValidAPI(accountname);
+    if (message === validateMessage.accountnameCorrect) setAccountnameError('');
+    else setAccountnameError(message);
+  };
+
+  const handleBtnDisabledChange = () => {
+    if (usernameError === '' && accountnameError === '') setBtnDisabled(false);
+    else setBtnDisabled(true);
+  };
+
   useEffect(() => {
-    if (username && accountname) {
-      const { usernameError, accountnameError } = error;
-      if (usernameError === '' && accountnameError === '') setDisabled(false);
-      else setDisabled(true);
-    } else setDisabled(true);
-  }, [error.usernameError, error.accountnameError]);
+    validateUsername();
+  }, [username]);
+
+  useEffect(() => {
+    validateAccountname();
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    handleBtnDisabledChange();
+  }, [usernameError, accountnameError]);
 
   return (
     <Form onSubmit={handleSubmit} id={formId}>
@@ -66,8 +77,7 @@ export default function ProfileForm({
         placeholder="2~10자 이내여야 합니다."
         value={username}
         onChange={handleChange}
-        validate={usernameValidate}
-        error={error.usernameError}
+        error={usernameError}
       >
         사용자 이름
       </TextInput>
@@ -76,8 +86,7 @@ export default function ProfileForm({
         placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
         value={accountname}
         onChange={handleChange}
-        validate={accountnameValidate}
-        error={error.accountnameError}
+        error={accountnameError}
       >
         계정 ID
       </TextInput>
@@ -91,7 +100,7 @@ export default function ProfileForm({
       </TextInput>
 
       {type === 'signup' && (
-        <Button className="lg" disabled={disabled}>
+        <Button className="lg" disabled={btnDisabled}>
           Focal 시작하기
         </Button>
       )}

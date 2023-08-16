@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import TextInput from '../Common/Input/TextInput';
 import Button from '../Common/Button/Button';
 import { emailValidAPI } from '../../api/apis/user';
+import { emailRegex, validateMessage } from './validate';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const Form = styled.form`
   & > div:first-child {
@@ -23,43 +25,57 @@ export default function SignUpForm({
   inputValue: { email, password },
   handleChange,
 }) {
-  const [error, setError] = useState({
-    emailError: null,
-    passwordError: null,
-  });
-  const [disabled, setDisabled] = useState(true);
+  const debouncedValue = useDebounce(email);
+  const [emailError, setEmailError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
-  const emailValidate = async () => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    if (!emailRegex.test(email)) {
-      setError({ ...error, emailError: '올바르지 않은 이메일 형식입니다.' });
+  const validateEmail = useCallback(async () => {
+    if (!email) {
+      setEmailError(null);
     } else {
-      const { message } = await emailValidAPI(email).then;
-      if (message === '사용 가능한 이메일 입니다.')
-        setError({ ...error, emailError: '' });
-      else setError({ ...error, emailError: message });
+      if (!emailRegex.test(email)) {
+        setEmailError(validateMessage.emailPatternMiss);
+        return;
+      }
+
+      const { message } = await emailValidAPI(email);
+      if (message === validateMessage.emailCorrect) setEmailError('');
+      else setEmailError(message);
     }
-  };
+  }, [debouncedValue]);
 
-  const passwordValidate = () => {
-    if (password.length < 6) {
-      setError({
-        ...error,
-        passwordError: '비밀번호는 6자 이상이어야 합니다.',
-      });
+  const validatePassword = useCallback(() => {
+    if (!password) {
+      setPasswordError(null);
     } else {
-      setError({ ...error, passwordError: '' });
+      if (password.length < 6) {
+        setPasswordError(validateMessage.passwordLength);
+      } else {
+        setPasswordError('');
+      }
+    }
+  }, [password]);
+
+  const handleBtnDisabledChange = () => {
+    if (emailError === '' && passwordError === '') {
+      setBtnDisabled(false);
+    } else {
+      setBtnDisabled(true);
     }
   };
 
   useEffect(() => {
-    if (email && password) {
-      const { emailError, passwordError } = error;
-      if (emailError === '' && passwordError === '') {
-        setDisabled(false);
-      } else setDisabled(true);
-    } else setDisabled(true);
-  }, [error.emailError, error.passwordError]);
+    validateEmail();
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    validatePassword();
+  }, [password]);
+
+  useEffect(() => {
+    handleBtnDisabledChange();
+  }, [emailError, passwordError]);
 
   return (
     <Form>
@@ -67,10 +83,9 @@ export default function SignUpForm({
         id="email"
         type="email"
         placeholder="이메일 주소를 입력해주세요"
-        validate={emailValidate}
         value={email}
         onChange={handleChange}
-        error={error.emailError}
+        error={emailError}
       >
         이메일
       </TextInput>
@@ -78,10 +93,9 @@ export default function SignUpForm({
         id="password"
         type="password"
         placeholder="비밀번호를 설정해주세요"
-        validate={passwordValidate}
         value={password}
         onChange={handleChange}
-        error={error.passwordError}
+        error={passwordError}
       >
         비밀번호
       </TextInput>
@@ -90,7 +104,7 @@ export default function SignUpForm({
         type="button"
         className="lg"
         onClick={handleClickButton}
-        disabled={disabled}
+        disabled={btnDisabled}
       >
         다음
       </Button>
