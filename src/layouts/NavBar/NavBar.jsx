@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import NavBarItem from './NavBarItem';
 import { ReactComponent as HomeIcon } from '../../assets/icons/icon-home.svg';
@@ -26,20 +26,21 @@ const StyledNav = styled.nav`
 export default function NavBar() {
   const [pathname, setPathname] = useRecoilState(pathState);
 
-  const handleClick = (e) => {
-    setPathname(e.currentTarget.pathname);
-  };
+  useEffect(() => {
+    if (
+      location.pathname === '/' ||
+      location.pathname === '/chat/' ||
+      location.pathname === '/profile/'
+    ) {
+      setPathname(location.pathname);
+    }
+  }, []);
 
   return (
     <StyledNav>
       <ul>
         <li>
-          <NavBarItem
-            to="/"
-            description="홈"
-            isActive={pathname === '/'}
-            onClick={handleClick}
-          >
+          <NavBarItem to="/" description="홈" isActive={pathname === '/'}>
             <HomeIcon />
           </NavBarItem>
         </li>
@@ -48,17 +49,12 @@ export default function NavBar() {
             to="/chat/"
             description="채팅"
             isActive={pathname === '/chat/'}
-            onClick={handleClick}
           >
             <ChatIcon />
           </NavBarItem>
         </li>
         <li>
-          <NavBarItem
-            to="/post/upload"
-            description="게시물 작성"
-            onClick={handleClick}
-          >
+          <NavBarItem to="/post/upload" description="게시물 작성">
             <PostIcon />
           </NavBarItem>
         </li>
@@ -67,7 +63,6 @@ export default function NavBar() {
             to="/profile/"
             description="프로필"
             isActive={pathname === '/profile/'}
-            onClick={handleClick}
           >
             <ProfileIcon />
           </NavBarItem>
