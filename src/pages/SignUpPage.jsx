@@ -5,6 +5,8 @@ import SignUpForm from '../components/SignUp/SignUpForm';
 import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import { getImageSrcAPI } from '../api/apis/image';
 import { signupAPI } from '../api/apis/user';
+import useModal from '../hooks/useModal';
+import SignupModal from '../layouts/Modal/SignupModal';
 
 const initialValue = {
   email: '',
@@ -16,6 +18,7 @@ const initialValue = {
 };
 
 export default function SignupPage() {
+  const { isModalOpen, openModal, closeModal } = useModal();
   const [inputValue, setInputValue] = useState(initialValue);
   const [step, setStep] = useState('이메일,비밀번호');
   const navigate = useNavigate();
@@ -35,11 +38,11 @@ export default function SignupPage() {
 
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const { message } = await signupAPI(inputValue);
       if (message === '회원가입 성공') {
-        alert('Welcome to Focal!');
-        navigate('/login');
+        openModal();
       }
     } catch (err) {
       alert(err + ' 다시 입력해주세요');
@@ -77,6 +80,14 @@ export default function SignupPage() {
             handleChange={handleInputChange}
             handleSubmit={handleSignUpSubmit}
           />
+          {isModalOpen && (
+            <SignupModal
+              closeModal={() => {
+                closeModal();
+                navigate('/welcome');
+              }}
+            />
+          )}
         </BasicLayout>
       )}
     </>
