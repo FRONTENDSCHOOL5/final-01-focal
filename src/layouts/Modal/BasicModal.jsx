@@ -24,11 +24,18 @@ const ModalContainer = styled.article`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
 
-  & > h1 {
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 15px;
+const Title = styled.h2`
+  line-height: 20px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 15px;
+
+  & > b {
+    font-weight: 700;
+    color: var(--main-color);
   }
 `;
 
@@ -44,11 +51,11 @@ const Button = styled.button`
   border: 1px solid var(--border-color);
 `;
 
-export default function SignupModal({ closeModal }) {
+export default function BasicModal({ closeModal, children }) {
   return (
     <Overlay>
       <ModalContainer>
-        <h1>회원가입이 완료되었습니다.</h1>
+        <Title>{children}</Title>
         <Button
           onClick={() => {
             closeModal();
