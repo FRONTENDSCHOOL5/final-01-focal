@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import BasicModal from '../layouts/Modal/BasicModal';
+import useModal from '../hooks/useModal';
 import Logo from '../assets/images/logo.png';
 import emailIcon from '../assets/icons/email.svg';
 import signupIcon from '../assets/icons/icon-user-yellow.svg';
@@ -87,6 +89,8 @@ const SnsBtnContainer = styled.div`
 `;
 
 export default function WelcomePage() {
+  const { isModalOpen, openModal, closeModal } = useModal();
+
   return (
     <Container>
       <StyledHeader>
@@ -101,18 +105,24 @@ export default function WelcomePage() {
           <StyledLink to="/login">이메일로 로그인</StyledLink>
           <StyledLink to="/signup">회원가입하기</StyledLink>
           <SnsBtnContainer>
-            <button type="button">
+            <button type="button" onClick={openModal}>
               <img src={kakao} alt="카카오톡 계정으로 로그인" />
             </button>
-            <button type="button">
+            <button type="button" onClick={openModal}>
               <img src={google} alt="구글 계정으로 로그인" />
             </button>
-            <button type="button">
+            <button type="button" onClick={openModal}>
               <img src={facebook} alt="페이스북 계정으로 로그인" />
             </button>
           </SnsBtnContainer>
         </section>
       </Main>
+      {isModalOpen && (
+        <BasicModal closeModal={closeModal}>
+          현재 개발중인 기능입니다. <br />
+          잠시만 기다려주세요
+        </BasicModal>
+      )}
     </Container>
   );
 }

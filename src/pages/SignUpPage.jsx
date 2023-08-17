@@ -6,7 +6,7 @@ import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import { getImageSrcAPI } from '../api/apis/image';
 import { signupAPI } from '../api/apis/user';
 import useModal from '../hooks/useModal';
-import SignupModal from '../layouts/Modal/SignupModal';
+import BasicModal from '../layouts/Modal/BasicModal';
 
 const initialValue = {
   email: '',
@@ -18,10 +18,10 @@ const initialValue = {
 };
 
 export default function SignupPage() {
-  const { isModalOpen, openModal, closeModal } = useModal();
   const [inputValue, setInputValue] = useState(initialValue);
   const [step, setStep] = useState('이메일,비밀번호');
   const navigate = useNavigate();
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const handleInputChange = async (e) => {
     const { id, value } = e.target;
@@ -81,12 +81,15 @@ export default function SignupPage() {
             handleSubmit={handleSignUpSubmit}
           />
           {isModalOpen && (
-            <SignupModal
+            <BasicModal
               closeModal={() => {
                 closeModal();
                 navigate('/welcome');
               }}
-            />
+            >
+              <b> {inputValue.username}</b>님의 <br /> 회원가입이
+              완료되었습니다.
+            </BasicModal>
           )}
         </BasicLayout>
       )}
