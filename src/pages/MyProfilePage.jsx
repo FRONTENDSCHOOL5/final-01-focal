@@ -29,7 +29,7 @@ const Main = styled.main`
 `;
 
 export default function MyProfilePage() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [isProductLoading, setIsProductLoading] = useState(true);
   const [isPostLoading, setIsPostLoading] = useState(true);
   const [userData, setUserData] = useState('');
@@ -42,7 +42,6 @@ export default function MyProfilePage() {
     closeModal,
   } = useModal();
   const navigate = useNavigate();
-
   const setIsLogined = useSetRecoilState(loginState);
 
   const handleLogout = () => {
@@ -54,42 +53,47 @@ export default function MyProfilePage() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const getData = async () => {
-        const user = await getMyInfoAPI();
-        setUserData(user);
-        setIsLoading(false);
-      };
-      getData();
+      const user = await getMyInfoAPI();
+      setUserData(user);
+      setIsUserLoading(false);
     };
     fetchUserData();
   }, []);
 
-  if (isLoading && isProductLoading && isPostLoading) return <Loading />;
   return (
     <>
-      <Header
-        type="basic"
-        onClick={openMenu}
-        ellipsisBtnShow={true}
-        backBtnShow={false}
-      />
-      <Main>
-        <h1 className="a11y-hidden">나의 프로필 페이지</h1>
-        {userData && (
-          <>
-            <ProfileInfo userInfo={userData} />
-            <ProfileProducts
-              accountname={userData.accountname}
-              setIsProductLoading={setIsProductLoading}
-            />
-            <ProfilePosts
-              accountname={userData.accountname}
-              setIsPostLoading={setIsPostLoading}
-            />
-          </>
-        )}
-      </Main>
-      <NavBar />
+      {(isUserLoading || isProductLoading || isPostLoading) && <Loading />}
+      {!(isUserLoading && isProductLoading && isPostLoading) && (
+        <>
+          <Header
+            type="basic"
+            onClick={openMenu}
+            ellipsisBtnShow={true}
+            backBtnShow={false}
+          />
+          <Main>
+            <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+            {userData && (
+              <>
+                <ProfileInfo
+                  userInfo={userData}
+                  setUserData={setUserData}
+                  setIsUserLoading={setIsUserLoading}
+                />
+                <ProfileProducts
+                  accountname={userData.accountname}
+                  setIsProductLoading={setIsProductLoading}
+                />
+                <ProfilePosts
+                  accountname={userData.accountname}
+                  setIsPostLoading={setIsPostLoading}
+                />
+              </>
+            )}
+          </Main>
+          <NavBar />
+        </>
+      )}
 
       {isMenuOpen && (
         <BottomSheetModal setIsMenuOpen={closeMenu}>

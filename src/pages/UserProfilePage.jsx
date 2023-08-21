@@ -23,7 +23,7 @@ const Main = styled.main`
 `;
 
 export default function UserProfilePage() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [isProductLoading, setIsProductLoading] = useState(true);
   const [isPostLoading, setIsPostLoading] = useState(true);
   const [userData, setUserData] = useState('');
@@ -33,32 +33,38 @@ export default function UserProfilePage() {
     const fetchUserData = async () => {
       const res = await profileAPI(_id);
       setUserData(res);
-      setIsLoading(false);
+      setIsUserLoading(false);
     };
     fetchUserData();
   }, []);
 
-  if (isLoading && isProductLoading && isPostLoading) return <Loading />;
   return (
     <>
-      <Header type="basic" />
-      <Main>
-        <h1 className="a11y-hidden">${userData.accountname}의 프로필 페이지</h1>
-        {userData && (
-          <>
-            <ProfileInfo userInfo={userData} />
-            <ProfileProducts
-              accountname={userData.accountname}
-              setIsProductLoading={setIsProductLoading}
-            />
-            <ProfilePosts
-              accountname={userData.accountname}
-              setIsPostLoading={setIsPostLoading}
-            />
-          </>
-        )}
-      </Main>
-      <NavBar />
+      {(isUserLoading || isProductLoading || isPostLoading) && <Loading />}
+      {!(isUserLoading && isProductLoading && isPostLoading) && (
+        <>
+          <Header type="basic" />
+          <Main>
+            <h1 className="a11y-hidden">
+              ${userData.accountname}의 프로필 페이지
+            </h1>
+            {userData && (
+              <>
+                <ProfileInfo userInfo={userData} />
+                <ProfileProducts
+                  accountname={userData.accountname}
+                  setIsProductLoading={setIsProductLoading}
+                />
+                <ProfilePosts
+                  accountname={userData.accountname}
+                  setIsPostLoading={setIsPostLoading}
+                />
+              </>
+            )}
+          </Main>
+          <NavBar />
+        </>
+      )}
     </>
   );
 }
