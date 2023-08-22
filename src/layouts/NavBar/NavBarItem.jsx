@@ -37,15 +37,9 @@ const NavDescription = styled.span`
   font-size: 10px;
 `;
 
-export default function NavBarItem({
-  to,
-  onClick,
-  children,
-  description,
-  isActive,
-}) {
+export default function NavBarItem({ to, children, description, isActive }) {
   return (
-    <StyledLink to={to} onClick={onClick} $isactive={isActive}>
+    <StyledLink to={to} $isactive={isActive}>
       {children}
       <NavDescription>{description}</NavDescription>
     </StyledLink>
