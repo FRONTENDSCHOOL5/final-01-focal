@@ -5,7 +5,7 @@ const StyledHeader = styled.header`
   display: block;
   margin: 0 auto;
   text-align: center;
-  padding: 30px 0px 40px;
+  padding-bottom: 40px;
 
   h1 {
     font-weight: 500;
