@@ -4,7 +4,7 @@ import Button from '../Button/Button';
 import TextInput from '../Input/TextInput';
 import ProfileImageUploader from '../Input/ProfileImageUploader';
 import { accountnameValidAPI } from '../../../api/apis/user';
-import { accountnameRegex, validateMessage } from '../../SignUp/validate';
+import { accountnameRegex, validateMessage } from '../../../constants/validate';
 import { useDebounce } from '../../../hooks/useDebounce';
 
 const Form = styled.form`

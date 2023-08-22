@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TextInput from '../Common/Input/TextInput';
 import Button from '../Common/Button/Button';
 import { emailValidAPI } from '../../api/apis/user';
-import { emailRegex, validateMessage } from './validate';
+import { emailRegex, validateMessage } from '../../constants/validate';
 import { useDebounce } from '../../hooks/useDebounce';
 
 const Form = styled.form`
