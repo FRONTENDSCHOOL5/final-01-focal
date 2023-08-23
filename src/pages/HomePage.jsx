@@ -85,6 +85,7 @@ export default function HomePage() {
     });
   };
 
+  if (isLoading) return <Loading />;
   return (
     <>
       <Header type="main" onClick={scrollToTop} />
@@ -94,9 +95,7 @@ export default function HomePage() {
         <Container>
           <h3 className="a11y-hidden">내가 팔로우한 사람 글 목록</h3>
 
-          {isLoading ? (
-            <Loading />
-          ) : postDatas && postDatas.length > 0 ? (
+          {postDatas && postDatas.length > 0 ? (
             <div>
               {postDatas.map((data) => (
                 <PostCard

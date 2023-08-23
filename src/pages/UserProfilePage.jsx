@@ -23,7 +23,7 @@ const Main = styled.main`
 `;
 
 export default function UserProfilePage() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [isProductLoading, setIsProductLoading] = useState(true);
   const [isPostLoading, setIsPostLoading] = useState(true);
   const [userData, setUserData] = useState('');
@@ -33,16 +33,15 @@ export default function UserProfilePage() {
     const fetchUserData = async () => {
       const res = await profileAPI(_id);
       setUserData(res);
-      setIsLoading(false);
+      setIsUserLoading(false);
     };
     fetchUserData();
   }, []);
 
   return (
     <>
-      {isLoading && isProductLoading && isPostLoading ? (
-        <Loading />
-      ) : (
+      {(isUserLoading || isProductLoading || isPostLoading) && <Loading />}
+      {!(isUserLoading && isProductLoading && isPostLoading) && (
         <>
           <Header type="basic" />
           <Main>

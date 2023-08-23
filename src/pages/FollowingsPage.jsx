@@ -37,28 +37,25 @@ export default function FollowingsPage() {
     };
     fetchPosts();
   }, []);
+
+  if (isLoading) return <Loading />;
   return (
     <>
       <Header type="basic" headerText="Followings" backBtnShow={true} />(
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <Main>
-          <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>
-          {userData.length > 0 ? (
-            <section>
-              <ul>
-                {userData.map((user) => (
-                  <UserFollowListItem key={user._id} user={user} />
-                ))}
-              </ul>
-            </section>
-          ) : (
-            <FollowNone type="following" accountname={accountname} />
-          )}
-        </Main>
-      )}
-      )
+      <Main>
+        <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>
+        {userData.length > 0 ? (
+          <section>
+            <ul>
+              {userData.map((user) => (
+                <UserFollowListItem key={user._id} user={user} />
+              ))}
+            </ul>
+          </section>
+        ) : (
+          <FollowNone type="following" accountname={accountname} />
+        )}
+      </Main>
     </>
   );
 }
