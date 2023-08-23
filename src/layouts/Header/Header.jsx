@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { ReactComponent as BackButton } from '../../assets/icons/icon-arrow-left.svg';
 import { ReactComponent as MoreButton } from '../../assets/icons/icon-more.svg';
 import { ReactComponent as SearchButton } from '../../assets/icons/icon-search.svg';
-import SearchInput from '../Input/SearchInput';
-import IconButton from '../Button/IconButton';
-import Button from '../Button/Button';
+import SearchInput from '../../components/Common/Input/SearchInput';
+import IconButton from '../../components/Common/Button/IconButton';
+import Button from '../../components/Common/Button/Button';
 import logo from '../../assets/images/logo.png';
 import { useNavigate } from 'react-router-dom';
 

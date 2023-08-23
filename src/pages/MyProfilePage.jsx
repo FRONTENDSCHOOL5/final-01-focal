@@ -3,17 +3,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '../states/LoginState';
-import authInstance from '../api/instance/authInstance';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
-import NavBar from '../components/NavBar/NavBar';
-import BottomSheetModal from '../components/Modal/BottomSheetModal';
-import BottomSheetContent from '../components/Modal/BottomSheetContent';
-import ConfirmModal from '../components/Modal/ConfirmModal';
+import NavBar from '../layouts/NavBar/NavBar';
+import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
+import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
+import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
-import Loading from '../components/Loading/Loading';
+import Loading from '../layouts/Loading/Loading';
+import { getMyInfoAPI } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -22,14 +22,14 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 390px;
+  min-width: 380px;
   margin-top: 48px;
   background-color: #f2f2f2;
   gap: 6px;
 `;
 
 export default function MyProfilePage() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [isProductLoading, setIsProductLoading] = useState(true);
   const [isPostLoading, setIsPostLoading] = useState(true);
   const [userData, setUserData] = useState('');
@@ -42,7 +42,6 @@ export default function MyProfilePage() {
     closeModal,
   } = useModal();
   const navigate = useNavigate();
-
   const setIsLogined = useSetRecoilState(loginState);
 
   const handleLogout = () => {
@@ -54,23 +53,17 @@ export default function MyProfilePage() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      try {
-        const res = await authInstance.get('user/myinfo');
-        const { user } = res.data;
-        setUserData(user);
-        setIsLoading(false);
-      } catch (err) {
-        console.error('Error :', err);
-      }
+      const user = await getMyInfoAPI();
+      setUserData(user);
+      setIsUserLoading(false);
     };
     fetchUserData();
   }, []);
 
   return (
     <>
-      {isLoading && isProductLoading && isPostLoading ? (
-        <Loading />
-      ) : (
+      {(isUserLoading || isProductLoading || isPostLoading) && <Loading />}
+      {!(isUserLoading && isProductLoading && isPostLoading) && (
         <>
           <Header
             type="basic"
@@ -82,7 +75,11 @@ export default function MyProfilePage() {
             <h1 className="a11y-hidden">나의 프로필 페이지</h1>
             {userData && (
               <>
-                <ProfileInfo userInfo={userData} />
+                <ProfileInfo
+                  userInfo={userData}
+                  setUserData={setUserData}
+                  setIsUserLoading={setIsUserLoading}
+                />
                 <ProfileProducts
                   accountname={userData.accountname}
                   setIsProductLoading={setIsProductLoading}

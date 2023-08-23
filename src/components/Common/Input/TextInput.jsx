@@ -42,7 +42,6 @@ export default function TextInput({
   children,
   placeholder = '',
   error = '',
-  validate,
   value,
   onChange,
 }) {
@@ -53,7 +52,6 @@ export default function TextInput({
         type={type}
         id={id}
         placeholder={placeholder}
-        onBlur={validate}
         value={value}
         onChange={onChange}
         autoComplete="off"

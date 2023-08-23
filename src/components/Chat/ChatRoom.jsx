@@ -31,12 +31,12 @@ const MessageListStyle = styled.div`
   overflow: auto;
 `;
 
-function ChatRoom({ data }) {
+function ChatRoom({ user, messages }) {
   return (
     <MainStyle>
       <ChatWrapperStyle>
         <h2 className="a11y-hidden">채팅방</h2>
-        {data === '행복한 공주' && (
+        {user === '행복한 공주' && (
           <MessageListStyle>
             <ChatMessage imgSrc={ImageSrc} time="12:22">
               <ReceiveText message="옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 악동하다. 대고,못할 넣는 풍부하게 뛰노는 인생의 힘있다." />
@@ -55,6 +55,13 @@ function ChatRoom({ data }) {
             </MyChatMessage>
           </MessageListStyle>
         )}
+        {messages.map((message) => {
+          return (
+            <MyChatMessage key={message.id} time={message.createdAt}>
+              <SendText message={message.content} />
+            </MyChatMessage>
+          );
+        })}
       </ChatWrapperStyle>
     </MainStyle>
   );

@@ -7,5 +7,5 @@ import { loginState } from '../states/LoginState';
 export default function PrivateRoute() {
   const isLogin = useRecoilValue(loginState);
 
-  return isLogin ? <Outlet /> : <Navigate to="/welcome" />;
+  return isLogin ? <Outlet /> : <Navigate to="/splash" />;
 }

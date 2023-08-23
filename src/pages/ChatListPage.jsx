@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import ChatList from '../components/Chat/ChatList';
-import NavBar from '../components/NavBar/NavBar';
+import NavBar from '../layouts/NavBar/NavBar';
 
 export default function ChatListPage() {
   return (

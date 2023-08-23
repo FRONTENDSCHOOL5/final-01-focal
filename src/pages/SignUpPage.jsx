@@ -1,66 +1,38 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import TitleHeader from '../components/Header/TitleHeader';
+import BasicLayout from '../layouts/Layout/BasicLayout';
 import SignUpForm from '../components/SignUp/SignUpForm';
-import ProfileForm from '../components/SignUp/ProfileForm';
-import baseInstance from '../api/instance/baseInstance';
+import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
+import { getImageSrcAPI } from '../api/apis/image';
+import { signupAPI } from '../api/apis/user';
+import useModal from '../hooks/useModal';
+import BasicModal from '../layouts/Modal/BasicModal';
 
-const Main = styled.main`
-  width: 100%;
-  & > section {
-    max-width: 322px;
-    width: calc(100% - 34px * 2);
-    margin: 0 auto;
-
-    & > button {
-      display: block;
-      margin: 30px auto 0;
-    }
-  }
-`;
+const initialValue = {
+  email: '',
+  password: '',
+  username: '',
+  accountname: '',
+  intro: '',
+  image: '',
+};
 
 export default function SignupPage() {
+  const [inputValue, setInputValue] = useState(initialValue);
+  const [step, setStep] = useState('이메일,비밀번호');
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    email: '',
-    password: '',
-    username: '',
-    accountname: '',
-    intro: '',
-    image: '',
-  });
-  const [showSecondPage, setShowSecondPage] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
-  const getImageSrc = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const res = await baseInstance.post('/image/uploadfile', formData);
-      const { status } = res;
-      if (status !== 200) throw new Error('에러');
-      if (status === 200) {
-        const {
-          data: { filename },
-        } = res;
-        setInputValue({
-          ...inputValue,
-          image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
-        });
-      }
-    } catch (err) {
-      alert(err);
-    }
-  };
-
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const { id, value } = e.target;
-    if (id === 'image') {
+    if (id !== 'image') setInputValue({ ...inputValue, [id]: value });
+    else {
       const { files } = e.target;
-      getImageSrc(files[0]);
-    } else {
-      setInputValue({ ...inputValue, [id]: value });
+      const { filename } = await getImageSrcAPI(files[0]);
+      setInputValue({
+        ...inputValue,
+        image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
+      });
     }
   };
 
@@ -68,61 +40,58 @@ export default function SignupPage() {
     e.preventDefault();
 
     try {
-      const res = await baseInstance.post('/user', { user: inputValue });
-      const { status } = res;
-      if (status !== 200) throw new Error('네트워크 에러');
-      else {
-        const {
-          data: { message },
-        } = res;
-        if (message !== '회원가입 성공') throw new Error(message);
-        else {
-          alert('Welcome to Focal!');
-          navigate('/login');
-        }
+      const { message } = await signupAPI(inputValue);
+      if (message === '회원가입 성공') {
+        openModal();
       }
     } catch (err) {
-      alert(err);
+      alert(err + ' 다시 입력해주세요');
+      setStep('이메일,비밀번호');
     }
   };
 
   return (
     <>
-      {!showSecondPage ? (
-        <>
-          <TitleHeader>이메일로 회원가입</TitleHeader>
-          <Main>
-            <section>
-              <h2 className="a11y-hidden">이메일, 비밀번호 입력</h2>
-              <SignUpForm
-                handleClickButton={() => {
-                  setShowSecondPage(true);
-                }}
-                inputValue={inputValue}
-                handleChange={handleInputChange}
-              />
-            </section>
-          </Main>
-        </>
-      ) : (
-        <>
-          <TitleHeader subText="나중에 언제든지 변경할 수 있습니다.">
-            프로필 설정
-          </TitleHeader>
-          <Main>
-            <section>
-              <h2 className="a11y-hidden">
-                사용자이름, 계정ID, 소개 작성 컨테이너
-              </h2>
-              <ProfileForm
-                type="signup"
-                inputValue={inputValue}
-                handleChange={handleInputChange}
-                handleSubmit={handleSignUpSubmit}
-              />
-            </section>
-          </Main>
-        </>
+      {step === '이메일,비밀번호' && (
+        <BasicLayout
+          headerProps={{ title: '이메일로 회원가입' }}
+          description={'이메일, 비밀번호 입력'}
+        >
+          <SignUpForm
+            handleClickButton={() => {
+              setStep('프로필설정');
+            }}
+            inputValue={inputValue}
+            handleChange={handleInputChange}
+          />
+        </BasicLayout>
+      )}
+      {step === '프로필설정' && (
+        <BasicLayout
+          headerProps={{
+            title: '이메일로 회원가입',
+            subText: '나중에 언제든지 변경할 수 있습니다.',
+          }}
+          description={'이메일, 비밀번호 입력'}
+        >
+          <ProfileForm
+            type="signup"
+            inputValue={inputValue}
+            handleChange={handleInputChange}
+            handleSubmit={handleSignUpSubmit}
+          />
+          {isModalOpen && (
+            <BasicModal
+              closeModal={() => {
+                closeModal();
+                navigate('/welcome');
+              }}
+            >
+              <b> {inputValue.username}</b>님의 <br /> 회원가입이
+              완료되었습니다.
+            </BasicModal>
+          )}
+        </BasicLayout>
       )}
     </>
   );

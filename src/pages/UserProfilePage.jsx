@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import authInstance from '../api/instance/authInstance';
-import Header from '../components/Header/Header';
+import { profileAPI } from '../api/apis/profile';
+import Header from '../layouts/Header/Header';
 import ProfileInfo from '../components/Profile/ProfileInfo';
 import ProfileProducts from '../components/Profile/ProfileProducts';
 import ProfilePosts from '../components/Profile/ProfilePosts';
-import NavBar from '../components/NavBar/NavBar';
-import Loading from '../components/Loading/Loading';
+import NavBar from '../layouts/NavBar/NavBar';
+import Loading from '../layouts/Loading/Loading';
+import { useParams } from 'react-router-dom';
 
 const Main = styled.main`
   width: 100%;
@@ -16,43 +16,38 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 390px;
+  min-width: 380px;
   margin-top: 48px;
   background-color: #f2f2f2;
   gap: 6px;
 `;
 
 export default function UserProfilePage() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [isProductLoading, setIsProductLoading] = useState(true);
   const [isPostLoading, setIsPostLoading] = useState(true);
-  const { _id } = useParams();
   const [userData, setUserData] = useState('');
+  const { _id } = useParams();
 
   useEffect(() => {
     const fetchUserData = async () => {
-      try {
-        const res = await authInstance.get(`profile/${_id}`);
-        const { profile } = res.data;
-        setUserData(profile);
-        setIsLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
+      const res = await profileAPI(_id);
+      setUserData(res);
+      setIsUserLoading(false);
     };
-
     fetchUserData();
-  }, [userData.isfollow]);
+  }, []);
 
   return (
     <>
-      {isLoading && isProductLoading && isPostLoading ? (
-        <Loading />
-      ) : (
+      {(isUserLoading || isProductLoading || isPostLoading) && <Loading />}
+      {!(isUserLoading && isProductLoading && isPostLoading) && (
         <>
           <Header type="basic" />
           <Main>
-            <h1 className="a11y-hidden">나의 프로필 페이지</h1>
+            <h1 className="a11y-hidden">
+              ${userData.accountname}의 프로필 페이지
+            </h1>
             {userData && (
               <>
                 <ProfileInfo userInfo={userData} />

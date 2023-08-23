@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import ProductUpload from '../components/Product/ProductUpload';
-import authInstance from '../api/instance/authInstance';
+import { createProductAPI } from '../api/apis/product';
 
 export default function ProductUploadPage() {
   const [buttonDisable, setButtonDisable] = useState(true);
@@ -11,15 +11,7 @@ export default function ProductUploadPage() {
   };
 
   const handleSubmit = async (productData) => {
-    try {
-      const productResponse = await authInstance.post('/product', productData);
-
-      if (productResponse.status !== 200) {
-        throw new Error('파일 업로드 에러');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    await createProductAPI(productData);
   };
 
   return (

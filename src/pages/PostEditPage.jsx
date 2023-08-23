@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header/Header';
+import Header from '../layouts/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
 import { useNavigate, useParams } from 'react-router-dom';
-import authInstance from '../api/instance/authInstance';
+import { editPostAPI } from '../api/apis/post';
+import { postDetailAPI } from '../api/apis/post';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
@@ -23,15 +24,11 @@ export default function PostEditPage() {
 
   useEffect(() => {
     const getData = async () => {
-      try {
-        const {
-          data: { post },
-        } = await authInstance.get(`/post/${post_id}`);
+      const {
+        data: { post },
+      } = await postDetailAPI(post_id);
 
-        setInputValue({ content: post.content, image: post.image.split(',') });
-      } catch (err) {
-        console.log(err);
-      }
+      setInputValue({ content: post.content, image: post.image.split(',') });
     };
     getData();
   }, []);
@@ -44,18 +41,8 @@ export default function PostEditPage() {
       alert('한개이상의 이미지를 첨부해주세요');
       return;
     }
-
-    try {
-      await authInstance.put(`/post/${post_id}`, {
-        post: {
-          content,
-          image: image.join(),
-        },
-      });
-      navigate('/profile/');
-    } catch (err) {
-      console.log(err);
-    }
+    await editPostAPI(post_id, content, image);
+    navigate('/profile/');
   };
 
   return (

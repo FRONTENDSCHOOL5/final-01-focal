@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import authInstance from '../api/instance/authInstance';
-import Header from '../components/Header/Header';
-import UserSearchListItem from '../components/UserItem/UserSearchListItem';
-import NavBar from '../components/NavBar/NavBar';
+import Header from '../layouts/Header/Header';
+import UserSearchListItem from '../components/Search/UserSearchListItem';
+import NavBar from '../layouts/NavBar/NavBar';
+import { searchUserAPI } from '../api/apis/user';
+import { useDebounce } from '../hooks/useDebounce';
 
 const Main = styled.main`
   width: 100%;
@@ -22,32 +23,20 @@ const Main = styled.main`
 export default function SearchPage() {
   const [inputValue, setInputValue] = useState('');
   const [users, setUsers] = useState([]);
+  const debouncedValue = useDebounce(inputValue);
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     if (inputValue) {
-      try {
-        const res = await authInstance.get(
-          `/user/searchuser/?keyword=${inputValue}`,
-        );
-        const { data } = res;
-        setUsers(data);
-      } catch (err) {
-        console.log(err);
-      }
+      const { data } = await searchUserAPI(inputValue);
+      setUsers(data);
     } else {
       setUsers([]);
     }
-  };
+  }, [debouncedValue]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      getData();
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [inputValue]);
+    getData();
+  }, [debouncedValue]);
 
   return (
     <>

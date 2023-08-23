@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import authInstance from '../api/instance/authInstance';
-import Button from '../components/Button/Button';
-import Header from '../components/Header/Header';
-import NavBar from '../components/NavBar/NavBar';
-import PostCard from '../components/Post/PostCard';
-import BottomSheetModal from '../components/Modal/BottomSheetModal';
-import BottomSheetContent from '../components/Modal/BottomSheetContent';
-import ConfirmModal from '../components/Modal/ConfirmModal';
+import Button from '../components/Common/Button/Button';
+import Header from '../layouts/Header/Header';
+import NavBar from '../layouts/NavBar/NavBar';
+import PostCard from '../components/Common/PostCard/PostCard';
+import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
+import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
+import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
-import Loading from '../components/Loading/Loading';
+import Loading from '../layouts/Loading/Loading';
+import { reportPostAPI } from '../api/apis/post';
+import { feedAPI } from '../api/apis/post';
 
 const ContentWrapper = styled.main`
   margin: 48px 0 0;
@@ -63,26 +64,18 @@ export default function HomePage() {
 
   useEffect(() => {
     const getPost = async () => {
-      try {
-        const res = await authInstance.get('/post/feed');
-        setPostDatas(res.data.posts);
-        setIsLoading(false);
-      } catch (err) {
-        console.log(err);
-      }
+      const res = await feedAPI();
+      setPostDatas(res.data.posts);
+      setIsLoading(false);
     };
     getPost();
   }, []);
 
   const handleReport = async (e) => {
     e.stopPropagation();
-    try {
-      await authInstance.post(`/post/${postId}/report`);
-      closeMenu();
-      closeModal();
-    } catch (err) {
-      console.log(err);
-    }
+    await reportPostAPI(postId);
+    closeMenu();
+    closeModal();
   };
 
   const scrollToTop = () => {
@@ -92,6 +85,7 @@ export default function HomePage() {
     });
   };
 
+  if (isLoading) return <Loading />;
   return (
     <>
       <Header type="main" onClick={scrollToTop} />
@@ -101,9 +95,7 @@ export default function HomePage() {
         <Container>
           <h3 className="a11y-hidden">내가 팔로우한 사람 글 목록</h3>
 
-          {isLoading ? (
-            <Loading />
-          ) : postDatas && postDatas.length > 0 ? (
+          {postDatas && postDatas.length > 0 ? (
             <div>
               {postDatas.map((data) => (
                 <PostCard

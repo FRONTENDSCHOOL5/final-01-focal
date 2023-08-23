@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header/Header';
-import ProfileForm from '../components/SignUp/ProfileForm';
-import baseInstance from '../api/instance/baseInstance';
-import authInstance from '../api/instance/authInstance';
+import Header from '../layouts/Header/Header';
+import ProfileForm from '../components/Common/ProfileForm/ProfileForm';
 import { useNavigate } from 'react-router-dom';
+import { getImageSrcAPI } from '../api/apis/image';
+import { editMyInfoAPI, getMyInfoAPI } from '../api/apis/user';
 
 const Main = styled.main`
   width: 100%;
@@ -22,12 +22,7 @@ const Main = styled.main`
   }
 `;
 
-const getAccountName = () => {
-  return localStorage.getItem('accountname');
-};
-
 export default function ProfileEditPage() {
-  const [accountParams] = useState(getAccountName);
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     username: '',
@@ -36,29 +31,16 @@ export default function ProfileEditPage() {
     image: '',
   });
 
-  const getImageSrc = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const res = await baseInstance.post('/image/uploadfile', formData);
-      const {
-        data: { filename },
-      } = res;
-      setInputValue({
-        ...inputValue,
-        image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
-      });
-    } catch (err) {
-      alert(err);
-    }
-  };
-
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === 'image') {
       const { files } = e.target;
-      getImageSrc(files[0]);
+      getImageSrcAPI(files[0]).then(({ filename }) => {
+        setInputValue({
+          ...inputValue,
+          image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
+        });
+      });
     } else {
       setInputValue({ ...inputValue, [id]: value });
     }
@@ -66,28 +48,15 @@ export default function ProfileEditPage() {
 
   const handleProfileFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const {
-        data: {
-          user: { accountname, image },
-        },
-      } = await authInstance.put('/user', { user: inputValue });
-      localStorage.setItem('accountname', accountname);
-      localStorage.setItem('image', image);
-      navigate('/profile');
-    } catch (err) {
-      console.log(err);
-    }
+    const { accountname, image } = await editMyInfoAPI(inputValue);
+    localStorage.setItem('accountname', accountname);
+    localStorage.setItem('image', image);
+    navigate('/profile');
   };
 
   useEffect(() => {
     const getData = async () => {
-      const {
-        data: {
-          profile: { image, username, accountname, intro },
-        },
-      } = await authInstance.get(`/profile/${accountParams}`);
-
+      const { image, username, accountname, intro } = await getMyInfoAPI();
       setInputValue({ image, username, accountname, intro });
     };
     getData();

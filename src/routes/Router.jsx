@@ -20,6 +20,7 @@ import ProductUploadPage from '../pages/ProductUploadPage';
 import ProfileEditPage from '../pages/ProfileEditPage';
 import PostEditPage from '../pages/PostEditPage';
 import ProductEditPage from '../pages/ProductEditPage';
+import SplashPage from '../pages/SplashPage';
 
 export default function Router() {
   return (
@@ -27,6 +28,7 @@ export default function Router() {
       <Routes>
         {/* 인증을 반드시 하지 않아야만 접속 가능한 페이지 정의 */}
         <Route element={<PublicRoute />}>
+          <Route path="/splash" element={<SplashPage />} />
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />

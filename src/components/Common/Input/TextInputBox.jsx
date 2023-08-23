@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import profile from '../../assets/images/basic-profile-s.png';
-import imageUpload from '../../assets/images/image-upload.png';
+import profile from '../../../assets/images/basic-profile-s.png';
+import imageUpload from '../../../assets/images/image-upload.png';
 
 const InputBox = styled.form`
   position: fixed;
@@ -46,6 +46,7 @@ const StyledButton = styled.button`
 
 export default function TextInputBox({ type, onButtonClick }) {
   const [inputValue, setInputValue] = useState('');
+  const [isComposing, setIsComposing] = useState(false);
   let isActive;
   let inputContent;
   inputValue ? (isActive = true) : (isActive = false);
@@ -72,20 +73,21 @@ export default function TextInputBox({ type, onButtonClick }) {
             댓글 입력
           </label>
           <input
-            id="comment"
+            id="chat"
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (!isComposing && e.key === 'Enter') {
                 e.preventDefault();
-                setTimeout(() => {
-                  handleButtonClick();
-                }, 0);
+                if (inputValue === '') return;
+                handleButtonClick();
               }
             }}
-            placeholder="댓글 입력하기..."
             autoComplete="off"
+            placeholder="댓글 입력하기..."
           />
           <StyledButton
             type="button"
@@ -118,8 +120,23 @@ export default function TextInputBox({ type, onButtonClick }) {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
+            onKeyDown={(e) => {
+              if (!isComposing && e.key === 'Enter') {
+                e.preventDefault();
+                if (inputValue === '') return;
+                handleButtonClick();
+              }
+            }}
+            autoComplete="off"
           />
-          <StyledButton type="submit" isActive={isActive} disabled={!isActive}>
+          <StyledButton
+            type="button"
+            isActive={isActive}
+            disabled={!isActive}
+            onClick={handleButtonClick}
+          >
             전송
           </StyledButton>
         </>

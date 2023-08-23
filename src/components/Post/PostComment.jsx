@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Btn from '../../assets/icons/icon-more.svg';
 import defaultImage from '../../assets/images/basic-profile-s.png';
-import BottomSheetModal from '../Modal/BottomSheetModal';
-import BottomSheetContent from '../Modal/BottomSheetContent';
-import ConfirmModal from '../Modal/ConfirmModal';
-import authInstance from '../../api/instance/authInstance';
+import BottomSheetModal from '../../layouts/Modal/BottomSheetModal';
+import BottomSheetContent from '../../layouts/Modal/BottomSheetContent';
+import ConfirmModal from '../../layouts/Modal/ConfirmModal';
 import useModal from '../../hooks/useModal';
 import { convertTime } from '../../utils/convertTime';
+import { deleteCommentAPI, reportCommentAPI } from '../../api/apis/comment';
 
 const CommentSection = styled.section`
   max-width: 390px;
@@ -104,25 +104,18 @@ function PostComment({ comments, postId, onDelete }) {
   };
 
   const handleDeleteButton = async () => {
-    try {
-      await authInstance.delete(`/post/${postId}/comments/${commentId}`);
-      closeMenu();
-      closeModal();
-      onDelete(commentId);
-    } catch (error) {
-      console.error(error);
-    }
+    await deleteCommentAPI(postId, commentId);
+    closeMenu();
+    closeModal();
+    onDelete(commentId);
   };
 
   const handleReportButton = async () => {
-    try {
-      await authInstance.post(`/post/${postId}/comments/${commentId}/report`);
-      closeMenu();
-      closeModal();
-    } catch (error) {
-      console.error(error);
-    }
+    await reportCommentAPI(postId, commentId);
+    closeMenu();
+    closeModal();
   };
+
   return (
     <CommentSection>
       <h2 className="a11y-hidden">댓글목록</h2>

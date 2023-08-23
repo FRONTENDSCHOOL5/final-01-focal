@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import BasicModal from '../layouts/Modal/BasicModal';
+import useModal from '../hooks/useModal';
 import Logo from '../assets/images/logo.png';
 import emailIcon from '../assets/icons/email.svg';
 import signupIcon from '../assets/icons/icon-user-yellow.svg';
@@ -9,31 +11,36 @@ import google from '../assets/icons/google.svg';
 import facebook from '../assets/icons/facebook.svg';
 
 const Container = styled.div`
+  overflow-y: scroll;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StyledHeader = styled.header`
-  height: 70%;
+  flex-grow: 3;
   display: flex;
   align-items: center;
   & > h1 {
-    width: calc(100% - 54px * 2);
-    max-width: 284px;
-    margin: 0 auto;
+    width: 284px;
     & > img {
-      margin-left: -8px;
       width: 100%;
+      margin-left: -6px;
     }
   }
 `;
 
 const Main = styled.main`
-  position: absolute;
-  bottom: 0;
+  flex-grow: 1;
   width: 100%;
-  padding: 50px 0 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--main-color);
   border-radius: 14px 14px 0px 0px;
+  padding-top: 30px;
 
   & > section {
     display: flex;
@@ -41,7 +48,6 @@ const Main = styled.main`
     align-items: center;
     width: calc(100% - 34px * 2);
     max-width: 322px;
-    margin: auto;
   }
 `;
 
@@ -83,6 +89,8 @@ const SnsBtnContainer = styled.div`
 `;
 
 export default function WelcomePage() {
+  const { isModalOpen, openModal, closeModal } = useModal();
+
   return (
     <Container>
       <StyledHeader>
@@ -97,18 +105,24 @@ export default function WelcomePage() {
           <StyledLink to="/login">이메일로 로그인</StyledLink>
           <StyledLink to="/signup">회원가입하기</StyledLink>
           <SnsBtnContainer>
-            <button type="button">
+            <button type="button" onClick={openModal}>
               <img src={kakao} alt="카카오톡 계정으로 로그인" />
             </button>
-            <button type="button">
+            <button type="button" onClick={openModal}>
               <img src={google} alt="구글 계정으로 로그인" />
             </button>
-            <button type="button">
+            <button type="button" onClick={openModal}>
               <img src={facebook} alt="페이스북 계정으로 로그인" />
             </button>
           </SnsBtnContainer>
         </section>
       </Main>
+      {isModalOpen && (
+        <BasicModal closeModal={closeModal}>
+          현재 개발중인 기능입니다. <br />
+          잠시만 기다려주세요
+        </BasicModal>
+      )}
     </Container>
   );
 }

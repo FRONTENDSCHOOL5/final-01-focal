@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import TextInput from '../Input/TextInput';
-import Button from '../Button/Button';
-import baseInstance from '../../api/instance/baseInstance';
+import TextInput from '../Common/Input/TextInput';
+import Button from '../Common/Button/Button';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '../../states/LoginState';
+import { loginAPI } from '../../api/apis/user';
 
 const Form = styled.form`
   margin-bottom: 20px;
@@ -27,6 +27,7 @@ export default function LoginForm() {
   const [inputValue, setInputValue] = useState({ email: '', password: '' });
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setInputValue({ ...inputValue, [id]: value });
@@ -35,23 +36,15 @@ export default function LoginForm() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await baseInstance.post('/user/login', { user: inputValue });
-      const {
-        data: { user, message },
-      } = res;
-
-      if (!user) {
-        setError(message);
-      } else {
-        setError('');
-        localStorage.setItem('accountname', user.accountname);
-        localStorage.setItem('image', user.image);
-        localStorage.setItem('token', user.token);
-        setIsLogined(true);
-      }
-    } catch (err) {
-      alert(err);
+    const { user, message } = await loginAPI(inputValue);
+    if (!user) {
+      setError(message);
+    } else {
+      setError('');
+      localStorage.setItem('accountname', user.accountname);
+      localStorage.setItem('image', user.image);
+      localStorage.setItem('token', user.token);
+      setIsLogined(true);
     }
   };
 

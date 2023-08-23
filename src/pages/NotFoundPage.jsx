@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button/Button';
+import Button from '../components/Common/Button/Button';
 import notFoundImage from '../assets/images/not-found.png';
 
 const Container = styled.section`

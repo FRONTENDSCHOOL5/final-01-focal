@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import UserInfo from '../UserItem/UserInfo';
+import UserInfo from '../UserInfo/UserInfo';
 import IconButton from '../Button/IconButton';
-import authInstance from '../../api/instance/authInstance';
-import { ReactComponent as HeartIcon } from '../../assets/icons/icon-heart.svg';
-import { ReactComponent as CommentIcon } from '../../assets/icons/icon-message-small.svg';
-import { ReactComponent as MoreIcon } from '../../assets/icons/icon-more-small.svg';
-import { convertTime } from '../../utils/convertTime';
+import { likeAPI } from '../../../api/apis/like';
+import { ReactComponent as HeartIcon } from '../../../assets/icons/icon-heart.svg';
+import { ReactComponent as CommentIcon } from '../../../assets/icons/icon-message-small.svg';
+import { ReactComponent as MoreIcon } from '../../../assets/icons/icon-more-small.svg';
+import { convertTime } from '../../../utils/convertTime';
 
 const PostArticle = styled.article`
   position: relative;
@@ -18,6 +18,7 @@ const PostContent = styled.section`
   margin: ${({ isProfile }) => (!isProfile ? '12px 0' : '0 0 12px 0')};
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 
   p {
     width: 100%;
@@ -46,7 +47,8 @@ const PostContent = styled.section`
 
 const ImageCarousel = styled.ul`
   display: flex;
-  overflow: hidden;
+  transition: transform 0.3s ease;
+  transform: ${({ currentSlide }) => `translateX(-${currentSlide * 100}%)`};
 
   li {
     flex: 0 0 100%;
@@ -140,20 +142,11 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
   }, [image]);
 
   const handleLike = async () => {
-    try {
-      const endpoint = likeInfo.liked
-        ? `/post/${id}/unheart`
-        : `/post/${id}/heart`;
-      const res = await (likeInfo.liked
-        ? authInstance.delete(endpoint)
-        : authInstance.post(endpoint));
-      setLikeInfo({
-        liked: res.data.post.hearted,
-        count: res.data.post.heartCount,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    const { liked, count } = await likeAPI(id, likeInfo.liked);
+    setLikeInfo({
+      liked: liked,
+      count: count,
+    });
   };
 
   const handleSlideChange = (index) => {
@@ -179,10 +172,10 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
         <p className={!postIdParams ? 'post-preview' : null}>{content}</p>
         <ImageCarousel currentSlide={currentSlide}>
           {image &&
-            imageList.map((_, index) => {
+            imageList.map((image, index) => {
               return (
                 <li key={id + index}>
-                  <img src={imageList[currentSlide]} alt="글 이미지" />
+                  <img src={image} alt={`이미지 ${index + 1}`} />
                 </li>
               );
             })}
@@ -197,6 +190,7 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
                   e.stopPropagation();
                   handleSlideChange(index);
                 }}
+                aria-label={`이미지 ${index + 1}`}
               />
             ))}
           </ImageCarouselButtons>
