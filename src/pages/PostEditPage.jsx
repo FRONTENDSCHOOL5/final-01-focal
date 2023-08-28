@@ -5,6 +5,7 @@ import PostUpload from '../components/Post/PostUpload';
 import { useNavigate, useParams } from 'react-router-dom';
 import { editPostAPI } from '../api/apis/post';
 import { postDetailAPI } from '../api/apis/post';
+import { alertMessage } from '../constants/alertMessage';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
@@ -38,7 +39,7 @@ export default function PostEditPage() {
     const { content, image } = inputValue;
 
     if (!image.length) {
-      alert('한개이상의 이미지를 첨부해주세요');
+      alert(alertMessage.imgLengthError);
       return;
     }
     await editPostAPI(post_id, content, image);

@@ -5,6 +5,7 @@ import delteBtn from '../../assets/icons/delete.svg';
 import postImgUploadBtn from '../../assets/images/image-upload.png';
 import { getMultiImageSrcAPI } from '../../api/apis/image';
 import useHandleResizeHeight from '../../hooks/useHandleResizeHeight';
+import { alertMessage } from '../../constants/alertMessage';
 
 const UserImageStyle = styled.img`
   width: 42px;
@@ -91,7 +92,7 @@ function PostUpload({
     } else {
       const { files } = e.target;
       if (files.length + inputValue.image.length > 3)
-        alert('파일 최대 가능 업로드 갯수는 3개입니다');
+        alert(alertMessage.imgMaximumLengthErr);
       else {
         getImagesSrc(files);
       }

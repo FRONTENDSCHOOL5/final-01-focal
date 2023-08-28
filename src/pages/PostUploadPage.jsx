@@ -4,6 +4,7 @@ import Header from '../layouts/Header/Header';
 import PostUpload from '../components/Post/PostUpload';
 import { useNavigate } from 'react-router-dom';
 import { createPostAPI } from '../api/apis/post';
+import { alertMessage } from '../constants/alertMessage';
 
 const PostMainStyle = styled.main`
   margin-top: 48px;
@@ -25,7 +26,7 @@ export default function PostUploadPage() {
     const { content, image } = inputValue;
 
     if (!image.length) {
-      alert('한개이상의 이미지를 첨부해주세요');
+      alert(alertMessage.imgLengthError);
       return;
     }
 
