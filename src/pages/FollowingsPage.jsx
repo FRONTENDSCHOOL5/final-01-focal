@@ -61,7 +61,7 @@ export default function FollowingsPage() {
   return (
     <>
       {isLoading && <Loading />}
-      <Header type="basic" headerText="Followings" backBtnShow={true} />(
+      <Header type="basic" headerText="Followings" backBtnShow={true} />
       <Main ref={elementRef}>
         <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>
         {userData.length > 0 ? (
