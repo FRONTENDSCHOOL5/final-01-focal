@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Btn from '../../assets/icons/icon-more.svg';
-import defaultImage from '../../assets/images/basic-profile-s.png';
+import defaultImage from '../../assets/images/basic-profile.png';
 import BottomSheetModal from '../../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../../layouts/Modal/ConfirmModal';

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import defaultImg from '../../assets/images/basic-profile-m.png';
+import defaultImg from '../../assets/images/basic-profile.png';
 import delteBtn from '../../assets/icons/delete.svg';
 import postImgUploadBtn from '../../assets/images/image-upload.png';
 import { getMultiImageSrcAPI } from '../../api/apis/image';

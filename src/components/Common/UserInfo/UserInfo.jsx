@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import defaultImg from '../../../assets/images/basic-profile-m.png';
+import defaultImg from '../../../assets/images/basic-profile.png';
 
 const StyledUserInfo = styled(Link)`
   flex-grow: 1;
