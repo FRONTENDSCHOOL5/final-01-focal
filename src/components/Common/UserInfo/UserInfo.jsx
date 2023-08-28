@@ -7,6 +7,7 @@ const StyledUserInfo = styled(Link)`
   flex-grow: 1;
   display: flex;
   align-items: center;
+  width: 100%;
 
   .userinfo-img {
     width: 50px;
@@ -16,6 +17,7 @@ const StyledUserInfo = styled(Link)`
   }
 
   .userinfo-txt {
+    width: 100%;
     margin-left: 12px;
 
     & > strong {
@@ -33,6 +35,11 @@ const StyledUserInfo = styled(Link)`
       font-size: 12px;
       color: var(--sub-text-color);
       margin-top: 6px;
+      width: 70%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
     }
   }
 `;

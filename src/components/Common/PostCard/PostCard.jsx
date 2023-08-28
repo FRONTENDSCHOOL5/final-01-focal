@@ -109,9 +109,9 @@ const IconText = styled.span`
 
 const MoreButton = styled.button`
   position: absolute;
-  top: ${({ isProfile }) => (!isProfile ? '5px' : '-30px')};
+  top: ${({ isProfile }) => (!isProfile ? '0px' : '-40px')};
   right: 0px;
-  padding: 0;
+  padding: 10px;
 `;
 
 export default function PostCard({ post, setPostId, setIsMenuOpen }) {
@@ -218,9 +218,9 @@ export default function PostCard({ post, setPostId, setIsMenuOpen }) {
         </InfoIcons>
         <time dateTime={createdAt}>{convertTime(createdAt)}</time>
       </ContentInfo>
-      <MoreButton type="button" isProfile={isProfile}>
+      <MoreButton type="button" isProfile={isProfile} onClick={handleMenu}>
         <span className="a11y-hidden">더보기 버튼</span>
-        <MoreIcon onClick={handleMenu} />
+        <MoreIcon />
       </MoreButton>
     </PostArticle>
   );
