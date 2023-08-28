@@ -18,7 +18,7 @@ const PostMainStyle = styled.main`
 
 export default function PostEditPage() {
   const navigate = useNavigate();
-  const [disabled, setDisabled] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(false);
   const { post_id } = useParams();
   const [inputValue, setInputValue] = useState({ content: '', image: [] });
 
@@ -50,13 +50,13 @@ export default function PostEditPage() {
       <Header
         type="upload"
         buttonText={'업로드'}
-        disabled={disabled}
+        btnDisabled={btnDisabled}
         buttonId={'post'}
       />
       <PostMainStyle>
         <h2 className="a11y-hidden">게시글 작성</h2>
         <PostUpload
-          setDisabled={setDisabled}
+          setBtnDisabled={setBtnDisabled}
           inputValue={inputValue}
           handleFormSubmit={handleFormSubmit}
           setInputValue={setInputValue}

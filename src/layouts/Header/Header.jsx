@@ -51,8 +51,8 @@ export default function Header({
   onChange,
   buttonId,
   buttonText,
+  btnDisabled,
   headerText,
-  disabled,
   backBtnShow = true,
   ellipsisBtnShow = false,
 }) {
@@ -125,7 +125,7 @@ export default function Header({
             id={buttonId}
             className="sm"
             onClick={onClick}
-            disabled={disabled}
+            disabled={btnDisabled}
           >
             {buttonText}
           </Button>

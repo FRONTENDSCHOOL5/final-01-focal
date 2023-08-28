@@ -38,7 +38,7 @@ export default function PostUploadPage() {
       <Header
         type="upload"
         buttonText={'업로드'}
-        disabled={btnDisabled}
+        btnDisabled={btnDisabled}
         buttonId={'post'}
       />
       <PostMainStyle>
