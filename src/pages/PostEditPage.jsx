@@ -23,17 +23,6 @@ export default function PostEditPage() {
   const { post_id } = useParams();
   const [inputValue, setInputValue] = useState({ content: '', image: [] });
 
-  useEffect(() => {
-    const getData = async () => {
-      const {
-        data: { post },
-      } = await postDetailAPI(post_id);
-
-      setInputValue({ content: post.content, image: post.image.split(',') });
-    };
-    getData();
-  }, []);
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const { content, image } = inputValue;
@@ -45,6 +34,17 @@ export default function PostEditPage() {
     await editPostAPI(post_id, content, image);
     navigate('/profile/');
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const {
+        data: { post },
+      } = await postDetailAPI(post_id);
+
+      setInputValue({ content: post.content, image: post.image.split(',') });
+    };
+    getData();
+  }, []);
 
   return (
     <>
