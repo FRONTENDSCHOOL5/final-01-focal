@@ -17,7 +17,7 @@ const PostMainStyle = styled.main`
 
 export default function PostUploadPage() {
   const navigate = useNavigate();
-  const [disabled, setDisabled] = useState(true);
+  const [btnDisabled, setBtnDisabled] = useState(true);
   const [inputValue, setInputValue] = useState({ content: '', image: [] });
 
   const handleFormSubmit = async (e) => {
@@ -38,13 +38,13 @@ export default function PostUploadPage() {
       <Header
         type="upload"
         buttonText={'업로드'}
-        disabled={disabled}
+        disabled={btnDisabled}
         buttonId={'post'}
       />
       <PostMainStyle>
         <h2 className="a11y-hidden">게시글 작성</h2>
         <PostUpload
-          setDisabled={setDisabled}
+          setBtnDisabled={setBtnDisabled}
           inputValue={inputValue}
           setInputValue={setInputValue}
           handleFormSubmit={handleFormSubmit}

@@ -33,7 +33,9 @@ export default function ProfileEditPage() {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    if (id === 'image') {
+    if (id !== 'image') {
+      setInputValue({ ...inputValue, [id]: value });
+    } else {
       const { files } = e.target;
       getImageSrcAPI(files[0]).then(({ filename }) => {
         setInputValue({
@@ -41,8 +43,6 @@ export default function ProfileEditPage() {
           image: `${process.env.REACT_APP_BASE_URL}/${filename}`,
         });
       });
-    } else {
-      setInputValue({ ...inputValue, [id]: value });
     }
   };
 
@@ -64,14 +64,13 @@ export default function ProfileEditPage() {
 
   return (
     <>
-      <Header type="upload" buttonId="profile-edit" buttonText={'저장'} />
+      <Header type="upload" buttonId="profile" buttonText={'저장'} />
       <Main>
         <section>
           <h2 className="a11y-hidden">
             프로필사진, 사용자이름, 계정ID, 자기소개 입력 컨테이너
           </h2>
           <ProfileForm
-            formId="profile-edit"
             inputValue={inputValue}
             handleChange={handleInputChange}
             handleSubmit={handleProfileFormSubmit}

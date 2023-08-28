@@ -122,8 +122,8 @@ export default function Header({
             <BackButton onClick={goBack} />
           </IconButton>
           <Button
+            id={buttonId}
             className="sm"
-            formId={buttonId}
             onClick={onClick}
             disabled={disabled}
           >

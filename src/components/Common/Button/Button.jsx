@@ -60,16 +60,16 @@ export default function Button({
   disabled = false,
   onClick,
   children,
-  formId,
+  id,
 }) {
   return (
     <StyledButton
+      form={id}
       type={type}
       className={className}
       active={active}
       disabled={disabled}
       onClick={onClick}
-      form={formId}
     >
       {children}
     </StyledButton>
