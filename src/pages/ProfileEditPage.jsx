@@ -30,6 +30,7 @@ export default function ProfileEditPage() {
     intro: '',
     image: '',
   });
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -64,7 +65,12 @@ export default function ProfileEditPage() {
 
   return (
     <>
-      <Header type="upload" buttonId="profile" buttonText={'저장'} />
+      <Header
+        type="upload"
+        buttonId="profile"
+        buttonText={'저장'}
+        btnDisabled={btnDisabled}
+      />
       <Main>
         <section>
           <h2 className="a11y-hidden">
@@ -74,6 +80,8 @@ export default function ProfileEditPage() {
             inputValue={inputValue}
             handleChange={handleInputChange}
             handleSubmit={handleProfileFormSubmit}
+            btnDisabled={btnDisabled}
+            setBtnDisabled={setBtnDisabled}
           />
         </section>
       </Main>

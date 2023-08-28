@@ -20,6 +20,7 @@ const initialValue = {
 export default function SignupPage() {
   const [inputValue, setInputValue] = useState(initialValue);
   const [step, setStep] = useState('이메일,비밀번호');
+  const [profileBtnDisabled, setProfileBtnDisabled] = useState(true);
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -79,6 +80,8 @@ export default function SignupPage() {
             inputValue={inputValue}
             handleChange={handleInputChange}
             handleSubmit={handleSignUpSubmit}
+            btnDisabled={profileBtnDisabled}
+            setBtnDisabled={setProfileBtnDisabled}
           />
           {isModalOpen && (
             <BasicModal

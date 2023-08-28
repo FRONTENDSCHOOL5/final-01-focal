@@ -23,12 +23,13 @@ export default function ProfileForm({
   inputValue: { image, username, accountname, intro },
   handleChange,
   handleSubmit,
+  btnDisabled,
+  setBtnDisabled,
 }) {
   const debouncedValue = useDebounce(accountname);
   const [usernameError, setUsernameError] = useState(null);
   const [accountnameError, setAccountnameError] = useState(null);
   const initialAccountname = localStorage.getItem('accountname');
-  const [btnDisabled, setBtnDisabled] = useState(true);
 
   const validateUsername = () => {
     if (!username) {
