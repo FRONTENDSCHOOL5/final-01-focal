@@ -74,6 +74,10 @@ export default function HomePage() {
     getInitialPosts();
   }, []);
 
+  useEffect(() => {
+    contentRef.current = contentRef.current || document.createElement('div');
+  }, []);
+
   const getMorePosts = async () => {
     if (isLoadingMore) return;
     setIsLoadingMore(true);
