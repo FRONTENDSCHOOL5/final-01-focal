@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import defaultImg from '../../assets/images/basic-profile.png';
 import delteBtn from '../../assets/icons/delete.svg';
 import postImgUploadBtn from '../../assets/images/image-upload.png';
 import { getMultiImageSrcAPI } from '../../api/apis/image';
+import { getProperImgSrc } from '../../utils/getProperImgSrc';
+import { handleImageError } from '../../utils/handleImageError';
 
 const UserImageStyle = styled.img`
   width: 42px;
@@ -129,11 +130,8 @@ function PostUpload({
   return (
     <>
       <UserImageStyle
-        src={
-          userprofile === 'http://146.56.183.55:5050/Ellipse.png'
-            ? defaultImg
-            : userprofile
-        }
+        src={getProperImgSrc(userprofile)}
+        onError={handleImageError}
         alt="사용자이미지"
       />
       <PostWriteArticle>

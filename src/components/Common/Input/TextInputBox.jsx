@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import profile from '../../../assets/images/basic-profile.png';
 import imageUpload from '../../../assets/images/image-upload.png';
+import { getProperImgSrc } from '../../../utils/getProperImgSrc';
 
 const InputBox = styled.form`
   position: fixed;
@@ -52,10 +52,6 @@ export default function TextInputBox({ type, onButtonClick }) {
   inputValue ? (isActive = true) : (isActive = false);
 
   const image = localStorage.getItem('image');
-  const profileImage =
-    image === 'http://146.56.183.55:5050/Ellipse.png'
-      ? profile
-      : image.replaceAll('mandarin.api', 'api.mandarin');
 
   const handleButtonClick = () => {
     onButtonClick(inputValue);
@@ -67,7 +63,7 @@ export default function TextInputBox({ type, onButtonClick }) {
       inputContent = (
         <>
           <StyledLabel htmlFor="image">
-            <img id="image" src={profileImage} alt="프로필 이미지" />
+            <img id="image" src={getProperImgSrc(image)} alt="프로필 이미지" />
           </StyledLabel>
           <label htmlFor="comment" className="a11y-hidden">
             댓글 입력

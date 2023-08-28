@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import defaultImg from '../../../assets/images/basic-profile.png';
+import { getProperImgSrc } from '../../../utils/getProperImgSrc';
+import { handleImageError } from '../../../utils/handleImageError';
 
 const StyledUserInfo = styled(Link)`
   flex-grow: 1;
@@ -54,11 +55,8 @@ export default function UserInfo({ user, searchQuery = null }) {
     <StyledUserInfo to={`/profile/${user.accountname}`}>
       <img
         className="userinfo-img"
-        src={
-          user.image === 'http://146.56.183.55:5050/Ellipse.png'
-            ? defaultImg
-            : user.image.replaceAll('mandarin.api', 'api.mandarin')
-        }
+        src={getProperImgSrc(user.image)}
+        onError={handleImageError}
         alt="유저이미지"
       />
       <div className="userinfo-txt">
