@@ -46,10 +46,14 @@ const StyledUserInfo = styled(Link)`
 `;
 
 export default function UserInfo({ user, searchQuery = null }) {
-  const searchUserName = user.username.replaceAll(
-    searchQuery,
-    `<span class="keyword">${searchQuery}</span>`,
-  );
+  const searchUserName = () => {
+    if (searchQuery) {
+      return user.username.replaceAll(
+        searchQuery,
+        `<span class="keyword">${searchQuery}</span>`,
+      );
+    }
+  };
 
   return (
     <StyledUserInfo to={`/profile/${user.accountname}`}>
@@ -61,7 +65,9 @@ export default function UserInfo({ user, searchQuery = null }) {
       />
       <div className="userinfo-txt">
         {searchQuery ? (
-          <strong dangerouslySetInnerHTML={{ __html: searchUserName }}></strong>
+          <strong
+            dangerouslySetInnerHTML={{ __html: searchUserName() }}
+          ></strong>
         ) : (
           <strong>{user.username}</strong>
         )}
