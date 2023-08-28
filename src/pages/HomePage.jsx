@@ -67,8 +67,8 @@ export default function HomePage() {
 
   useEffect(() => {
     const getInitialPosts = async () => {
-      const res = await feedAPI(LIMIT_VALUE, 0);
-      setPostDatas(res.data.posts);
+      const posts = await feedAPI(LIMIT_VALUE, 0);
+      setPostDatas(posts);
       setIsLoading(false);
     };
     getInitialPosts();
@@ -81,9 +81,9 @@ export default function HomePage() {
   const getMorePosts = async () => {
     if (isLoadingMore) return;
     setIsLoadingMore(true);
-    const res = await feedAPI(LIMIT_VALUE, page * LIMIT_VALUE);
-    if (res.data.posts.length === 0) return;
-    setPostDatas((prevPosts) => [...prevPosts, ...res.data.posts]);
+    const newPosts = await feedAPI(LIMIT_VALUE, page * LIMIT_VALUE);
+    if (newPosts.length === 0) return;
+    setPostDatas((prevPosts) => [...prevPosts, ...newPosts]);
     setPage((prevPage) => prevPage + 1);
     setIsLoadingMore(false);
   };

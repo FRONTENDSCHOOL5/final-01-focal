@@ -18,7 +18,10 @@ export const feedAPI = async (limit, skip) => {
     const res = await authInstance.get(
       `/post/feed/?limit=${limit}&skip=${skip}`,
     );
-    return res;
+    const {
+      data: { posts },
+    } = res;
+    return posts;
   } catch (err) {
     console.log(err);
   }
