@@ -5,6 +5,7 @@ import UserSearchListItem from '../components/Search/UserSearchListItem';
 import NavBar from '../layouts/NavBar/NavBar';
 import { searchUserAPI } from '../api/apis/user';
 import { useDebounce } from '../hooks/useDebounce';
+import Loading from '../layouts/Loading/Loading';
 
 const Main = styled.main`
   width: 100%;
@@ -21,14 +22,17 @@ const Main = styled.main`
 `;
 
 export default function SearchPage() {
+  const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [users, setUsers] = useState([]);
   const debouncedValue = useDebounce(inputValue);
 
   const getData = useCallback(async () => {
     if (inputValue) {
+      setLoading(true);
       const { data } = await searchUserAPI(inputValue);
       setUsers(data);
+      setLoading(false);
     } else {
       setUsers([]);
     }
@@ -46,20 +50,25 @@ export default function SearchPage() {
           setInputValue(e.target.value);
         }}
       />
-      <Main>
-        <section>
-          <h2 className="a11y-hidden">검색 리스트 결과</h2>
-          <ul>
-            {users.map((user) => (
-              <UserSearchListItem
-                key={user._id}
-                user={user}
-                searchQuery={inputValue}
-              />
-            ))}
-          </ul>
-        </section>
-      </Main>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Main>
+          <section>
+            <h2 className="a11y-hidden">검색 리스트 결과</h2>
+            <ul>
+              {users.map((user) => (
+                <UserSearchListItem
+                  key={user._id}
+                  user={user}
+                  searchQuery={inputValue}
+                />
+              ))}
+            </ul>
+          </section>
+        </Main>
+      )}
+
       <NavBar />
     </>
   );
