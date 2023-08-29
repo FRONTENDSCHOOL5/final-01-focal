@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import throttle from 'lodash/throttle';
 
 export default function useScrollBottom(ref) {
   const [isBottom, setIsBottom] = useState(false);
@@ -6,12 +7,12 @@ export default function useScrollBottom(ref) {
   useEffect(() => {
     const element = ref.current;
 
-    const handleScroll = () => {
+    const handleScroll = throttle(() => {
       if (element) {
         const { scrollTop, clientHeight, scrollHeight } = element;
         setIsBottom(scrollTop + clientHeight >= scrollHeight);
       }
-    };
+    }, 500);
 
     element.addEventListener('scroll', handleScroll);
 
