@@ -5,7 +5,7 @@ import SendText from './SendText';
 import SendImage from './SendImage';
 import ReceiveText from './ReceiveText';
 import ReceiveImage from './ReceiveImage';
-import ImageSrc from '../../assets/images/basic-profile-s.png';
+import ImageSrc from '../../assets/images/basic-profile.png';
 import ImageSrc2 from '../../assets/images/chat-exapmle.png';
 import ImageSrc3 from '../../assets/images/post-img-example.png';
 

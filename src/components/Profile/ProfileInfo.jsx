@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import UserInfoBtns from './UserInfoBtns';
 import MyInfoBtns from './MyInfoBtns';
-import defaultImg from '../../assets/images/basic-profile.png';
+import { getProperImgSrc } from '../../utils/getProperImgSrc';
+import { handleImageError } from '../../utils/handleImageError';
 
 const UserCol = styled.section`
   display: flex;
@@ -109,11 +110,8 @@ export default function ProfileInfo({ userInfo }) {
       <h2 className="a11y-hidden">프로필 정보</h2>
       <UserInfoCol>
         <UserImage
-          src={
-            image === 'http://146.56.183.55:5050/Ellipse.png'
-              ? defaultImg
-              : image.replaceAll('mandarin.api', 'api.mandarin')
-          }
+          src={getProperImgSrc(image)}
+          onError={handleImageError}
           alt="프로필 이미지"
         />
         <UserName>{username}</UserName>
