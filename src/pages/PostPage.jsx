@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../layouts/Header/Header';
@@ -12,11 +12,13 @@ import useModal from '../hooks/useModal';
 import { deletePostAPI, reportPostAPI } from '../api/apis/post';
 import { postDetailAPI } from '../api/apis/post';
 import { getCommentListAPI, createPostCommentAPI } from '../api/apis/comment';
+import { useInView } from 'react-intersection-observer';
 
 const Main = styled.main`
   margin-top: 48px;
   height: calc(100vh - 108px);
   overflow: scroll;
+  scroll-behavior: smooth;
 `;
 
 const CardStyle = styled.div`
@@ -27,6 +29,12 @@ const CardStyle = styled.div`
   border-bottom: 1px solid var(--border-color);
 `;
 
+const Div = styled.div`
+  height: 1px;
+`;
+
+const LIMIT = 10;
+
 export default function PostPage() {
   const [postId, setPostId] = useState(useParams().post_id);
   const [post, setPost] = useState(null);
@@ -34,6 +42,10 @@ export default function PostPage() {
   const accountName = localStorage.getItem('accountname');
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
+  const [loadedComments, setLoadedComments] = useState(0);
+  const [totalComments, setTotalComments] = useState(0);
+  const { ref, inView } = useInView({ threshold: 0 });
+  const mainRef = useRef(null);
 
   const {
     isMenuOpen,
@@ -62,10 +74,14 @@ export default function PostPage() {
       const response = await postDetailAPI(postId);
       setPost(response.data.post);
 
-      if (response.data.post.commentCount === 0) return;
+      const commentCount = response.data.post.commentCount;
 
-      const comments = await getCommentListAPI(postId);
-      setComments(comments);
+      if (commentCount === 0) return;
+
+      const initialComments = await getCommentListAPI(postId, LIMIT, 0);
+      setComments(initialComments);
+      setLoadedComments(initialComments.length);
+      setTotalComments(commentCount);
     } catch (error) {
       console.error(error);
     } finally {
@@ -73,13 +89,36 @@ export default function PostPage() {
     }
   };
 
+  const getComments = async () => {
+    try {
+      if (totalComments === loadedComments) return;
+
+      const newComments = await getCommentListAPI(
+        postId,
+        LIMIT,
+        loadedComments,
+      );
+
+      setComments((prevComments) => [...prevComments, ...newComments]);
+      setLoadedComments((prevLoaded) => prevLoaded + newComments.length);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleCommentButton = async (inputText) => {
     const newComment = await createPostCommentAPI(inputText, postId);
+
     setComments([newComment, ...comments]);
+    setLoadedComments((prev) => prev + 1);
     setPost((prev) => ({
       ...prev,
       commentCount: prev.commentCount + 1,
     }));
+
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
   };
 
   const handleDeleteComment = (commentId) => {
@@ -96,10 +135,16 @@ export default function PostPage() {
     }
   }, [postId]);
 
+  useEffect(() => {
+    if (inView) {
+      getComments();
+    }
+  }, [inView]);
+
   return (
     <>
       <Header type="basic" backBtnShow={true} />
-      <Main>
+      <Main ref={mainRef}>
         <CardStyle>
           {!isLoading && (
             <PostCard
@@ -110,11 +155,14 @@ export default function PostPage() {
           )}
         </CardStyle>
         {comments.length > 0 && (
-          <PostComment
-            comments={comments}
-            postId={postId}
-            onDelete={handleDeleteComment}
-          />
+          <>
+            <PostComment
+              comments={comments}
+              postId={postId}
+              onDelete={handleDeleteComment}
+            />
+            <Div ref={ref} />
+          </>
         )}
         <TextInputBox type="comment" onButtonClick={handleCommentButton} />
       </Main>
