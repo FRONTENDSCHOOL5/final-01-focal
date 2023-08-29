@@ -37,7 +37,6 @@ export default function Router() {
         {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/post/" element={<Outlet />}>
             <Route path=":post_id" element={<PostPage />} />

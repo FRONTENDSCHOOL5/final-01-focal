@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import defaultImg from '../../../assets/images/basic-profile.png';
 import fileUploadImg from '../../../assets/images/profile-upload.png';
+import { getProperImgSrc } from '../../../utils/getProperImgSrc';
+import { handleImageError } from '../../../utils/handleImageError';
 
 const StyledLabel = styled.label`
   display: block;
@@ -36,11 +37,8 @@ export default function ProfileImageUploader({ value, handleChange }) {
       <StyledLabel htmlFor="image">
         <span className="a11y-hidden">이미지 업로드</span>
         <img
-          src={
-            !value || value === 'http://146.56.183.55:5050/Ellipse.png'
-              ? defaultImg
-              : value
-          }
+          src={getProperImgSrc(value)}
+          onError={handleImageError}
           alt="선택한 이미지 미리보기"
         />
       </StyledLabel>

@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import defaultImg from '../../../assets/images/basic-profile-m.png';
+import { getProperImgSrc } from '../../../utils/getProperImgSrc';
+import { handleImageError } from '../../../utils/handleImageError';
 
 const StyledUserInfo = styled(Link)`
   flex-grow: 1;
   display: flex;
   align-items: center;
+  width: 100%;
 
   .userinfo-img {
     width: 50px;
@@ -16,6 +18,7 @@ const StyledUserInfo = styled(Link)`
   }
 
   .userinfo-txt {
+    width: 100%;
     margin-left: 12px;
 
     & > strong {
@@ -33,30 +36,38 @@ const StyledUserInfo = styled(Link)`
       font-size: 12px;
       color: var(--sub-text-color);
       margin-top: 6px;
+      width: 70%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
     }
   }
 `;
 
 export default function UserInfo({ user, searchQuery = null }) {
-  const searchUserName = user.username.replaceAll(
-    searchQuery,
-    `<span class="keyword">${searchQuery}</span>`,
-  );
+  const searchUserName = () => {
+    if (searchQuery) {
+      return user.username.replaceAll(
+        searchQuery,
+        `<span class="keyword">${searchQuery}</span>`,
+      );
+    }
+  };
 
   return (
     <StyledUserInfo to={`/profile/${user.accountname}`}>
       <img
         className="userinfo-img"
-        src={
-          user.image === 'http://146.56.183.55:5050/Ellipse.png'
-            ? defaultImg
-            : user.image.replaceAll('mandarin.api', 'api.mandarin')
-        }
+        src={getProperImgSrc(user.image)}
+        onError={handleImageError}
         alt="유저이미지"
       />
       <div className="userinfo-txt">
         {searchQuery ? (
-          <strong dangerouslySetInnerHTML={{ __html: searchUserName }}></strong>
+          <strong
+            dangerouslySetInnerHTML={{ __html: searchUserName() }}
+          ></strong>
         ) : (
           <strong>{user.username}</strong>
         )}
