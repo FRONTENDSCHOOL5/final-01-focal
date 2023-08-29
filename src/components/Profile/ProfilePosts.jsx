@@ -75,7 +75,7 @@ export default function ProfilePosts({
   useEffect(() => {
     if (isBottom && posts.length >= limit) {
       fetchPosts(skip + limit);
-      setSkip((PrevValue) => PrevValue + limit);
+      setSkip((prevValue) => prevValue + limit);
     }
   }, [isBottom]);
 
