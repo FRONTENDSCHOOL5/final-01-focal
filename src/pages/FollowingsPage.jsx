@@ -46,7 +46,11 @@ export default function FollowingsPage() {
   const fetchFollowings = async (skip) => {
     try {
       const res = await followingAPI(accountname, limit, skip);
-      setUserData((prevData) => [...prevData, ...res]);
+      if (skip === 0) {
+        setUserData(res);
+      } else {
+        setUserData((prevData) => [...prevData, ...res]);
+      }
     } catch (error) {
       console.error(error);
     } finally {
