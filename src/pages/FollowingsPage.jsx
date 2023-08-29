@@ -38,7 +38,7 @@ export default function FollowingsPage() {
 
   useEffect(() => {
     if (isBottom) {
-      setSkip((PrevValue) => PrevValue + limit);
+      setSkip((prevValue) => prevValue + limit);
       fetchFollowings(skip + limit);
     }
   }, [isBottom]);
