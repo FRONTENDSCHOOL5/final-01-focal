@@ -8,6 +8,7 @@ import ProfilePosts from '../components/Profile/ProfilePosts';
 import NavBar from '../layouts/NavBar/NavBar';
 import Loading from '../layouts/Loading/Loading';
 import { useParams } from 'react-router-dom';
+import { useRef } from 'react';
 
 const Main = styled.main`
   width: 100%;
@@ -29,6 +30,8 @@ export default function UserProfilePage() {
   const [userData, setUserData] = useState('');
   const { _id } = useParams();
 
+  const elementRef = useRef(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       const res = await profileAPI(_id);
@@ -44,7 +47,7 @@ export default function UserProfilePage() {
       {!(isUserLoading && isProductLoading && isPostLoading) && (
         <>
           <Header type="basic" />
-          <Main>
+          <Main ref={elementRef}>
             <h1 className="a11y-hidden">
               ${userData.accountname}의 프로필 페이지
             </h1>
@@ -56,6 +59,7 @@ export default function UserProfilePage() {
                   setIsProductLoading={setIsProductLoading}
                 />
                 <ProfilePosts
+                  elementRef={elementRef}
                   accountname={userData.accountname}
                   setIsPostLoading={setIsPostLoading}
                 />

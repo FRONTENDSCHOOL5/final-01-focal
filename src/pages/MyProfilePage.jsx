@@ -14,6 +14,7 @@ import ConfirmModal from '../layouts/Modal/ConfirmModal';
 import useModal from '../hooks/useModal';
 import Loading from '../layouts/Loading/Loading';
 import { getMyInfoAPI } from '../api/apis/user';
+import { useRef } from 'react';
 
 const Main = styled.main`
   width: 100%;
@@ -44,6 +45,8 @@ export default function MyProfilePage() {
   const navigate = useNavigate();
   const setIsLogined = useSetRecoilState(loginState);
 
+  const elementRef = useRef(null);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('accountname');
@@ -71,7 +74,7 @@ export default function MyProfilePage() {
             ellipsisBtnShow={true}
             backBtnShow={false}
           />
-          <Main>
+          <Main ref={elementRef}>
             <h1 className="a11y-hidden">나의 프로필 페이지</h1>
             {userData && (
               <>
@@ -85,6 +88,7 @@ export default function MyProfilePage() {
                   setIsProductLoading={setIsProductLoading}
                 />
                 <ProfilePosts
+                  elementRef={elementRef}
                   accountname={userData.accountname}
                   setIsPostLoading={setIsPostLoading}
                 />
