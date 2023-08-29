@@ -88,9 +88,9 @@ export default function ProfilePosts({
     setIsPostLoading(false);
 
     if (skip === 0) {
-      setPosts(res); // 첫 로딩일 때는 새로 갱신
+      setPosts(res);
     } else {
-      setPosts((prevData) => [...prevData, ...res]); // 추가 로딩일 때는 이전 데이터와 합침
+      setPosts((prevData) => [...prevData, ...res]);
     }
   };
 
