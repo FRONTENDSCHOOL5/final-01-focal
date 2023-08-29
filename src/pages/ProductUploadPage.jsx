@@ -20,7 +20,7 @@ export default function ProductUploadPage() {
         type="upload"
         buttonId="product"
         buttonText="저장"
-        disabled={buttonDisable}
+        btnDisabled={buttonDisable}
       />
       <ProductUpload
         onValidChange={handleValidChange}
