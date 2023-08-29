@@ -37,7 +37,7 @@ export default function FollowersPage() {
 
   useEffect(() => {
     if (isBottom) {
-      setSkip((PrevValue) => PrevValue + limit);
+      setSkip((prevValue) => prevValue + limit);
       fetchFollowers(skip + limit);
     }
   }, [isBottom]);
