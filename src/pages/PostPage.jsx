@@ -75,7 +75,7 @@ export default function PostPage() {
 
   const handleCommentButton = async (inputText) => {
     const newComment = await createPostCommentAPI(inputText, postId);
-    setComments([...comments, newComment]);
+    setComments([newComment, ...comments]);
     setPost((prev) => ({
       ...prev,
       commentCount: prev.commentCount + 1,
