@@ -13,10 +13,15 @@ export const createPostAPI = async (content, image) => {
   }
 };
 
-export const feedAPI = async () => {
+export const feedAPI = async (limit, skip) => {
   try {
-    const res = await authInstance.get('/post/feed');
-    return res;
+    const res = await authInstance.get(
+      `/post/feed/?limit=${limit}&skip=${skip}`,
+    );
+    const {
+      data: { posts },
+    } = res;
+    return posts;
   } catch (err) {
     console.log(err);
   }
