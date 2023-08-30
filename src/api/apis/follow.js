@@ -18,10 +18,10 @@ export const unfollowAPI = async (accountname) => {
   }
 };
 
-export const followerAPI = async (accountname) => {
+export const followerAPI = async (accountname, limit, skip) => {
   try {
     const res = await authInstance.get(
-      `/profile/${accountname}/follower?limit=1000&skip=0`,
+      `/profile/${accountname}/follower?limit=${limit}&skip=${skip}`,
     );
     return res.data;
   } catch (err) {
@@ -29,10 +29,10 @@ export const followerAPI = async (accountname) => {
   }
 };
 
-export const followingAPI = async (accountname) => {
+export const followingAPI = async (accountname, limit, skip) => {
   try {
     const res = await authInstance.get(
-      `/profile/${accountname}/following?limit=1000&skip=0`,
+      `/profile/${accountname}/following?limit=${limit}&skip=${skip}`,
     );
     return res.data;
   } catch (err) {
