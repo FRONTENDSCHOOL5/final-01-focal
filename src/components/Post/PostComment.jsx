@@ -15,7 +15,6 @@ const CommentSection = styled.section`
   max-width: 390px;
   padding: 20px 16px 0;
   margin: 0 auto;
-  margin-bottom: 60px;
 `;
 
 const CommentItem = styled.li`

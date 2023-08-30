@@ -1,11 +1,13 @@
 import authInstance from '../../api/instance/authInstance';
 
-export const getCommentListAPI = async (postId) => {
+export const getCommentListAPI = async (postId, limit, skip) => {
   try {
-    const response = await authInstance.get(`/post/${postId}/comments`);
+    const response = await authInstance.get(
+      `/post/${postId}/comments?limit=${limit}&skip=${skip}`,
+    );
 
     const sortedData = response.data.comments.sort(
-      (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
 
     return sortedData;
