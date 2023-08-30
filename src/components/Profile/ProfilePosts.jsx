@@ -11,6 +11,7 @@ import { deletePostAPI, reportPostAPI } from '../../api/apis/post';
 import { userpostAPI } from '../../api/apis/post';
 import PostNone from './PostNone';
 import PostAlignButtons from './PostAlignButtons';
+import useScrollBottom from '../../hooks/useScrollBottom';
 
 const PostsContainer = styled.section`
   display: flex;
@@ -47,11 +48,14 @@ const PostListView = styled.ul`
   gap: 65px;
 `;
 
-export default function ProfilePosts({ accountname, setIsPostLoading }) {
-  const [isListView, setIsListView] = useState(true);
+export default function ProfilePosts({
+  elementRef,
+  accountname,
+  setIsPostLoading,
+}) {
   const [posts, setPosts] = useState([]);
-  const [isPostNone, setIsPostNone] = useState(false);
   const [postId, setPostId] = useState(null);
+  const [isListView, setIsListView] = useState(true);
   const {
     isMenuOpen,
     isModalOpen,
@@ -64,18 +68,30 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
   const useraccount = localStorage.getItem('accountname');
   const navigate = useNavigate();
 
+  const isBottom = useScrollBottom(elementRef);
+  const limit = 4;
+  const [skip, setSkip] = useState(0);
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await userpostAPI(accountname);
-      setPosts(res.data.post);
-      setIsPostLoading(false);
-      getPostNone(res.data.post.length);
-    };
-    fetchPosts();
+    if (isBottom && posts.length >= limit) {
+      fetchPosts(skip + limit);
+      setSkip((prevValue) => prevValue + limit);
+    }
+  }, [isBottom]);
+
+  useEffect(() => {
+    fetchPosts(0);
   }, []);
 
-  const getPostNone = (postLength) => {
-    postLength === 0 && setIsPostNone(true);
+  const fetchPosts = async (skip) => {
+    const res = await userpostAPI(accountname, skip, limit);
+    setIsPostLoading(false);
+
+    if (skip === 0) {
+      setPosts(res);
+    } else {
+      setPosts((prevData) => [...prevData, ...res]);
+    }
   };
 
   const handleListAlign = () => {
@@ -88,9 +104,8 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
 
   const handlePostDelete = async () => {
     await deletePostAPI(postId);
-    const res = await userpostAPI(accountname);
-    setPosts(res.data.post);
-    getPostNone(res.data.post.length);
+    const res = await userpostAPI(accountname, skip, limit);
+    setPosts((prevData) => [...prevData, ...res]);
     closeMenu();
     closeModal();
   };
@@ -104,7 +119,7 @@ export default function ProfilePosts({ accountname, setIsPostLoading }) {
 
   return (
     <>
-      {isPostNone ? (
+      {posts.length === 0 ? (
         <PostNone accountname={accountname} />
       ) : (
         <PostsContainer>

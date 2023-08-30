@@ -65,10 +65,13 @@ export const reportPostAPI = async (postId) => {
   }
 };
 
-export const userpostAPI = async (accountname) => {
+export const userpostAPI = async (accountname, skip, limit) => {
   try {
-    const res = await authInstance.get(`/post/${accountname}/userpost`);
-    return res;
+    const res = await authInstance.get(
+      `/post/${accountname}/userpost/?limit=${limit}&skip=${skip}`,
+    );
+    const newPosts = res.data.post;
+    return newPosts;
   } catch (err) {
     console.log(err);
   }
