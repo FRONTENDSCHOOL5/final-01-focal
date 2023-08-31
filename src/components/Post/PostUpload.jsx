@@ -1,9 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import defaultImg from '../../assets/images/basic-profile-m.png';
 import delteBtn from '../../assets/icons/delete.svg';
 import postImgUploadBtn from '../../assets/images/image-upload.png';
 import { getMultiImageSrcAPI } from '../../api/apis/image';
+import useHandleResizeHeight from '../../hooks/useHandleResizeHeight';
+import { alertMessage } from '../../constants/alertMessage';
+import { getProperImgSrc } from '../../utils/getProperImgSrc';
+import { handleImageError } from '../../utils/handleImageError';
+
 
 const UserImageStyle = styled.img`
   width: 42px;
@@ -20,8 +24,7 @@ const PostWriteArticle = styled.article`
 
 const PostForm = styled.form`
   width: 100%;
-  height: 100%;
-  padding-top: 12px;
+  padding: 12px 0;
 
   .post-input {
     display: block;
@@ -68,6 +71,7 @@ const ImageBox = styled.ul`
     }
   }
 `;
+
 const userImgSrc = () => {
   return localStorage.getItem('image');
 };
@@ -75,26 +79,22 @@ const userImgSrc = () => {
 function PostUpload({
   inputValue,
   setInputValue,
-  setDisabled,
+  setBtnDisabled,
   handleFormSubmit,
 }) {
+  const { ref, handleResizeHeight } = useHandleResizeHeight(inputValue);
   const [userprofile] = useState(userImgSrc);
-  const textarea = useRef();
-  const handleResizeHeight = () => {
-    textarea.current.style.height = 'auto';
-    textarea.current.style.height = textarea.current.scrollHeight + 'px';
-  };
 
   const handleValueChange = (e) => {
     const { id, value } = e.target;
     if (id !== 'image') {
       setInputValue({ ...inputValue, [id]: value });
-      if (value) setDisabled(false);
-      else setDisabled(true);
+      if (value) setBtnDisabled(false);
+      else setBtnDisabled(true);
     } else {
       const { files } = e.target;
       if (files.length + inputValue.image.length > 3)
-        alert('파일 최대 가능 업로드 갯수는 3개입니다');
+        alert(alertMessage.imgMaximumLengthErr);
       else {
         getImagesSrc(files);
       }
@@ -120,20 +120,11 @@ function PostUpload({
     setInputValue({ ...inputValue, image: newImageList });
   };
 
-  useEffect(() => {
-    if (inputValue.content) {
-      handleResizeHeight();
-    }
-  }, [inputValue]);
-
   return (
     <>
       <UserImageStyle
-        src={
-          userprofile === 'http://146.56.183.55:5050/Ellipse.png'
-            ? defaultImg
-            : userprofile
-        }
+        src={getProperImgSrc(userprofile)}
+        onError={handleImageError}
         alt="사용자이미지"
       />
       <PostWriteArticle>
@@ -143,7 +134,7 @@ function PostUpload({
             글 작성
           </label>
           <textarea
-            ref={textarea}
+            ref={ref}
             className="post-input"
             id="content"
             value={inputValue.content}

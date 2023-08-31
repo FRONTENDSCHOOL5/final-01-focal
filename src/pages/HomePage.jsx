@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Common/Button/Button';
 import Header from '../layouts/Header/Header';
 import NavBar from '../layouts/NavBar/NavBar';
-import PostCard from '../components/Common/PostCard/PostCard';
 import BottomSheetModal from '../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../layouts/Modal/ConfirmModal';
@@ -12,7 +11,7 @@ import useModal from '../hooks/useModal';
 import logo from '../assets/images/logo.png';
 import Loading from '../layouts/Loading/Loading';
 import { reportPostAPI } from '../api/apis/post';
-import { feedAPI } from '../api/apis/post';
+import PostsFeed from '../components/Post/PostsFeed';
 
 const ContentWrapper = styled.main`
   margin: 48px 0 0;
@@ -25,16 +24,8 @@ const Container = styled.section`
   height: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 16px;
   gap: 20px;
-
-  & > div {
-    height: 100%;
-    & > article:not(:last-child) {
-      margin-bottom: 40px;
-    }
-  }
 `;
 
 const Img = styled.img`
@@ -49,7 +40,8 @@ const Info = styled.h3`
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
-  const [postDatas, setPostDatas] = useState();
+  const [postDatas, setPostDatas] = useState([]);
+  const [postId, setPostId] = useState(null);
   const {
     isMenuOpen,
     isModalOpen,
@@ -58,18 +50,8 @@ export default function HomePage() {
     openModal,
     closeModal,
   } = useModal();
-  const [postId, setPostId] = useState(null);
   const navigate = useNavigate();
-  const contentRef = useRef(null);
-
-  useEffect(() => {
-    const getPost = async () => {
-      const res = await feedAPI();
-      setPostDatas(res.data.posts);
-      setIsLoading(false);
-    };
-    getPost();
-  }, []);
+  const scrollRef = useRef(null);
 
   const handleReport = async (e) => {
     e.stopPropagation();
@@ -79,34 +61,43 @@ export default function HomePage() {
   };
 
   const scrollToTop = () => {
-    contentRef.current.scrollTo({
+    scrollRef.current.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
   };
 
-  if (isLoading) return <Loading />;
   return (
     <>
+      {isLoading && <Loading />}
       <Header type="main" onClick={scrollToTop} />
-      <ContentWrapper ref={contentRef}>
+      <ContentWrapper ref={scrollRef}>
         <h2 className="a11y-hidden">Focal 홈 피드</h2>
-
         <Container>
           <h3 className="a11y-hidden">내가 팔로우한 사람 글 목록</h3>
+          <PostsFeed
+            setIsLoading={setIsLoading}
+            setPostDatas={setPostDatas}
+            postDatas={postDatas}
+            openMenu={openMenu}
+            setPostId={setPostId}
+          />
+          {isMenuOpen && (
+            <BottomSheetModal setIsMenuOpen={closeMenu}>
+              <BottomSheetContent onClick={openModal}>신고</BottomSheetContent>
+            </BottomSheetModal>
+          )}
+          {isModalOpen && (
+            <ConfirmModal
+              title="게시글을 신고하시겠어요?"
+              confirmInfo="신고"
+              setIsMenuOpen={closeMenu}
+              setIsModalOpen={closeModal}
+              onClick={handleReport}
+            />
+          )}
 
-          {postDatas && postDatas.length > 0 ? (
-            <div>
-              {postDatas.map((data) => (
-                <PostCard
-                  key={data.id}
-                  post={data}
-                  setIsMenuOpen={openMenu}
-                  setPostId={setPostId}
-                />
-              ))}
-            </div>
-          ) : (
+          {postDatas.length === 0 && (
             <>
               <Img src={logo} alt="Focal 로고" />
               <Info>유저를 검색해 팔로우 해보세요!</Info>
@@ -124,21 +115,6 @@ export default function HomePage() {
         </Container>
       </ContentWrapper>
       <NavBar />
-
-      {isMenuOpen && (
-        <BottomSheetModal setIsMenuOpen={closeMenu}>
-          <BottomSheetContent onClick={openModal}>신고</BottomSheetContent>
-        </BottomSheetModal>
-      )}
-      {isModalOpen && (
-        <ConfirmModal
-          title="게시글을 신고하시겠어요?"
-          confirmInfo="신고"
-          setIsMenuOpen={closeMenu}
-          setIsModalOpen={closeModal}
-          onClick={handleReport}
-        />
-      )}
     </>
   );
 }

@@ -51,8 +51,8 @@ export default function Header({
   onChange,
   buttonId,
   buttonText,
+  btnDisabled,
   headerText,
-  disabled,
   backBtnShow = true,
   ellipsisBtnShow = false,
 }) {
@@ -122,10 +122,10 @@ export default function Header({
             <BackButton onClick={goBack} />
           </IconButton>
           <Button
+            id={buttonId}
             className="sm"
-            formId={buttonId}
             onClick={onClick}
-            disabled={disabled}
+            disabled={btnDisabled}
           >
             {buttonText}
           </Button>

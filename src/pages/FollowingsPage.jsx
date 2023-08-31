@@ -7,6 +7,8 @@ import Header from '../layouts/Header/Header';
 import Loading from '../layouts/Loading/Loading';
 import { followingAPI } from '../api/apis/follow';
 import FollowNone from '../components/Follow/FollowNone';
+import { useRef } from 'react';
+import useScrollBottom from '../hooks/useScrollBottom';
 
 const Main = styled.main`
   width: 100%;
@@ -29,20 +31,42 @@ export default function FollowingsPage() {
   const accountname = location.state?.accountname;
   const [userData, setUserData] = useState([]);
 
+  const elementRef = useRef(null);
+  const isBottom = useScrollBottom(elementRef);
+  const limit = 12;
+  const [skip, setSkip] = useState(0);
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await followingAPI(accountname);
-      setUserData(res);
+    if (isBottom) {
+      setSkip((prevValue) => prevValue + limit);
+      fetchFollowings(skip + limit);
+    }
+  }, [isBottom]);
+
+  const fetchFollowings = async (skip) => {
+    try {
+      const res = await followingAPI(accountname, limit, skip);
+      if (skip === 0) {
+        setUserData(res);
+      } else {
+        setUserData((prevData) => [...prevData, ...res]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsLoading(false);
-    };
-    fetchPosts();
+    }
+  };
+
+  useEffect(() => {
+    fetchFollowings(skip);
   }, []);
 
-  if (isLoading) return <Loading />;
   return (
     <>
-      <Header type="basic" headerText="Followings" backBtnShow={true} />(
-      <Main>
+      {isLoading && <Loading />}
+      <Header type="basic" headerText="Followings" backBtnShow={true} />
+      <Main ref={elementRef}>
         <h2 className="a11y-hidden">내가 팔로우 하는 사람 리스트</h2>
         {userData.length > 0 ? (
           <section>

@@ -1,12 +1,13 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
 import UserFollowListItem from '../components/Follow/UserFollowListItem';
 import Header from '../layouts/Header/Header';
 import Loading from '../layouts/Loading/Loading';
 import { followerAPI } from '../api/apis/follow';
 import FollowNone from '../components/Follow/FollowNone';
+import { useLocation } from 'react-router-dom';
+import { useRef } from 'react';
+import useScrollBottom from '../hooks/useScrollBottom';
 
 const Main = styled.main`
   width: 100%;
@@ -24,25 +25,47 @@ const Main = styled.main`
 `;
 
 export default function FollowersPage() {
-  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const accountname = location.state?.accountname;
+  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState([]);
 
+  const elementRef = useRef(null);
+  const isBottom = useScrollBottom(elementRef);
+  const limit = 12;
+  const [skip, setSkip] = useState(0);
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await followerAPI(accountname);
-      setUserData(res);
+    if (isBottom) {
+      setSkip((prevValue) => prevValue + limit);
+      fetchFollowers(skip + limit);
+    }
+  }, [isBottom]);
+
+  const fetchFollowers = async (skip) => {
+    try {
+      const res = await followerAPI(accountname, limit, skip);
+      if (skip === 0) {
+        setUserData(res);
+      } else {
+        setUserData((prevData) => [...prevData, ...res]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsLoading(false);
-    };
-    fetchPosts();
+    }
+  };
+
+  useEffect(() => {
+    fetchFollowers(skip);
   }, []);
 
-  if (isLoading) return <Loading />;
   return (
     <>
+      {isLoading && <Loading />}
       <Header type="basic" headerText="Followers" backBtnShow={true} />
-      <Main>
+      <Main ref={elementRef}>
         <h2 className="a11y-hidden">나를 팔로우하는 유저 리스트</h2>
 
         {userData.length > 0 ? (

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import ChatItem from './ChatItem';
+import { getDate } from '../../utils/getDate';
 
 const ListMainStyle = styled.main`
   margin-top: 48px;
@@ -18,17 +19,22 @@ const MessagesListStyle = styled.ul`
   max-width: 390px;
 `;
 
-function ChatList() {
+function ChatList({ list }) {
   return (
     <ListMainStyle>
       <h2 className="a11y-hidden">채팅 목록</h2>
       <MessagesListStyle>
-        <ChatItem
-          accountname="rhdwn1234"
-          imageSrc="https://api.mandarin.weniv.co.kr//1687234600959.png"
-          username="행복한 공주"
-          chatdate="2023년 6월 6일"
-        />
+        {list.map((item) => {
+          return (
+            <ChatItem
+              key={item._id}
+              accountname={item.accountname}
+              imageSrc={item.image}
+              username={item.username}
+              chatdate={getDate()}
+            />
+          );
+        })}
       </MessagesListStyle>
     </ListMainStyle>
   );

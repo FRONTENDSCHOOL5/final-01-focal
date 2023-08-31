@@ -23,13 +23,13 @@ export default function ProfileForm({
   inputValue: { image, username, accountname, intro },
   handleChange,
   handleSubmit,
-  formId,
+  btnDisabled,
+  setBtnDisabled,
 }) {
   const debouncedValue = useDebounce(accountname);
-
   const [usernameError, setUsernameError] = useState(null);
   const [accountnameError, setAccountnameError] = useState(null);
-  const [btnDisabled, setBtnDisabled] = useState(true);
+  const initialAccountname = localStorage.getItem('accountname');
 
   const validateUsername = () => {
     if (!username) {
@@ -44,6 +44,10 @@ export default function ProfileForm({
   const validateAccountname = async () => {
     if (!accountnameRegex.test(accountname)) {
       setAccountnameError(validateMessage.accountnamePatterMiss);
+      return;
+    }
+    if (initialAccountname === accountname) {
+      setAccountnameError('');
       return;
     }
 
@@ -70,7 +74,7 @@ export default function ProfileForm({
   }, [usernameError, accountnameError]);
 
   return (
-    <Form onSubmit={handleSubmit} id={formId}>
+    <Form onSubmit={handleSubmit} id="profile">
       <ProfileImageUploader value={image} handleChange={handleChange} />
       <TextInput
         id="username"

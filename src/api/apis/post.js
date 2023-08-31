@@ -13,10 +13,15 @@ export const createPostAPI = async (content, image) => {
   }
 };
 
-export const feedAPI = async () => {
+export const feedAPI = async (limit, skip) => {
   try {
-    const res = await authInstance.get('/post/feed');
-    return res;
+    const res = await authInstance.get(
+      `/post/feed/?limit=${limit}&skip=${skip}`,
+    );
+    const {
+      data: { posts },
+    } = res;
+    return posts;
   } catch (err) {
     console.log(err);
   }
@@ -60,10 +65,13 @@ export const reportPostAPI = async (postId) => {
   }
 };
 
-export const userpostAPI = async (accountname) => {
+export const userpostAPI = async (accountname, skip, limit) => {
   try {
-    const res = await authInstance.get(`/post/${accountname}/userpost`);
-    return res;
+    const res = await authInstance.get(
+      `/post/${accountname}/userpost/?limit=${limit}&skip=${skip}`,
+    );
+    const newPosts = res.data.post;
+    return newPosts;
   } catch (err) {
     console.log(err);
   }

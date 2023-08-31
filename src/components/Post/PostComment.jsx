@@ -2,19 +2,19 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Btn from '../../assets/icons/icon-more.svg';
-import defaultImage from '../../assets/images/basic-profile-s.png';
 import BottomSheetModal from '../../layouts/Modal/BottomSheetModal';
 import BottomSheetContent from '../../layouts/Modal/BottomSheetContent';
 import ConfirmModal from '../../layouts/Modal/ConfirmModal';
 import useModal from '../../hooks/useModal';
 import { convertTime } from '../../utils/convertTime';
 import { deleteCommentAPI, reportCommentAPI } from '../../api/apis/comment';
+import { getProperImgSrc } from '../../utils/getProperImgSrc';
+import { handleImageError } from '../../utils/handleImageError';
 
 const CommentSection = styled.section`
   max-width: 390px;
   padding: 20px 16px 0;
   margin: 0 auto;
-  margin-bottom: 60px;
 `;
 
 const CommentItem = styled.li`
@@ -95,14 +95,6 @@ function PostComment({ comments, postId, onDelete }) {
   const [commentId, setCommentId] = useState('');
   const accountName = localStorage.getItem('accountname');
 
-  const getImage = (image) => {
-    if (image === 'http://146.56.183.55:5050/Ellipse.png') {
-      return defaultImage;
-    }
-
-    return image;
-  };
-
   const handleDeleteButton = async () => {
     await deleteCommentAPI(postId, commentId);
     closeMenu();
@@ -125,7 +117,8 @@ function PostComment({ comments, postId, onDelete }) {
             <CommentInfo>
               <ProfileLink to={`/profile/${comment.author.accountname}`}>
                 <ProfileImage
-                  src={getImage(comment.author.image)}
+                  src={getProperImgSrc(comment.author.image)}
+                  onError={handleImageError}
                   alt="사용자이미지"
                 />
               </ProfileLink>
