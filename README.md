@@ -1,10 +1,10 @@
 # 📷 Focal
-
-> 'Focal'은 필름카메라 사진 공유 및 필름/필름카메라 판매 소셜네트워크 서비스입니다.
-
+### 'Focal'은 필름카메라 사진 공유 및 필름/필름카메라 판매 소셜네트워크 서비스입니다.
 <div align="center">
 <img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F05a1d614-5c54-484f-a165-dac0b7a97b23%2FUntitled.png?id=f64b9b27-93a4-46ff-9302-fbf324b06b95&table=block&spaceId=a1bc3b9a-06c1-4aa7-9991-a5d845402d7b&width=2000&userId=327fb725-6b42-4232-b202-2ebd6005fbf4&cache=v2"   />
 </div>
+
+
 </br>
 
 ## 🔗: [Focal 체험하러가기](https://myfocal.netlify.app/)
@@ -18,7 +18,6 @@
 </br>
 
 ## 💻: 프로젝트 배경 및 목적
-
 ‘디지털 시대’에 들어오면서 많은 사람들은 스마트폰으로 사진을 찍지만, 여전히 필름 카메라로 사진을 찍는 사람들이 있습니다. 그런 사람들을 위해 각자 필름 카메라로 찍은 사진을 공유하고, 더불어 중고 필름카메라나 필름들을 판매하고 구매할 수 있는 서비스가 있으면 어떨까 라는 생각에서 시작되었습니다.
 
 </br>
@@ -42,7 +41,7 @@
  </br>
 </br>
   
-## 🎥: 시연영상
+## 📊: 성능 및 접근성
 
 <br/>
 <br/>
@@ -104,6 +103,13 @@
             <img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white" />
           &nbsp;
             <img src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white" />
+            &nbsp;
+          </td>
+        </tr>
+      <tr>
+          <td align="center">백엔드</td>
+          <td>
+            멋쟁이사자처럼 프론트엔드스쿨 제공
             &nbsp;
           </td>
         </tr>
@@ -194,3 +200,5 @@
 
 ## ℹ️: 추가정보
 - [프로젝트 컨벤션](https://github.com/FRONTENDSCHOOL5/final-01-focal/wiki/%E2%8C%A8%EF%B8%8F%EC%BB%A8%EB%B2%A4%EC%85%98)
+- [프로젝트 폴더구조 및 설명](https://github.com/FRONTENDSCHOOL5/final-01-focal/wiki/%F0%9F%93%96-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%8F%B4%EB%8D%94%EA%B5%AC%EC%A1%B0-%EB%B0%8F-%EC%84%A4%EB%AA%85)
+- [트러블 슈팅](https://github.com/FRONTENDSCHOOL5/final-01-focal/wiki/%E2%9A%A0%EF%B8%8F%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85)
