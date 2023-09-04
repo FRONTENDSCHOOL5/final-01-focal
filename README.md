@@ -119,6 +119,41 @@
 <br />
 <br />
 
+## 주요 기능 소개 
+### 1) 시작
+|로그아웃|회원가입|로그인|
+|---|---|---|
+|<img src="https://user-images.githubusercontent.com/78803088/265284068-462ea016-c330-4491-9448-97197069a5e1.gif" width="270" />|<img src="https://user-images.githubusercontent.com/78803088/265285519-f1b4e580-c59a-432d-902a-85a43e548b55.GIF" width="270" />|<img src="https://user-images.githubusercontent.com/78803088/265283982-23b649c5-b587-492f-866c-35b598fd7839.gif" width="270" />|
+
+### 2) 홈
+|피드|검색|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/78803088/265283883-b22ea250-bace-4a62-a706-6a05b37451c0.gif" width="270" />|<img src="https://user-images.githubusercontent.com/78803088/265284676-151f285a-b794-4f2a-a35b-24f975085f64.gif" width="270" />|
+
+### 3) 프로필
+|프로필 수정|팔로우|
+|---|---|
+|<img width="243" src="https://user-images.githubusercontent.com/78803088/265284647-63d3d487-d022-4316-84d8-5ef986f31bd4.gif"/>|<img width="243" src="https://user-images.githubusercontent.com/78803088/265283782-a6a9cc8a-d475-475a-9974-5c163a66ef5d.gif"/>
+
+### 4) 게시글
+|좋아요, 댓글|게시글 등록|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/78803088/265284221-81a851a2-5ad6-43cd-871f-f09a007e43fc.gif" width="243"/>|<img src="https://user-images.githubusercontent.com/78803088/265284438-e9810d0d-e798-4902-9614-99e182dc6e20.gif" width="243"/>|
+
+|게시글 수정|게시글 삭제|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/78803088/265284405-40c043d2-67ab-4514-b078-09c01ffbd4e8.gif" width="243"/>|<img src="https://user-images.githubusercontent.com/78803088/265284372-21564641-bcb6-4467-abbc-3dcee6f7a951.gif" width="243"/>|
+
+### 5) 판매 상품
+|상품 채팅|상품 등록|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/78803088/265284504-58dc7a13-21d4-43af-9653-0f8e2bbf884b.gif" width="243"/>|<img src="https://user-images.githubusercontent.com/78803088/265284625-1169d683-6495-4283-a58c-03209a7a4529.gif" width="243"/>|
+
+|상품 수정|상품 삭제|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/78803088/265284592-9ff40007-14bf-476f-8d91-ed3b445a3108.gif" width="243"/>|<img src="https://user-images.githubusercontent.com/78803088/265284571-212a2c07-95a2-4840-993d-f198b7c7b3f3.gif" width="243" />|
+
+
 ## 🙋: 멤버구성
 <div align="center">
     <table>
@@ -144,7 +179,7 @@
       <td align="center">
         <a href="https://github.com/kimmingyo8">
           <img
-            src="https://cdn.discordapp.com/attachments/1111526943091851394/1123117899779948635/KakaoTalk_20230627_135656743.jpg"
+            src="https://user-images.githubusercontent.com/78803088/265310911-07ec9103-98ef-4fb8-afe4-7fadcc56494d.jpeg"
             width="200px;"
             alt=""
           />
