@@ -25,11 +25,11 @@ export default function PostsFeed({
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
   const contentRef = useRef(null);
-  const LIMIT_VALUE = 10;
+  const LIMIT = 10;
 
   useEffect(() => {
     const getInitialPosts = async () => {
-      const posts = await feedAPI(LIMIT_VALUE, 0);
+      const posts = await feedAPI(LIMIT, 0);
       setPostDatas(posts);
       setIsLoading(false);
     };
@@ -39,21 +39,22 @@ export default function PostsFeed({
   const getMorePosts = async () => {
     if (isLoadingMore) return;
     setIsLoadingMore(true);
-    const newPosts = await feedAPI(LIMIT_VALUE, page * LIMIT_VALUE);
-    if (newPosts.length === 0) return;
-    setPostDatas((prevPosts) => [...prevPosts, ...newPosts]);
-    setPage((prevPage) => prevPage + 1);
+    const newPosts = await feedAPI(LIMIT, page * LIMIT);
     setIsLoadingMore(false);
+    if (newPosts.length > 0) {
+      setPostDatas((prevPosts) => [...prevPosts, ...newPosts]);
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
-  const handleScroll = (entries) => {
+  const handleIntersection = (entries) => {
     if (entries[0].isIntersecting && entries[0].intersectionRatio > 0) {
       getMorePosts();
     }
   };
 
   useEffect(() => {
-    const observer = new IntersectionObserver(handleScroll, {
+    const observer = new IntersectionObserver(handleIntersection, {
       threshold: 0.5,
     });
     if (contentRef.current && !isLoadingMore) {
@@ -63,6 +64,7 @@ export default function PostsFeed({
       observer.disconnect();
     };
   }, [contentRef.current, isLoadingMore]);
+
   return (
     <Feed>
       {postDatas.length > 0 &&

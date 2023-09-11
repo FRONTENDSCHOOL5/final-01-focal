@@ -21,8 +21,9 @@ const ContentWrapper = styled.main`
 
 const Container = styled.section`
   display: flex;
-  height: 100%;
+  min-height: 100%;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 16px;
   gap: 20px;
