@@ -105,7 +105,7 @@ export default function ProfilePosts({
   const handlePostDelete = async () => {
     await deletePostAPI(postId);
     const res = await userpostAPI(accountname, skip, limit);
-    setPosts((prevData) => [...prevData, ...res]);
+    setPosts([...res]);
     closeMenu();
     closeModal();
   };
