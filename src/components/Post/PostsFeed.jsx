@@ -24,6 +24,7 @@ export default function PostsFeed({
 }) {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
+  const [isLastPage, setIsLastPage] = useState(false);
   const contentRef = useRef(null);
   const LIMIT = 10;
 
@@ -41,14 +42,23 @@ export default function PostsFeed({
     setIsLoadingMore(true);
     const newPosts = await feedAPI(LIMIT, page * LIMIT);
     setIsLoadingMore(false);
-    if (newPosts.length > 0) {
-      setPostDatas((prevPosts) => [...prevPosts, ...newPosts]);
+    setPostDatas((prevPosts) => [...prevPosts, ...newPosts]);
+
+    if (newPosts.length < LIMIT) {
+      setIsLastPage(true);
+      return;
+    }
+    if (newPosts.length === LIMIT) {
       setPage((prevPage) => prevPage + 1);
     }
   };
 
   const handleIntersection = (entries) => {
-    if (entries[0].isIntersecting && entries[0].intersectionRatio > 0) {
+    if (
+      entries[0].isIntersecting &&
+      entries[0].intersectionRatio > 0 &&
+      !isLastPage
+    ) {
       getMorePosts();
     }
   };
