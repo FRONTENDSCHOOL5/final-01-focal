@@ -23,7 +23,7 @@ const Container = styled.section`
   display: flex;
   min-height: 100%;
   flex-direction: column;
-  justify-content: center;
+  justify-content: ${({ data }) => (data.length ? 'flex-start' : 'center')};
   align-items: center;
   padding: 16px;
   gap: 20px;
@@ -74,7 +74,7 @@ export default function HomePage() {
       <Header type="main" onClick={scrollToTop} />
       <ContentWrapper ref={scrollRef}>
         <h2 className="a11y-hidden">Focal 홈 피드</h2>
-        <Container>
+        <Container data={postDatas}>
           <h3 className="a11y-hidden">내가 팔로우한 사람 글 목록</h3>
           <PostsFeed
             setIsLoading={setIsLoading}
