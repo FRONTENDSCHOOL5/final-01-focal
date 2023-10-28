@@ -10,7 +10,7 @@ export default function useScrollBottom(ref) {
     const handleScroll = throttle(() => {
       if (element) {
         const { scrollTop, clientHeight, scrollHeight } = element;
-        setIsBottom(scrollTop + clientHeight >= scrollHeight);
+        setIsBottom(scrollTop + clientHeight + 1 >= scrollHeight);
       }
     }, 500);
 
